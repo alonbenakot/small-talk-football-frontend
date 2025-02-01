@@ -1,14 +1,8 @@
-import Header from "./components/Header.tsx";
-import Footer from "./components/Footer.tsx";
+import { RouterProvider } from "react-router-dom";
+import routes from "./routes/AppRoutes.tsx";
 
-function App() {
-
-  return (
-    <>
-      <Header/>
-      <Footer/>
-    </>
-  )
+const App = () => {
+  return <RouterProvider router={ routes }></RouterProvider>
 }
 
-export default App
+export default App;
