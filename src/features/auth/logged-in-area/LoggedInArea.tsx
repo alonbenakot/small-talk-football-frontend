@@ -1,21 +1,18 @@
-import User from "../models/User.ts";
 import Button from "../../../components/button/Button.tsx";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../store/user-slice.ts";
+import { RootState } from "../../../store/store.ts";
 
 const LoggedInArea = () => {
-  const user: User = {
-    email: "alon@gmail.com",
-    id: 0,
-    firstName: "Alon ",
-    lastName: "Benakot",
-    priorFootballKnowledge: false
-  };
+  const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    console.log("log out")
+    dispatch(logout());
   }
   return (
     <div className="flex items-center gap-4">
-      <h4 className="text-slate-300">Hi { user.firstName }</h4>
+      <h4 className="text-slate-300">Hi { user?.firstName }</h4>
       <Button buttonType="primary" onClick={ handleLogout }>Logout</Button>
     </div>
   )

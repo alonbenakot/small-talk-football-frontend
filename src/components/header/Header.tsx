@@ -1,11 +1,10 @@
-import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import AuthArea from "../../features/auth/auth-area/AuthArea.tsx";
 
-const Header: FC = () => {
+const Header = () => {
   return (
     <header>
-      <nav className="flex items-center justify-between p-4 shadow-md bg-zinc-800">
+      <nav className="flex items-center justify-between p-4 shadow-md bg-zinc-800 h-16">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-emerald-600">Small Talk Football</span>
           <ul className="flex gap-6 ml-4 text-slate-300">
