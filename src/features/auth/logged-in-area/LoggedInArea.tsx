@@ -11,10 +11,10 @@ const LoggedInArea = () => {
     dispatch(logout());
   }
   return (
-    <div className="flex items-center gap-4">
+    <>
       <h4 className="text-slate-300">Hi { user?.firstName }</h4>
       <Button buttonType="primary" onClick={ handleLogout }>Logout</Button>
-    </div>
+    </>
   )
 }
 export default LoggedInArea;
