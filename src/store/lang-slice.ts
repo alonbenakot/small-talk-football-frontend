@@ -9,8 +9,8 @@ const langSlice = createSlice({
   name: 'lang',
   initialState,
   reducers: {
-    toggleLang: (state: LangState, action: PayloadAction<LangState>) => {
-      state.lang = action.payload.lang;
+    toggleLang: (state: LangState, action: PayloadAction<Lang>) => {
+      state.lang = action.payload;
     }
   }
 });
