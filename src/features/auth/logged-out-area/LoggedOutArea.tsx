@@ -1,10 +1,14 @@
 import Button from "../../../components/button/Button.tsx";
 import User from "../models/User.ts";
 import { useDispatch } from "react-redux";
-import { login } from "../../../store/user-slice.ts";
+import DialogModal from "../../../components/modals/Modal.tsx";
+import { useState } from "react";
 
 const LoggedOutArea = () => {
   const dispatch = useDispatch();
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isLoginForm, setIsLoginForm] = useState<boolean>(false);
+
   const user: User = {
     email: "alon@gmail.com",
     id: 0,
@@ -14,16 +18,28 @@ const LoggedOutArea = () => {
   };
 
   const handleLogin = () => {
-    dispatch(login(user));
+    // dispatch(login(user));
+    setIsOpenModal(true);
+    setIsLoginForm(true);
   }
   const handleSignUp = () => {
-    dispatch(login(user));
+    setIsOpenModal(true);
+    setIsLoginForm(true);
+    // dispatch(login(user));
   }
 
   return (
     <>
-      <Button buttonType="cta" onClick={handleLogin}>Log In</Button>
-      <Button buttonType="cta" onClick={handleSignUp}>Sign Up</Button>
+      <Button buttonType="cta" onClick={ handleLogin }>Log In</Button>
+      <Button buttonType="cta" onClick={ handleSignUp }>Sign Up</Button>
+
+      { isOpenModal && <DialogModal
+        isOpen={ isOpenModal }
+        onClose={ () => setIsOpenModal(false) }
+        title="Login"
+      >h
+
+      </DialogModal> }
     </>
   )
 }
