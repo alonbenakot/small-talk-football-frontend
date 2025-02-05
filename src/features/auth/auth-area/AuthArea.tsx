@@ -1,17 +1,10 @@
-import User from "../models/User.ts";
 import LoggedInArea from "../logged-in-area/LoggedInArea.tsx";
 import LoggedOutArea from "../logged-out-area/LoggedOutArea.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store.ts";
 
 const AuthArea = () => {
-  const user: User | null =
-    null;
-    // {
-    //   email: "alon@gmail.com",
-    //   id: 0,
-    //   firstName: "Alon ",
-    //   lastName: "Benakot",
-    //   priorFootballKnowledge: false
-    // };
+  const user = useSelector((state: RootState) => state.auth.user);
 
   return (
     user ? <LoggedInArea/> : <LoggedOutArea/>

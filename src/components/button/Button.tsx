@@ -5,7 +5,7 @@ type Props = {
 } & ComponentPropsWithoutRef<'button'>;
 
 const Button = ({children, buttonType, ...props}: Props) => {
-  let className = ' bg-emerald-600 text-white rounded-lg hover:bg-emerald-800 transition duration-300';
+  let className = 'bg-emerald-600 text-white rounded-lg hover:bg-emerald-800 transition duration-300';
 
   if (buttonType === 'primary') {
     className += ' px-2 py-1 hover:bg-emerald-700';

@@ -1,19 +1,30 @@
 import Button from "../../../components/button/Button.tsx";
+import User from "../models/User.ts";
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/user-slice.ts";
 
 const LoggedOutArea = () => {
+  const dispatch = useDispatch();
+  const user: User = {
+    email: "alon@gmail.com",
+    id: 0,
+    firstName: "Alon ",
+    lastName: "Benakot",
+    priorFootballKnowledge: false
+  };
 
   const handleLogin = () => {
-    console.log('login');
+    dispatch(login(user));
   }
   const handleSignUp = () => {
-    console.log('signup');
+    dispatch(login(user));
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <>
       <Button buttonType="cta" onClick={handleLogin}>Log In</Button>
       <Button buttonType="cta" onClick={handleSignUp}>Sign Up</Button>
-    </div>
+    </>
   )
 }
 export default LoggedOutArea;
