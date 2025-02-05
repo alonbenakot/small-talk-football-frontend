@@ -1,44 +1,28 @@
 import Flag from "react-flagkit";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store.ts";
-import { toggleLang } from "../../store/lang-slice.ts";
+import { useLangStore } from "../../store/store.ts";
 import Lang from "../../features/language/Lang.ts";
+import useDropdown from "../../hooks/use-dropdown.tsx";
 
 const LanguageDropDown = () => {
-  const [displayFlags, setDisplayFlags] = useState<boolean>(false);
-  const selectedLang = useSelector((state: RootState) => state.lang.lang);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDisplayFlags(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const {isOpen, setIsOpen, dropdownRef} = useDropdown();
+  const {selectedLang, dispatchToggleLang} = useLangStore();
 
   const handleDropDownClicked = () => {
-    setDisplayFlags(prevState => !prevState);
+    setIsOpen(prevState => !prevState);
   }
 
   const handleFlagClicked = (lang: Lang) => {
-    dispatch(toggleLang(lang));
-    setDisplayFlags(false);
+    dispatchToggleLang(lang);
+    setIsOpen(false);
   }
 
   const handleForbiddenFlagClicked = () => {
     console.log('No China');
+    setIsOpen(false);
   };
 
   return (
-    <div ref={dropdownRef} className="relative inline-block bg-zinc-800">
+    <div ref={ dropdownRef } className="relative inline-block bg-zinc-800">
       <button
         className="flex items-center px-4 py-2 text-slate-300 bg-zinc-800 rounded transform transform-400 cursor-pointer hover:bg-zinc-700"
         onClick={ handleDropDownClicked }>
@@ -46,7 +30,7 @@ const LanguageDropDown = () => {
         <Flag country={ selectedLang === 'american' ? 'US' : 'GB' } className="mx-2 bg-transparent"/>
       </button>
 
-      { displayFlags &&
+      { isOpen &&
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white shadow-lg rounded">
 
           <div className="hover:bg-gray-200 rounded-t">
