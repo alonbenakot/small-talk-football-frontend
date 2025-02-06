@@ -1,10 +1,10 @@
 import Flag from "react-flagkit";
 import { useLangStore } from "../../store/store.ts";
 import Lang from "../../features/language/Lang.ts";
-import useDropdown from "../../hooks/use-dropdown.tsx";
+import useOutsideClick from "../../utils/hooks/outside-click.tsx";
 
 const LanguageDropDown = () => {
-  const {isOpen, setIsOpen, dropdownRef} = useDropdown();
+  const {isOpen, setIsOpen, elementRef} = useOutsideClick<HTMLDivElement>();
   const {selectedLang, dispatchToggleLang} = useLangStore();
 
   const handleDropDownClicked = () => {
@@ -22,7 +22,7 @@ const LanguageDropDown = () => {
   };
 
   return (
-    <div ref={ dropdownRef } className="relative inline-block bg-zinc-800">
+    <div ref={ elementRef } className="relative inline-block bg-zinc-800">
       <button
         className="flex items-center px-4 py-2 text-slate-300 bg-zinc-800 rounded transform transform-400 cursor-pointer hover:bg-zinc-700"
         onClick={ handleDropDownClicked }>
