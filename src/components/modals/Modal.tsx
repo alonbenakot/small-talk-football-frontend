@@ -11,7 +11,6 @@ type Props = {
 const DialogModal = ({ isOpen, onClose, children, className }: Props) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  if (!isOpen) return null;
 
   return createPortal(
     <div
@@ -19,8 +18,8 @@ const DialogModal = ({ isOpen, onClose, children, className }: Props) => {
     >
       <dialog
         ref={dialogRef}
-        className={ `rounded-lg p-6 shadow-lg bg-white w-full max-w-md border border-gray-200 ${ className }` }
-        open
+        className={ `rounded-lg p-6 shadow-lg bg-white border border-gray-200 ${ className }` }
+        open={isOpen}
       >
         <button
           onClick={onClose}

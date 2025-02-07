@@ -12,7 +12,7 @@ const Button = ({children, buttonType, ...props}: Props) => {
   }
 
   if (buttonType === 'secondary') {
-    className += '';
+    className = 'px-2 py-1 bg-white text-emerald-600 border border-emerald-600 rounded-lg transition duration-300 hover:bg-emerald-600 hover:text-white';
   }
 
   if (buttonType === 'cta') {
