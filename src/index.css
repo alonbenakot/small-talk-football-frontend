@@ -1,2 +1,14 @@
 @import "tailwindcss";
 
+dialog::-webkit-scrollbar {
+    width: 8px;
+}
+
+dialog::-webkit-scrollbar-thumb {
+    background-color: rgb(39, 39, 42, 0.8); /* Gray-400 */
+    border-radius: 4px;
+}
+
+dialog::-webkit-scrollbar-track {
+    background-color: #edf2f7; /* Gray-100 */
+}

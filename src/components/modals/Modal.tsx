@@ -18,7 +18,7 @@ const DialogModal = ({ isOpen, onClose, children, className }: Props) => {
     >
       <dialog
         ref={dialogRef}
-        className={ `rounded-lg p-6 shadow-lg bg-white border border-gray-200 ${ className }` }
+        className={ `rounded-lg p-6 shadow-lg bg-white border border-gray-200 scrollbar-thumb-gray-400 scrollbar-track-gray-100 ${ className }` }
         open={isOpen}
       >
         <button
