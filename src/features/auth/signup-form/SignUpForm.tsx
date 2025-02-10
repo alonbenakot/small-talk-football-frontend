@@ -55,6 +55,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
                }) }
                error={ errors.email?.message }
         />
+        <p className="text-xs mb-2">We'll only share your email with third parties if they pay us.</p>
         <Input label="Password" id="password"
                { ...register("password", {
                  required: 'Dont\' be afraid to give us your password.',
@@ -65,7 +66,6 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
                }) }
                error={ errors.password?.message }
         />
-        <p className="text-xs mb-2">We'll only share your email with third parties if they pay us.</p>
         <Input label="Prior Football Knowledge" id="priorFootballKnowledge" checkbox
                { ...register("priorFootballKnowledge") }/>
         <div className="flex justify-between">

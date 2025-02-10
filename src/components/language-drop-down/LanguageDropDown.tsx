@@ -2,8 +2,13 @@ import Flag from "react-flagkit";
 import { useLangStore } from "../../store/store.ts";
 import Lang from "../../features/language/Lang.ts";
 import useOutsideClick from "../../utils/hooks/outside-click.tsx";
+import { useState } from "react";
+import Notification from "../modals/Notification.tsx";
+
+const chineseMsg = "The Chinese language is not supported at this time, nor do we have any plans to support it in the future."
 
 const LanguageDropDown = () => {
+  const [isChinese, setIsChinese] = useState<boolean>(false);
   const {isOpen, setIsOpen, elementRef} = useOutsideClick<HTMLDivElement>();
   const {selectedLang, dispatchToggleLang} = useLangStore();
 
@@ -19,6 +24,7 @@ const LanguageDropDown = () => {
   const handleForbiddenFlagClicked = () => {
     console.log('No China');
     setIsOpen(false);
+    setIsChinese(true);
   };
 
   return (
@@ -64,6 +70,15 @@ const LanguageDropDown = () => {
           </div>
 
         </div> }
+
+      { isChinese &&
+        <Notification
+          isModalOpen={ isChinese }
+          onClose={ () => setIsChinese(false) }
+          title="Error - Not English!"
+          text={ chineseMsg }/>
+      }
+
     </div>
   );
 };

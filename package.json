@@ -13,7 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "@tailwindcss/vite": "^4.0.0",
-    "react": "^19.0.0",
+    "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-flagkit": "^2.0.4",
     "react-hook-form": "^7.54.2",
