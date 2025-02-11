@@ -5,6 +5,8 @@ import Button from '../../../components/button/Button';
 import { FormProps } from '../user-form/UserForm';
 import { useAuthStore } from "../../../store/store.ts";
 import User from "../models/User.ts";
+import useApi from "../../../utils/hooks/use-api.ts";
+import { login } from "../../../utils/http.ts";
 
 type FormData = {
   email: string;
@@ -13,6 +15,7 @@ type FormData = {
 
 const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
   const {dispatchLogin} = useAuthStore();
+  const {isLoading, error, fetchedData, triggerApi} = useApi(login, null, false);
   const {register, handleSubmit, formState: {errors},} = useForm<FormData>({
     defaultValues: {
       email: "",
@@ -29,6 +32,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       priorFootballKnowledge: false,
       lastName: 'Benakot'
     }
+
     dispatchLogin(user);
   };
 
