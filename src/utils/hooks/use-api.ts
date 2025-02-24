@@ -1,33 +1,33 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import axios from "axios";
+import { SmallTalkResponse } from "../../models/small-talk-response.ts";
 
-type UseApiResponse<T> = {
+type UseApiResponse<T, P> = {
   fetchedData: T | null;
   isLoading: boolean;
   error: string | null;
   setFetchedData: Dispatch<SetStateAction<T | null>>;
-  triggerApi: () => Promise<void>;
+  invokeApi: (input: P) => Promise<void>;
 };
 
-const useApi = <T>(
-  fetchMethod: () => Promise<T>,
+const useApi = <T, P>(
+  fetchMethod: (input: P) => Promise<SmallTalkResponse<T>>,
   initialDataValue?: T,
-  shouldFetchInitially: boolean = true
-): UseApiResponse<T> => {
+): UseApiResponse<T, P> => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [fetchedData, setFetchedData] = useState<T | null>(initialDataValue ?? null);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (input: P) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await fetchMethod();
-      setFetchedData(data);
+      const response: SmallTalkResponse<T> = await fetchMethod(input);
+      setFetchedData(response.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.message || error.message || "Failed to fetch data.");
+        setError(error.response?.data?.systemMessage?.messageText || error.message || "Failed to fetch data.");
       } else {
         setError("Failed to fetch data.");
       }
@@ -36,13 +36,7 @@ const useApi = <T>(
     }
   }, [fetchMethod]);
 
-  useEffect(() => {
-    if (shouldFetchInitially) {
-      fetchData();
-    }
-  }, [shouldFetchInitially, fetchData]);
-
-  return {fetchedData, setFetchedData, isLoading, error, triggerApi: fetchData};
+  return {fetchedData, setFetchedData, isLoading, error, invokeApi: fetchData};
 };
 
 export default useApi;

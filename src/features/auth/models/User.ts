@@ -6,3 +6,8 @@ export default interface User {
   priorFootballKnowledge: boolean,
   jwt?: string
 }
+
+export interface LoginInput {
+  email: string,
+  password: string
+}

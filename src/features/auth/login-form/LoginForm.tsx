@@ -4,9 +4,11 @@ import Input from '../../../components/input/Input';
 import Button from '../../../components/button/Button';
 import { FormProps } from '../user-form/UserForm';
 import { useAuthStore } from "../../../store/store.ts";
-import User from "../models/User.ts";
+import User, { LoginInput } from "../models/User.ts";
 import useApi from "../../../utils/hooks/use-api.ts";
 import { login } from "../../../utils/http.ts";
+import ErrorBlock from "../../../components/error-block/ErrorBlock.tsx";
+import Loader from "../../../components/loader/Loader.tsx";
 
 type FormData = {
   email: string;
@@ -15,7 +17,7 @@ type FormData = {
 
 const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
   const {dispatchLogin} = useAuthStore();
-  const {isLoading, error, fetchedData, triggerApi} = useApi(login, null, false);
+  const {isLoading, error, fetchedData, invokeApi: invokeLoginApi} = useApi<User, LoginInput>(login);
   const {register, handleSubmit, formState: {errors},} = useForm<FormData>({
     defaultValues: {
       email: "",
@@ -25,15 +27,17 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
 
   const onSubmit = (data: FormData) => {
     console.log('Submitted data:', data);
-    const user: User = {
+
+    const loginInput: LoginInput = {
       email: data.email,
-      id: 0,
-      firstName: 'Alon',
-      priorFootballKnowledge: false,
-      lastName: 'Benakot'
+      password: data.password
     }
 
-    dispatchLogin(user);
+    invokeLoginApi(loginInput);
+
+    if (fetchedData) {
+      dispatchLogin(fetchedData);
+    }
   };
 
   return (
@@ -44,7 +48,8 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
     >
       <form onSubmit={ handleSubmit(onSubmit) }>
         <h1 className="mb-2 font-medium">Login</h1>
-
+        { error && <ErrorBlock title="Failed to Login" message={ error }/> }
+        { isLoading && <Loader/> }
         <Input
           label="Email"
           id="email"
@@ -85,7 +90,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
               Cancel
             </Button>
             <Button buttonType="cta" type="submit">
-              Submit
+              Login
             </Button>
           </div>
         </div>
