@@ -3,20 +3,20 @@ import axios from "axios";
 import { SmallTalkResponse } from "../../models/small-talk-response.ts";
 
 type UseApiResponse<T, P> = {
-  fetchedData: T | null;
+  fetchedData: SmallTalkResponse<T> | null;
   isLoading: boolean;
   error: string | null;
-  setFetchedData: Dispatch<SetStateAction<T | null>>;
+  setFetchedData: Dispatch<SetStateAction<SmallTalkResponse<T> | null>>;
   invokeApi: (input: P) => Promise<void>;
 };
 
 const useApi = <T, P>(
   fetchMethod: (input: P) => Promise<SmallTalkResponse<T>>,
-  initialDataValue?: T,
+  initialDataValue?: SmallTalkResponse<T>,
 ): UseApiResponse<T, P> => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [fetchedData, setFetchedData] = useState<T | null>(initialDataValue ?? null);
+  const [fetchedData, setFetchedData] = useState<SmallTalkResponse<T> | null>(initialDataValue ?? null);
 
   const fetchData = useCallback(async (input: P) => {
     setIsLoading(true);
@@ -24,7 +24,7 @@ const useApi = <T, P>(
 
     try {
       const response: SmallTalkResponse<T> = await fetchMethod(input);
-      setFetchedData(response.data);
+      setFetchedData(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data?.systemMessage?.messageText || error.message || "Failed to fetch data.");
