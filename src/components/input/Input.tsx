@@ -36,9 +36,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className="mb-4">
-        <label htmlFor={ id } className="block text-sm font-medium text-gray-700">
+        { label && <label htmlFor={ id } className="block text-sm font-medium text-gray-700">
           { label }
-        </label>
+        </label> }
         <div className="relative">
           <input
             ref={ ref }
