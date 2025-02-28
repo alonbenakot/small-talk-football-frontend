@@ -23,7 +23,7 @@ const PasswordInput = forwardRef<HTMLInputElement, Props>(({error, ...props}, re
         />
         <button
           type="button"
-          onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+          onClick={() => setIsPasswordVisible((prevState) => !prevState)}
           className="absolute inset-y-0 right-3 flex items-center justify-center text-emerald-700"
         >
           {isPasswordVisible ? (
