@@ -4,17 +4,16 @@ import Input from '../../../components/input/Input';
 import Button from '../../../components/button/Button';
 import { FormProps } from '../user-form/UserForm';
 import { useAuthStore } from "../../../store/store.ts";
-import User, { LoginInput } from "../models/User.ts";
+import User from "../models/User.ts";
 import useApi from "../../../utils/hooks/use-api.ts";
-import { login } from "../../../utils/http.ts";
+import { login } from "../../../utils/api/http.ts";
 import ErrorBlock from "../../../components/error-block/ErrorBlock.tsx";
 import Loader from "../../../components/loader/Loader.tsx";
 import { useEffect } from "react";
+import { LoginInput } from "../../../utils/api/api-inputs.ts";
+import PasswordInput from "../../../components/password-input/PasswordInput.tsx";
 
-type FormData = {
-  email: string;
-  password: string;
-};
+type FormData = LoginInput;
 
 const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
     const {dispatchLogin} = useAuthStore();
@@ -36,11 +35,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
     );
 
     const onSubmit = async (data: FormData) => {
-      const loginInput: LoginInput = {
-        email: data.email,
-        password: data.password
-      }
-      await invokeLoginApi(loginInput);
+      await invokeLoginApi(data);
     };
 
     return (
@@ -69,21 +64,17 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
             error={ errors.email?.message }
           />
 
-          <Input
-            label="Password"
-            id="password"
-            type="password"
-            placeholder="123456"
-            { ...register('password',
-              {
-                required: 'Dont\' be afraid to give us your password.',
+            <PasswordInput
+              placeholder="123456"
+              { ...register("password", {
+                required: "Don't be afraid to give us your password.",
                 minLength: {
                   value: 6,
-                  message: 'Now way your password has less least 6 characters.'
-                }
+                  message: "No way your password has less than 6 characters.",
+                },
               }) }
-            error={ errors.password?.message }
-          />
+              error={ errors.password?.message }
+            />
 
           <div className="flex justify-between">
             <Button buttonType="secondary" type="button" onClick={ handleSwitchForm }>
@@ -93,7 +84,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
               <Button buttonType="primary" type="button" onClick={ closeForm }>
                 Cancel
               </Button>
-              <Button buttonType="cta" type="submit">
+              <Button buttonType="cta" type="submit" disabled={ isLoading }>
                 Login
               </Button>
             </div>

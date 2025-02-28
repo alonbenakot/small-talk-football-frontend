@@ -1,9 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import User, { LoginInput } from "../features/auth/models/User.ts";
-import { SmallTalkResponse } from "../models/small-talk-response.ts";
+import User from "../../features/auth/models/User.ts";
+import { SmallTalkResponse } from "../../models/small-talk-response.ts";
+import { LoginInput, SignUpInput } from "./api-inputs.ts";
 
 
 const loginUrl = import.meta.env.VITE_LOGIN_URL;
+const signUpUrl = import.meta.env.VITE_SIGNUP_URL;
 
 const checkError = (response: AxiosResponse<SmallTalkResponse<unknown>>) => {
   if (response.data.systemMessage?.isError) {
@@ -12,7 +14,15 @@ const checkError = (response: AxiosResponse<SmallTalkResponse<unknown>>) => {
   return true;
 }
 
-export async function login(input: LoginInput) {
+export const signUp = async (signUpInput: SignUpInput) => {
+  const response = await axios.post<SmallTalkResponse<User>>(signUpUrl, signUpInput);
+
+  checkError(response);
+
+  return response.data;
+}
+
+export const login = async (input: LoginInput) => {
   const params = {params: {email: input.email, password: input.password}};
   const response = await axios.get<SmallTalkResponse<User>>(loginUrl, params);
 
