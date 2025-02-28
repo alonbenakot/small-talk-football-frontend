@@ -95,7 +95,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
           <Button buttonType='secondary' type='button' onClick={ handleSwitchForm }>Already a member</Button>
           <div className="flex gap-2">
             <Button buttonType='primary' type='button' onClick={ closeForm }>Cancel</Button>
-            <Button buttonType='cta'>Submit</Button>
+            <Button buttonType='cta' disabled={isLoading}>Sign Up</Button>
           </div>
         </div>
       </form>
