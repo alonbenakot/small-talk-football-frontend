@@ -5,14 +5,14 @@ type Props = {
 } & ComponentPropsWithoutRef<'button'>;
 
 const Button = ({children, buttonType, ...props}: Props) => {
-  let className = 'text-white rounded-lg transition duration-300';
+  let className = 'text-white rounded-lg transition duration-300 cursor-pointer';
 
   if (buttonType === 'primary') {
     className += ' bg-emerald-600 px-2 py-1 hover:bg-emerald-700';
   }
 
   if (buttonType === 'secondary') {
-    className = 'px-2 py-1 bg-white text-emerald-600 border border-emerald-600 rounded-lg transition duration-300 hover:bg-emerald-600 hover:text-white';
+    className = 'px-2 py-1 bg-white text-emerald-600 border border-emerald-600 rounded-lg transition duration-300 hover:bg-emerald-600 hover:text-white cursor-pointer';
   }
 
   if (buttonType === 'cta') {

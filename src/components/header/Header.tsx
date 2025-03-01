@@ -7,7 +7,7 @@ const Header = () => {
     <header>
       <nav className="flex items-center justify-between p-4 shadow-md bg-zinc-800 h-16">
         <div className="flex items-center gap-4">
-          <span className="text-2xl font-bold text-emerald-600">Small Talk Football</span>
+          <span className="text-2xl font-bold text-emerald-600"> <NavLink to="">Small Talk Football</NavLink></span>
           <ul className="flex gap-6 ml-4 text-slate-300">
             <li
               className="font-medium text-slate-300 border-b-2 border-emerald-600 hover:text-emerald-600 cursor-pointer">

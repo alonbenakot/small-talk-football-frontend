@@ -23,8 +23,7 @@ export const signUp = async (signUpInput: SignUpInput) => {
 }
 
 export const login = async (input: LoginInput) => {
-  const params = {params: {email: input.email, password: input.password}};
-  const response = await axios.get<SmallTalkResponse<User>>(loginUrl, params);
+  const response = await axios.post<SmallTalkResponse<User>>(loginUrl, input);
 
   checkError(response);
 
