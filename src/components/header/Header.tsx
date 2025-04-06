@@ -10,10 +10,14 @@ const Header = () => {
           <span className="text-2xl font-bold text-emerald-600"> <NavLink to="">Small Talk Football</NavLink></span>
           <ul className="flex gap-6 ml-4 text-slate-300">
             <li
-              className="font-medium text-slate-300 border-b-2 border-emerald-600 hover:text-emerald-600 cursor-pointer">
+              className="font-medium border-b-2 border-emerald-600 hover:text-emerald-600 cursor-pointer">
+              <NavLink to="">Home</NavLink>
+            </li>
+            <li
+              className="border-emerald-600 hover:text-emerald-600 cursor-pointer">
               <NavLink to="">Articles</NavLink>
             </li>
-            <li className="hover:text-emerald-600 cursor-pointer">Small Infos</li>
+            <li className="hover:text-emerald-600 cursor-pointer">Cheat Cards</li>
             <li className="hover:text-emerald-600 cursor-pointer">One-Liners</li>
             <li className="hover:text-emerald-600 cursor-pointer">About</li>
           </ul>
