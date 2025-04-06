@@ -6,7 +6,7 @@ const RootLayout = () => {
   return (
     <div className="grid h-screen grid-rows-[auto_5fr_auto]">
       <Header/>
-      <main className="p-3 overflow-auto">
+      <main className="p-3 overflow-y-auto">
         <Outlet/>
       </main>
       <Footer/>

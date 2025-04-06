@@ -1,10 +1,15 @@
 import Flag from "react-flagkit";
 import { useLangStore } from "../../store/store.ts";
 import Lang from "../../features/language/Lang.ts";
-import useDropdown from "../../hooks/use-dropdown.tsx";
+import useOutsideClick from "../../utils/hooks/outside-click.tsx";
+import { useState } from "react";
+import Notification from "../modals/Notification.tsx";
+
+const chineseMsg = "The Chinese language is not supported at this time, nor do we have any plans to support it in the future."
 
 const LanguageDropDown = () => {
-  const {isOpen, setIsOpen, dropdownRef} = useDropdown();
+  const [isChinese, setIsChinese] = useState<boolean>(false);
+  const {isOpen, setIsOpen, elementRef} = useOutsideClick<HTMLDivElement>();
   const {selectedLang, dispatchToggleLang} = useLangStore();
 
   const handleDropDownClicked = () => {
@@ -19,10 +24,11 @@ const LanguageDropDown = () => {
   const handleForbiddenFlagClicked = () => {
     console.log('No China');
     setIsOpen(false);
+    setIsChinese(true);
   };
 
   return (
-    <div ref={ dropdownRef } className="relative inline-block bg-zinc-800">
+    <div ref={ elementRef } className="relative inline-block bg-zinc-800">
       <button
         className="flex items-center px-4 py-2 text-slate-300 bg-zinc-800 rounded transform transform-400 cursor-pointer hover:bg-zinc-700"
         onClick={ handleDropDownClicked }>
@@ -64,6 +70,15 @@ const LanguageDropDown = () => {
           </div>
 
         </div> }
+
+      { isChinese &&
+        <Notification
+          isModalOpen={ isChinese }
+          onClose={ () => setIsChinese(false) }
+          title="Error - Not English!"
+          text={ chineseMsg }/>
+      }
+
     </div>
   );
 };

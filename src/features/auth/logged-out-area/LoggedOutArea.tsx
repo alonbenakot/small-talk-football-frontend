@@ -1,30 +1,38 @@
 import Button from "../../../components/button/Button.tsx";
-import User from "../models/User.ts";
-import { useDispatch } from "react-redux";
-import { login } from "../../../store/user-slice.ts";
+import { useState } from "react";
+import UserForm, { FormType } from "../user-form/UserForm.tsx";
 
 const LoggedOutArea = () => {
-  const dispatch = useDispatch();
-  const user: User = {
-    email: "alon@gmail.com",
-    id: 0,
-    firstName: "Alon ",
-    lastName: "Benakot",
-    priorFootballKnowledge: false
-  };
+  const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
+  const [formType, setFormType] = useState<FormType>('login');
 
   const handleLogin = () => {
-    dispatch(login(user));
-  }
+    setFormType('login');
+    setIsOpenForm(true);
+  };
+
   const handleSignUp = () => {
-    dispatch(login(user));
-  }
+    setFormType('signup');
+    setIsOpenForm(true);
+  };
 
   return (
     <>
-      <Button buttonType="cta" onClick={handleLogin}>Log In</Button>
-      <Button buttonType="cta" onClick={handleSignUp}>Sign Up</Button>
+      <Button buttonType="cta" onClick={ handleLogin }>
+        Log In
+      </Button>
+      <Button buttonType="cta" onClick={ handleSignUp }>
+        Sign Up
+      </Button>
+      { isOpenForm && (
+        <UserForm
+          initialFormType={ formType }
+          isOpenModal={ isOpenForm }
+          setIsOpenModal={ setIsOpenForm }
+        />
+      ) }
     </>
-  )
-}
+  );
+};
+
 export default LoggedOutArea;

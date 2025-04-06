@@ -1,19 +1,13 @@
 import Button from "../../../components/button/Button.tsx";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../../store/user-slice.ts";
-import { RootState } from "../../../store/store.ts";
+import { useAuthStore } from "../../../store/store.ts";
 
 const LoggedInArea = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
+  const {selectedUser, dispatchLogout} = useAuthStore();
 
-  const handleLogout = () => {
-    dispatch(logout());
-  }
   return (
     <>
-      <h4 className="text-slate-300">Hi { user?.firstName }</h4>
-      <Button buttonType="primary" onClick={ handleLogout }>Logout</Button>
+      <h4 className="text-slate-300">Hi { selectedUser?.firstName }</h4>
+      <Button buttonType="primary" onClick={ dispatchLogout }>Logout</Button>
     </>
   )
 }
