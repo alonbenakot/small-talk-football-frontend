@@ -1,4 +1,4 @@
-import Button from "../../../components/button/Button.tsx";
+import Button from "../../../components/ui/button/Button.tsx";
 import { useState } from "react";
 import UserForm, { FormType } from "../user-form/UserForm.tsx";
 

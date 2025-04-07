@@ -1,6 +1,6 @@
-import Modal from "../../../components/modals/Modal.tsx";
-import Input from "../../../components/input/Input.tsx";
-import Button from "../../../components/button/Button.tsx";
+import Modal from "../../../components/ui/modals/Modal.tsx";
+import Input from "../../../components/ui/input/Input.tsx";
+import Button from "../../../components/ui/button/Button.tsx";
 import { FormProps } from "../user-form/UserForm.tsx";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "../../../store/store.ts";
@@ -8,10 +8,10 @@ import useApi from "../../../utils/hooks/use-api.ts";
 import { SignUpInput } from "../../../utils/api/api-inputs.ts";
 import User from "../models/User.ts";
 import { signUp } from "../../../utils/api/http.ts";
-import Loader from "../../../components/loader/Loader.tsx";
-import ErrorBlock from "../../../components/error-block/ErrorBlock.tsx";
+import Loader from "../../../components/ui/loader/Loader.tsx";
+import ErrorBlock from "../../../components/ui/error-block/ErrorBlock.tsx";
 import { useEffect } from "react";
-import PasswordInput from "../../../components/password-input/PasswordInput.tsx";
+import PasswordInput from "../../../components/ui/password-input/PasswordInput.tsx";
 
 type FormData = SignUpInput;
 

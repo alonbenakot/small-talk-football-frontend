@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import AuthArea from "../../features/auth/auth-area/AuthArea.tsx";
+import AuthArea from "../../../features/auth/auth-area/AuthArea.tsx";
 import LanguageDropDown from "../language-drop-down/LanguageDropDown.tsx";
 
 const Header = () => {

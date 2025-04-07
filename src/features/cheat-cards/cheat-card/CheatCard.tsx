@@ -6,7 +6,7 @@ type Props = CheatCardModel;
 const CheatCard = ({title, subTitle, infoTexts}: Props) => {
   const {selectedLang} = useLangStore();
   return (
-    <>
+    <article>
       <h2>
         { title }
       </h2>
@@ -16,6 +16,8 @@ const CheatCard = ({title, subTitle, infoTexts}: Props) => {
       <p>
         {infoTexts.find(text => text.lang === selectedLang)?.text}
       </p>
-    </>
+    </article>
   )
 }
+
+export default CheatCard;
