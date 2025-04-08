@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import userSlice, { login, logout } from "./user-slice.ts";
 import langSlice, { toggleLang } from "./lang-slice.ts";
 import { useDispatch, useSelector } from "react-redux";
-import Lang from "../features/language/Lang.ts";
-import User from "../features/auth/models/User.ts";
+import Lang from "../components/features/language/Lang.ts";
+import User from "../components/features/auth/models/User.ts";
 
 const store = configureStore({
   reducer: {

@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLangStore } from "../store/store.ts";
-import UserForm from "../features/auth/user-form/UserForm.tsx";
+import UserForm from "../components/features/auth/user-form/UserForm.tsx";
 
 const britishOffsideOneliner = "Haaland didn't do no fucking offside, did he?! That judge was a bloody fucking wanker if you ask me.";
 const americanOffsideOneliner = "Gosh darn it! Haaland never went behind the defence line! He would never do something like that, bless his soul.";
 
-const Home: FC = () => {
+const Home = () => {
   const {selectedLang} = useLangStore();
   const [isSignUpButtonClicked, setIsSignUpButtonClicked] = useState<boolean>(false);
   const offsideOneliner = selectedLang === "british" ? britishOffsideOneliner : americanOffsideOneliner;

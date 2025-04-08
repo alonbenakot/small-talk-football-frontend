@@ -1,5 +1,5 @@
 import CheatCardModel from "../models/CheatCardModel.ts";
-import { useLangStore } from "../../../store/store.ts";
+import { useLangStore } from "../../../../store/store.ts";
 
 type Props = CheatCardModel;
 

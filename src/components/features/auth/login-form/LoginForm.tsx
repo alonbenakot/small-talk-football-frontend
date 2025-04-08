@@ -1,17 +1,17 @@
 import { useForm } from 'react-hook-form';
-import Modal from '../../../components/ui/modals/Modal';
-import Input from '../../../components/ui/input/Input';
-import Button from '../../../components/ui/button/Button';
-import { FormProps } from '../user-form/UserForm';
-import { useAuthStore } from "../../../store/store.ts";
+import Modal from '../../../ui/modals/Modal.tsx';
+import Input from '../../../ui/input/Input.tsx';
+import Button from '../../../ui/button/Button.tsx';
+import { FormProps } from '../user-form/UserForm.tsx';
+import { useAuthStore } from "../../../../store/store.ts";
 import User from "../models/User.ts";
-import useApi from "../../../utils/hooks/use-api.ts";
-import { login } from "../../../utils/api/http.ts";
-import ErrorBlock from "../../../components/ui/error-block/ErrorBlock.tsx";
-import Loader from "../../../components/ui/loader/Loader.tsx";
+import useApi from "../../../../utils/hooks/use-api.ts";
+import { login } from "../../../../utils/api/http.ts";
+import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
+import Loader from "../../../ui/loader/Loader.tsx";
 import { useEffect } from "react";
-import { LoginInput } from "../../../utils/api/api-inputs.ts";
-import PasswordInput from "../../../components/ui/password-input/PasswordInput.tsx";
+import { LoginInput } from "../../../../utils/api/api-inputs.ts";
+import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 
 type FormData = LoginInput;
 

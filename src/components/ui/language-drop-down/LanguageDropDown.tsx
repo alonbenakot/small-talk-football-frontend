@@ -1,6 +1,6 @@
 import Flag from "react-flagkit";
 import { useLangStore } from "../../../store/store.ts";
-import Lang from "../../../features/language/Lang.ts";
+import Lang from "../../features/language/Lang.ts";
 import useOutsideClick from "../../../utils/hooks/outside-click.tsx";
 import { useState } from "react";
 import Notification from "../modals/Notification.tsx";
