@@ -3,7 +3,7 @@ import { useLangStore } from "../../../../store/store.ts";
 
 type Props = CheatCardModel;
 
-const CheatCard = ({title, subTitle, infoTexts}: Props) => {
+const CheatCard = ({title, subtitle, infoTexts}: Props) => {
   const {selectedLang} = useLangStore();
   return (
     <article>
@@ -11,10 +11,10 @@ const CheatCard = ({title, subTitle, infoTexts}: Props) => {
         { title }
       </h2>
       <h3>
-        { subTitle }
+        { subtitle }
       </h3>
       <p>
-        {infoTexts.find(text => text.lang === selectedLang)?.text}
+        {infoTexts.find(text => text.lang === selectedLang.toUpperCase())?.text}
       </p>
     </article>
   )
