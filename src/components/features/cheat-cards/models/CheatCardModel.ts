@@ -1,7 +1,7 @@
 import Lang from "../../language/Lang.ts";
 
 export default interface CheatCardModel {
-  id: number,
+  id: string,
   title: string,
   subTitle: string,
   infoTexts: InfoText[],

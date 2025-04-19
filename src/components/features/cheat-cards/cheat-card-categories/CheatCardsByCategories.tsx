@@ -1,10 +1,11 @@
 import CheatCardModel from "../models/CheatCardModel.ts";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   categories: string[],
   cheatCards: CheatCardModel[],
-  selectedCardCategory: string
+  selectedCardCategory: string,
 }
 
 const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: Props) => {
@@ -33,7 +34,7 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: 
       </h3>
       <ul>
         { filteredCheatCards.map((card: CheatCardModel) =>
-          <li key={ card.id }>{ card.title }</li>
+          <li key={ card.id }><Link to={`/cheat-cards/${card.id}`}>{ card.title }</Link></li>
         ) }
       </ul>
     </aside>
