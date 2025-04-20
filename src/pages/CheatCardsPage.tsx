@@ -7,8 +7,11 @@ import CheatCard from "../components/features/cheat-cards/cheat-card/CheatCard.t
 import { useParams } from "react-router-dom";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
 import Loader from "../components/ui/loader/Loader.tsx";
+import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 
 type CheatCardParams = { id?: string };
+const ERROR_TITLE = "Cheat Cards Error";
+const ERROR_MSG = "Hi. We seem to have a problem displaying our cheat cards. If in doubt - blame the referee."
 
 const CheatCardsPage = () => {
   const {id} = useParams<CheatCardParams>();
@@ -27,6 +30,7 @@ const CheatCardsPage = () => {
     invokeApi: invokeCheatCardsApi
   } = useApi(getCheatCards);
 
+  // fetch data
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([invokeCategoriesApi(), invokeCheatCardsApi()]);
@@ -34,14 +38,16 @@ const CheatCardsPage = () => {
     fetchData();
   }, [invokeCategoriesApi, invokeCheatCardsApi]);
 
+  // handle cheatCards changes
   useEffect(() => {
     if (cheatCards?.data) {
       setSelectedCheatCard(id
         ? cheatCards.data.find((card: CheatCardModel) => card.id === id)
         : cheatCards.data[0]);
     }
-  }, [cheatCards, id,]);
+  }, [cheatCards, id]);
 
+  // handle categories changes
   useEffect(() => {
     setSelectedCategory(selectedCheatCard
       ? selectedCheatCard.infoCategory
@@ -52,23 +58,37 @@ const CheatCardsPage = () => {
     && !cheatCardsError && !categoriesError;
 
   return (
-    <>
-      <h2>Cheat Cards</h2>
-      {(isCheatCardsLoading || isCategoriesLoading) && <Loader/>}
-      <div>
-        { allApiCallsOk && categories && cheatCards &&
-          <CheatCardsByCategories
-            categories={ categories.data }
-            cheatCards={ cheatCards.data }
-            selectedCardCategory={ selectedCategory ?? ''}
-          /> }
-      </div>
-      <div>
-        { !isCheatCardsLoading && !cheatCardsError && cheatCards && selectedCheatCard &&
-          <CheatCard { ...selectedCheatCard }/> }
-      </div>
-    </>
-  )
-}
+    <div className="min-h-screen flex flex-col items-center px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6 text-center">Cheat Cards</h1>
+
+      { (isCheatCardsLoading || isCategoriesLoading) && (
+        <div className="flex justify-center items-center w-full h-40">
+          <Loader/>
+        </div>
+      ) }
+
+      { (cheatCardsError || categoriesError) && (
+        <div className="flex justify-center items-center w-full h-40">
+          <ErrorBlock title={ ERROR_TITLE } message={ ERROR_MSG }/>
+        </div>
+      ) }
+
+      { allApiCallsOk && categories && cheatCards && selectedCheatCard && (
+        <div className="flex w-full max-w-screen-xl mt-6 gap-6">
+          <nav aria-label="Categories" className="w-1/4">
+            <CheatCardsByCategories
+              categories={ categories.data }
+              cheatCards={ cheatCards.data }
+              selectedCardCategory={ selectedCategory ?? "" }
+            />
+          </nav>
+          <section className="w-3/4">
+            <CheatCard { ...selectedCheatCard } />
+          </section>
+        </div>
+      ) }
+    </div>
+  );
+};
 
 export default CheatCardsPage;
