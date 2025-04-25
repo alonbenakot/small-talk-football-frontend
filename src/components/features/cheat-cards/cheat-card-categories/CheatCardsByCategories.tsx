@@ -28,16 +28,16 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: 
   }
 
   return (
-    <aside className="flex flex-col items-center justify-center">
-      <h3 className="mb-3 flex items-center gap-2">
+    <aside className="flex flex-col items-center justify-center rounded-2xl p-6 border border-gray-200">
+      <h3 className="mb-3 flex items-center gap-4">
         { getSelectedCategoryIndex() > 0 &&
-          <button onClick={ handlePrevCategory } className="text-emerald-700">
+          <button onClick={ handlePrevCategory } className="text-emerald-600 hover:text-emerald-700">
             <ChevronLeft/>
           </button>
         }
-        <span className="capitalize">{ formatString(selectedCategory) }</span>
+        <span>{ formatString(selectedCategory) }</span>
         { categories.length - 1 > getSelectedCategoryIndex() &&
-          <button onClick={ handleNextCategory } className="text-emerald-700">
+          <button onClick={ handleNextCategory } className="text-emerald-600 hover:text-emerald-700">
             <ChevronRight/>
           </button>
         }
