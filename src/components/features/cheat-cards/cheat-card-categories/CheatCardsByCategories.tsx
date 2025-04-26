@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { formatString, subStringUntilColon } from "../../../../utils/FormatUtil.ts";
+import { AnimatePresence, motion } from "motion/react";
 
 type Props = {
   categories: string[],
@@ -28,28 +29,51 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: 
   }
 
   return (
-    <aside className="flex flex-col items-center justify-center rounded-2xl p-6 border border-gray-200">
-      <h3 className="mb-3 flex items-center gap-4">
-        { getSelectedCategoryIndex() > 0 &&
-          <button onClick={ handlePrevCategory } className="text-emerald-600 hover:text-emerald-700">
-            <ChevronLeft/>
-          </button>
-        }
-        <span>{ formatString(selectedCategory) }</span>
-        { categories.length - 1 > getSelectedCategoryIndex() &&
-          <button onClick={ handleNextCategory } className="text-emerald-600 hover:text-emerald-700">
-            <ChevronRight/>
-          </button>
-        }
+    <aside className="relative flex flex-col items-center justify-center rounded-xl border border-gray-200 shadow-sm">
+      <h3 className="relative overflow-hidden whitespace-nowrap mb-1 px-3 py-2 text-md font-bold flex items-center justify-between bg-zinc-800 w-full rounded-t-xl">
+        <button
+          onClick={ handlePrevCategory } className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-200/50"
+          disabled={ getSelectedCategoryIndex() == 0 }
+        >
+          <ChevronLeft/>
+        </button>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={selectedCategory}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.25, type: "spring", stiffness: 500, damping: 30 }}
+            className="absolute left-1/2 transform -translate-x-1/2 text-emerald-600"
+          >
+            { formatString(selectedCategory) }
+          </motion.span>
+        </AnimatePresence>
+        <button
+          onClick={ handleNextCategory } className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-200/50"
+          disabled={ getSelectedCategoryIndex() === categories.length - 1 }
+        >
+          <ChevronRight/>
+        </button>
       </h3>
-      <ul className="text-center">
-        { filteredCheatCards.map((card: CheatCardModel) =>
-          <li key={ card.id } className="m-2">
-            <Link to={ `/cheat-cards/${ card.id }` }>
-              { subStringUntilColon(card.title) }
-            </Link></li>
-        ) }
-      </ul>
+      <AnimatePresence mode="wait">
+        <motion.ul
+          key={selectedCategory}
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.25, type: "spring", stiffness: 500, damping: 30 }}
+          className="text-center p-2 w-full"
+        >
+          {filteredCheatCards.map((card: CheatCardModel) => (
+            <li key={card.id} className="mb-2">
+              <Link to={`/cheat-cards/${card.id}`}>
+                {subStringUntilColon(card.title)}
+              </Link>
+            </li>
+          ))}
+        </motion.ul>
+      </AnimatePresence>
     </aside>
   )
 }

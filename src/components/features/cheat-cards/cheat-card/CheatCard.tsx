@@ -1,13 +1,24 @@
 import CheatCardModel from "../models/CheatCardModel.ts";
 import { useLangStore } from "../../../../store/store.ts";
+import Button from "../../../ui/button/Button.tsx";
+import { motion } from "motion/react";
 
-type Props = CheatCardModel;
+type Props = CheatCardModel & {
+  onNext: () => void;
+  onPrev: () => void;
+};
 
-const CheatCard = ({title, subtitle, infoTexts}: Props) => {
+const CheatCard = ({title, subtitle, infoTexts, onNext, onPrev}: Props) => {
   const {selectedLang} = useLangStore();
   return (
-    <article className="shadow-sm rounded-2xl border border-gray-200 max-w-3xl">
-      <h2 className="block w-full text-xl font-bold bg-zinc-800 text-emerald-600 px-4 py-2 rounded-t-2xl shadow-sm">
+    <motion.article
+      className="shadow-sm rounded-xl border border-gray-200 max-w-3xl"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.4, type: "spring", stiffness: 400, damping: 30 }}
+    >
+      <h2 className="block w-full text-xl font-bold bg-zinc-800 text-emerald-600 px-4 py-2 rounded-t-xl shadow-sm">
         { title }
       </h2>
       <div className="p-4">
@@ -18,7 +29,11 @@ const CheatCard = ({title, subtitle, infoTexts}: Props) => {
           { infoTexts.find(text => text.lang === selectedLang.toUpperCase())?.text }
         </p>
       </div>
-    </article>
+      <div className="flex justify-between p-3">
+        <Button buttonType="primary" onClick={onPrev}>Previous</Button>
+        <Button buttonType="primary" onClick={onNext}>Next</Button>
+      </div>
+    </motion.article>
   )
 }
 
