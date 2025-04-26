@@ -11,6 +11,8 @@ type Props = {
   selectedCardCategory: string,
 }
 
+const ARROW_STYLE = "text-slate-300 hover:text-emerald-700 disabled:text-slate-400/50";
+
 const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(selectedCardCategory);
   const filteredCheatCards = cheatCards
@@ -32,7 +34,7 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: 
     <aside className="relative flex flex-col items-center justify-center rounded-xl border border-gray-200 shadow-sm">
       <h3 className="relative overflow-hidden whitespace-nowrap mb-1 px-3 py-2 text-md font-bold flex items-center justify-between bg-zinc-800 w-full rounded-t-xl">
         <button
-          onClick={ handlePrevCategory } className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-200/50"
+          onClick={ handlePrevCategory } className={ARROW_STYLE}
           disabled={ getSelectedCategoryIndex() == 0 }
         >
           <ChevronLeft/>
@@ -50,7 +52,7 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCardCategory}: 
           </motion.span>
         </AnimatePresence>
         <button
-          onClick={ handleNextCategory } className="text-emerald-600 hover:text-emerald-700 disabled:text-emerald-200/50"
+          onClick={ handleNextCategory } className={ARROW_STYLE}
           disabled={ getSelectedCategoryIndex() === categories.length - 1 }
         >
           <ChevronRight/>

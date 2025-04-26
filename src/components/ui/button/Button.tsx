@@ -8,7 +8,7 @@ const Button = ({children, buttonType, ...props}: Props) => {
   let className = 'text-white rounded-lg transition duration-300 cursor-pointer';
 
   if (buttonType === 'primary') {
-    className += ' bg-emerald-600 px-2 py-1 hover:bg-emerald-700';
+    className += ' bg-emerald-600 px-2 py-1 hover:bg-emerald-700 disabled:bg-slate-500/60';
   }
 
   if (buttonType === 'secondary') {

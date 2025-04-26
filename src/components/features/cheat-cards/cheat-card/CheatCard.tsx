@@ -4,11 +4,13 @@ import Button from "../../../ui/button/Button.tsx";
 import { motion } from "motion/react";
 
 type Props = CheatCardModel & {
-  onNext: () => void;
-  onPrev: () => void;
+  onNext: () => void,
+  onPrev: () => void,
+  isFirst: boolean,
+  isLast: boolean
 };
 
-const CheatCard = ({title, subtitle, infoTexts, onNext, onPrev}: Props) => {
+const CheatCard = ({title, subtitle, infoTexts, onNext, onPrev, isFirst, isLast}: Props) => {
   const {selectedLang} = useLangStore();
   return (
     <motion.article
@@ -30,8 +32,8 @@ const CheatCard = ({title, subtitle, infoTexts, onNext, onPrev}: Props) => {
         </p>
       </div>
       <div className="flex justify-between p-3">
-        <Button buttonType="primary" onClick={onPrev}>Previous</Button>
-        <Button buttonType="primary" onClick={onNext}>Next</Button>
+        <Button buttonType="primary" onClick={onPrev} disabled={isFirst}>Previous</Button>
+        <Button buttonType="primary" onClick={onNext} disabled={isLast}>Next</Button>
       </div>
     </motion.article>
   )

@@ -59,6 +59,22 @@ const CheatCardsPage = () => {
     const allApiCallsOk = !isCheatCardsLoading && !isCategoriesLoading
       && !cheatCardsError && !categoriesError;
 
+    const isFirst = (): boolean => {
+      if (cheatCards?.data && selectedCheatCard) {
+        const selectedCardIndex = cheatCards.data.indexOf(selectedCheatCard);
+        return selectedCardIndex === 0;
+      }
+      return false;
+    }
+
+    const isLast = (): boolean => {
+      if (cheatCards?.data && selectedCheatCard) {
+        const selectedCardIndex = cheatCards.data.indexOf(selectedCheatCard);
+        return selectedCardIndex === cheatCards.data.length - 1;
+      }
+      return false;
+    }
+
     const onNext = () => {
       if (cheatCards?.data && selectedCheatCard) {
         const selectedCardIndex = cheatCards.data.indexOf(selectedCheatCard);
@@ -76,7 +92,7 @@ const CheatCardsPage = () => {
 
     return (
       <motion.div
-        className="min-h-screen flex flex-col items-center px-4 py-6"
+        className="min-h-screen flex flex-col items-center px-4 py-1"
         initial={ {opacity: 0, y: 20} }
         animate={ {opacity: 1, y: 0} }
         exit={ {opacity: 0, y: -20} }
@@ -112,7 +128,14 @@ const CheatCardsPage = () => {
             </nav>
             <section className="w-3/4">
               <AnimatePresence mode="wait">
-                <CheatCard key={id} { ...selectedCheatCard } onNext={ onNext } onPrev={ onPrev }/>
+                <CheatCard
+                  key={ id }
+                  { ...selectedCheatCard }
+                  onNext={ onNext }
+                  onPrev={ onPrev }
+                  isFirst={ isFirst() }
+                  isLast={ isLast() }
+                />
               </AnimatePresence>
             </section>
           </motion.div>
