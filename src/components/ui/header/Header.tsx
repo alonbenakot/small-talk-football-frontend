@@ -15,13 +15,13 @@ const Header = () => {
         <div className="flex items-center gap-4">
 
           <span className="text-2xl font-bold text-emerald-600">
-            <NavLink to="/home">Small Talk Football</NavLink>
+            <NavLink to="/">Small Talk Football</NavLink>
           </span>
 
           <ul className="flex gap-6 ml-4 text-slate-300">
             <li
               className="hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/home" className={ getLinkStyle }>
+              <NavLink to="/" className={ getLinkStyle }>
                 Home
               </NavLink>
             </li>

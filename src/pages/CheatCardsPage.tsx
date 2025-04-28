@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
 import Loader from "../components/ui/loader/Loader.tsx";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 
 type CheatCardParams = { id?: string };
 const ERROR_TITLE = "Cheat Cards Error";
@@ -17,7 +17,6 @@ const ERROR_MSG = "Hi. We seem to have a problem displaying our cheat cards. If 
 const CheatCardsPage = () => {
     const {id} = useParams<CheatCardParams>();
     const [selectedCheatCard, setSelectedCheatCard] = useState<CheatCardModel | undefined>();
-    const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
     const navigate = useNavigate();
     const {
       fetchedData: categories,
@@ -48,13 +47,6 @@ const CheatCardsPage = () => {
           : cheatCards.data[0]);
       }
     }, [cheatCards, id]);
-
-    // handle categories changes
-    useEffect(() => {
-      setSelectedCategory(selectedCheatCard
-        ? selectedCheatCard.infoCategory
-        : categories?.data[0]);
-    }, [selectedCheatCard, categories?.data]);
 
     const allApiCallsOk = !isCheatCardsLoading && !isCategoriesLoading
       && !cheatCardsError && !categoriesError;
@@ -92,7 +84,7 @@ const CheatCardsPage = () => {
 
     return (
       <motion.div
-        className="min-h-screen flex flex-col items-center px-4 py-1"
+        className="min-h-screen flex flex-col items-center px-4 py-2"
         initial={ {opacity: 0, y: 20} }
         animate={ {opacity: 1, y: 0} }
         exit={ {opacity: 0, y: -20} }
@@ -114,7 +106,7 @@ const CheatCardsPage = () => {
 
         { allApiCallsOk && categories && cheatCards && selectedCheatCard && (
           <motion.div
-            className="flex w-full max-w-screen-xl mt-6 gap-6"
+            className="flex w-full max-w-screen-xl mt-2 gap-6"
             initial={ {opacity: 0, y: 10} }
             animate={ {opacity: 1, y: 0} }
             transition={ {duration: 0.4} }
@@ -123,20 +115,18 @@ const CheatCardsPage = () => {
               <CheatCardsByCategories
                 categories={ categories.data }
                 cheatCards={ cheatCards.data }
-                selectedCardCategory={ selectedCategory ?? "" }
+                selectedCard={ selectedCheatCard }
               />
             </nav>
             <section className="w-3/4">
-              <AnimatePresence mode="wait">
-                <CheatCard
-                  key={ id }
-                  { ...selectedCheatCard }
-                  onNext={ onNext }
-                  onPrev={ onPrev }
-                  isFirst={ isFirst() }
-                  isLast={ isLast() }
-                />
-              </AnimatePresence>
+              <CheatCard
+                key={ id }
+                { ...selectedCheatCard }
+                onNext={ onNext }
+                onPrev={ onPrev }
+                isFirst={ isFirst() }
+                isLast={ isLast() }
+              />
             </section>
           </motion.div>
         ) }
