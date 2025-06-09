@@ -1,5 +1,5 @@
-import Button from "../../../components/button/Button.tsx";
-import { useAuthStore } from "../../../store/store.ts";
+import Button from "../../../ui/button/Button.tsx";
+import { useAuthStore } from "../../../../store/store.ts";
 
 const LoggedInArea = () => {
   const {selectedUser, dispatchLogout} = useAuthStore();

@@ -7,10 +7,10 @@ type UseApiResponse<T, P> = {
   isLoading: boolean;
   error: string | null;
   setFetchedData: Dispatch<SetStateAction<SmallTalkResponse<T> | null>>;
-  invokeApi: (input: P) => Promise<void>;
+  invokeApi: (input?: P) => Promise<void>;
 };
 
-const useApi = <T, P>(
+const useApi = <T, P = void>(
   fetchMethod: (input: P) => Promise<SmallTalkResponse<T>>,
   initialDataValue?: SmallTalkResponse<T>,
 ): UseApiResponse<T, P> => {
@@ -18,12 +18,12 @@ const useApi = <T, P>(
   const [error, setError] = useState<string | null>(null);
   const [fetchedData, setFetchedData] = useState<SmallTalkResponse<T> | null>(initialDataValue ?? null);
 
-  const fetchData = useCallback(async (input: P) => {
+  const fetchData = useCallback(async (input?: P) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response: SmallTalkResponse<T> = await fetchMethod(input);
+      const response: SmallTalkResponse<T> = await fetchMethod(input as P);
       setFetchedData(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {

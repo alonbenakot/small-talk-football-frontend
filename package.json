@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.7.9",
     "lucide-react": "^0.476.0",
+    "motion": "^12.6.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-flagkit": "^2.0.4",
