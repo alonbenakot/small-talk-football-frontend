@@ -27,7 +27,9 @@ const Header = () => {
             </li>
             <li
               className="border-emerald-600 hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/articles">Articles</NavLink>
+              <NavLink to="/articles" className={ getLinkStyle }>
+                Articles
+              </NavLink>
             </li>
             <li className="hover:text-emerald-600 cursor-pointer">
               <NavLink to="/cheat-cards" className={ getLinkStyle }>

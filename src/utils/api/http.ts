@@ -3,12 +3,15 @@ import User from "../../components/features/auth/models/User.ts";
 import { SmallTalkResponse } from "../../models/small-talk-response.ts";
 import { LoginInput, SignUpInput } from "./api-inputs.ts";
 import CheatCardModel from "../../components/features/cheat-cards/models/CheatCardModel.ts";
+import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 
 
 const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
 const SIGN_UP = import.meta.env.VITE_SIGNUP_URL;
 const CATEGORIES_URL = import.meta.env.VITE_CATEGORIES_URL;
 const CHEAT_CARDS_URL = import.meta.env.VITE_CHEAT_CARDS_URL;
+const PUBLISHED_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PUBLISHED_URL;
+const PENDING_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PENDING_URL;
 
 const checkError = (response: AxiosResponse<SmallTalkResponse<unknown>>) => {
   if (response.data.systemMessage?.isError) {
@@ -37,6 +40,18 @@ export const getCheatCardCategories = async () => {
 
 export const getCheatCards = async () => {
   const response = await axios.get<SmallTalkResponse<CheatCardModel[]>>(CHEAT_CARDS_URL);
+  checkError(response);
+  return response.data;
+}
+
+export const getPublishedArticles = async () => {
+  const response = await axios.get<SmallTalkResponse<ArticleModel[]>>(PUBLISHED_ARTICLES_URL);
+  checkError(response);
+  return response.data;
+}
+
+export const getPendingArticles = async () => {
+  const response = await axios.get<SmallTalkResponse<ArticleModel[]>>(PENDING_ARTICLES_URL);
   checkError(response);
   return response.data;
 }

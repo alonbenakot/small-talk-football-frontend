@@ -4,5 +4,10 @@ export default interface User {
   firstName: string,
   lastName: string,
   priorFootballKnowledge: boolean,
+  userIndications: UserIndications,
   jwt?: string
+}
+
+interface UserIndications {
+  pendingArticles: boolean
 }
