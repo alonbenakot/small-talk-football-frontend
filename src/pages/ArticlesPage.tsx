@@ -1,72 +1,79 @@
-import Button from "../components/ui/button/Button.tsx";
+import { motion } from "framer-motion";
 import ArticlesList from "../components/features/articles/ArticlesList.tsx";
 import { useAuthStore } from "../store/store.ts";
-import { useEffect, useState } from "react";
-import Loader from "../components/ui/loader/Loader.tsx";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
-import { useLoaderData, useNavigate, useNavigation, useSearchParams } from "react-router-dom";
+import { Link, useLoaderData, useSearchParams } from "react-router-dom";
 import { formatString } from "../utils/FormatUtil.ts";
 import { ArticleLoaderOutput } from "../routes/loaders/ArticleLoader.ts";
+import Button from "../components/ui/button/Button.tsx";
 
-export type ArticleFilter = 'published' | 'pending';
+export type ArticleFilter = "published" | "pending";
 
-function deriveButtonText(articlesFilter: ArticleFilter) {
-  return articlesFilter === 'pending' ? 'published' : 'pending';
+function getOppositeFilter(articlesFilter: ArticleFilter) {
+  return articlesFilter === "pending" ? "published" : "pending";
 }
 
 const ArticlesPage = () => {
-  const {selectedUser} = useAuthStore();
+  const { selectedUser } = useAuthStore();
   const [searchParams] = useSearchParams();
-  const initialFilter: ArticleFilter = (searchParams.get("filter") as ArticleFilter) || "published";
-  const [filter, setFilter] = useState<ArticleFilter>(initialFilter);
-  const navigation = useNavigation();
-  const navigate = useNavigate();
-  const {data: articles, error} = useLoaderData<ArticleLoaderOutput>();
-  const isLoading = navigation.state === "loading";
-
-  useEffect(() => {
-    const current = searchParams.get("filter");
-    if (current !== filter) {
-      navigate(`?filter=${ filter }`, {replace: true});
-    }
-  }, [filter, searchParams, navigate]);
-
-  const handleArticleToggle = () => {
-    setFilter((prevState) => deriveButtonText(prevState));
-  }
+  const filter: ArticleFilter =
+    (searchParams.get("filter") as ArticleFilter) || "published";
+  const { data: articles, error } = useLoaderData<ArticleLoaderOutput>();
+  const buttonText = formatString(getOppositeFilter(filter));
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
-      <h2 className="text-3xl font-bold mb-3 text-gray-800 text-center">
-        { `${ formatString(filter) } Articles` }
-      </h2>
-      { isLoading &&
-        <div className="flex justify-center items-center w-full h-40">
-          <Loader/>
-        </div>
-      }
+    <motion.div
+      className="max-w-5xl mx-auto px-4 py-8 space-y-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="relative mb-6">
+        <motion.h2
+          className="text-3xl font-bold text-gray-800 text-center"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          {`${formatString(filter)} Articles`}
+        </motion.h2>
 
-      { error &&
-        <div className="flex justify-center items-center w-full h-40">
-          <ErrorBlock title={ "Article Error" } message={ error }/>
-        </div>
-      }
+        {selectedUser?.userIndications.pendingArticles && (
+          <motion.div
+            className="absolute right-0 top-1/2 -translate-y-1/2"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <Link to={`?filter=${getOppositeFilter(filter)}`}>
+              <Button buttonType="primary">{buttonText}</Button>
+            </Link>
+          </motion.div>
+        )}
+      </div>
 
-      { !isLoading && !error && (
-        <>
-          <div className="flex flex-col items-center justify-between gap-4">
-            { selectedUser?.userIndications.pendingArticles && (
-              <Button buttonType="primary" onClick={ handleArticleToggle }>
-                { deriveButtonText(filter) }
-              </Button>
-            ) }
-          </div>
+      {error && (
+        <motion.div
+          className="flex justify-center items-center w-full h-40"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ErrorBlock title="Article Error" message={error} />
+        </motion.div>
+      )}
 
-          <ArticlesList articles={ articles }/>
-        </>
-      ) }
-    </div>
-  )
-}
+      {!error && articles && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          <ArticlesList articles={articles} />
+        </motion.div>
+      )}
+    </motion.div>
+  );
+};
 
 export default ArticlesPage;
