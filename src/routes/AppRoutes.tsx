@@ -4,6 +4,7 @@ import Home from "../pages/Home.tsx";
 import CheatCardsPage from "../pages/CheatCardsPage.tsx";
 import ArticlesPage from "../pages/ArticlesPage.tsx";
 import { articlesLoader } from "./loaders/ArticleLoader.ts";
+import ArticleView from "../components/features/articles/ArticleView.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -14,7 +15,7 @@ const routes = createBrowserRouter([{
     {path: "cheat-cards", element: <CheatCardsPage/>},
     {path: "cheat-cards/:id", element: <CheatCardsPage/>},
     {path: "articles", element: <ArticlesPage/>, loader: articlesLoader},
-    {path: "articles/:id", element: <ArticlesPage/>, loader: articlesLoader}
+    {path: "articles/:id", element: <ArticleView/>, loader: articlesLoader}
   ],
 }]);
 

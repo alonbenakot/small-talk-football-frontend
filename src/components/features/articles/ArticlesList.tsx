@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ArticleCard from "./ArticleCard.tsx";
 import ArticleModel from "./models/ArticleModel.ts";
 import { motion } from "framer-motion";
@@ -36,6 +37,7 @@ const ArticlesList = ({ articles }: Props) => {
             variants={itemVariants}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
+            <Link to={`${article.id}`}>
             <ArticleCard
               id={article.id}
               title={article.title}
@@ -43,6 +45,7 @@ const ArticlesList = ({ articles }: Props) => {
               text={article.text}
               published={article.published}
             />
+            </Link>
           </motion.li>
         ))}
       </motion.ul>
