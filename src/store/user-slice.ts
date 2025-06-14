@@ -6,7 +6,7 @@ type UserState = {
 }
 
 const initialState: UserState = {
-  user: null
+  user: JSON.parse(localStorage.getItem("user") || "null"),
 };
 
 const userSlice = createSlice({
@@ -15,9 +15,11 @@ const userSlice = createSlice({
   reducers: {
     login: (state: UserState, action: PayloadAction<User>) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     logout: (state: UserState) => {
       state.user = null;
+      localStorage.removeItem("user");
     }
   }
 });

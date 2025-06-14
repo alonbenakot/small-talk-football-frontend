@@ -10,3 +10,10 @@ export const subStringUntilColon = (text: string) => {
   const colonIndex = text.indexOf(':');
   return colonIndex === -1 ? text : text.substring(0, colonIndex);
 }
+
+export const formatParams = (text: string) => {
+  return text
+    .toLowerCase()
+    .split('-')
+    .join(' ');
+}

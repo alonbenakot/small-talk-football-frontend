@@ -94,7 +94,7 @@ const Home = () => {
                   articles
                 </Link>{" "}
                 to dive into more complex concepts like{" "}
-                <Link to="../articles/what's-going-on-with-the-saudi-league?" className="link">
+                <Link to="../articles/what’s-going-on-with-the-saudi-league?" className="link">
                   What's going on with the Saudi League?
                 </Link>{" "}
                 or{" "}
@@ -105,7 +105,7 @@ const Home = () => {
             ) : text.includes("Cheat Cards") ? (
               <>
                 Feeling overwhelmed? No worries! Our{" "}
-                <Link to="../infos" className="link">
+                <Link to="../cheat-cards" className="link">
                   Cheat Cards
                 </Link>{" "}
                 break everything down into bite-sized chunks, so you can easily look up terms like{" "}

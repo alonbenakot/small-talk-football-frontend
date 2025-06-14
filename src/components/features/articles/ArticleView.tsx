@@ -3,10 +3,12 @@ import { ArticleLoaderOutput } from "../../../routes/loaders/ArticleLoader.ts";
 import ArticleModel from "./models/ArticleModel.ts";
 import ErrorBlock from "../../ui/error-block/ErrorBlock.tsx";
 import Button from "../../ui/button/Button.tsx";
+import { formatParams } from "../../../utils/FormatUtil.ts";
 
-const getChosenArticle = (articles: ArticleModel[], articleId: string) => {
-  return articles.find((article: ArticleModel) => article.id === articleId);
-};
+const getChosenArticle = (articles: ArticleModel[], articleId: string) =>
+  articles.find(article => article.id === articleId) ||
+  articles.find(article => article.title.toLowerCase().replace(/\?/g, '') === formatParams(articleId));
+
 
 const NOT_FOUND_MSG = "The selected article cannot be found. Some things just aren't meant to be.";
 
