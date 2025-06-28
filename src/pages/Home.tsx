@@ -23,7 +23,7 @@ const Home = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <h1 className="text-3xl font-bold text-center text-zinc-800 mb-6">
+      <h1 className="text-3xl font-bold text-center text-slate-300 mb-6">
         Small Talk Football ⚽ <br /> Make Small Talk Like a Pro
       </h1>
 
@@ -36,7 +36,7 @@ const Home = () => {
       )}
 
       <motion.div
-        className="space-y-5 text-lg text-gray-700"
+        className="space-y-5 text-lg text-gray-900"
         initial="hidden"
         animate="visible"
         variants={{
@@ -64,8 +64,8 @@ const Home = () => {
            look up terms like offside or VAR.`,
         ].map((text, idx) => (
           <motion.p
-            key={idx}
-            className="bg-gray-100 p-4 border-l-4 border-emerald-600 rounded-lg shadow-sm"
+            key={text}
+            className="bg-gray-200 p-4 border-l-4 border-grey-900 rounded-lg shadow-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
@@ -124,7 +124,7 @@ const Home = () => {
         ))}
 
         <motion.div
-          className="p-5 border-l-4 border-emerald-600 bg-gray-100 rounded-lg"
+          className="p-5 border-l-4 border-grey-900 bg-gray-100 rounded-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.6 }}

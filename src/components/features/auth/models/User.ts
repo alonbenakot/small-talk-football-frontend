@@ -5,6 +5,7 @@ export default interface User {
   lastName: string,
   priorFootballKnowledge: boolean,
   userIndications: UserIndications,
+  role: 'MEMBER' | 'ADMIN',
   jwt?: string
 }
 

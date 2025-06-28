@@ -30,7 +30,7 @@ const ArticlesPage = () => {
     >
       <div className="relative mb-6">
         <motion.h2
-          className="text-3xl font-bold text-gray-800 text-center"
+          className="text-3xl font-bold text-slate-300 text-center"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}

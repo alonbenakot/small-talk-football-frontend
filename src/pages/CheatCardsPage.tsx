@@ -90,7 +90,7 @@ const CheatCardsPage = () => {
         exit={ {opacity: 0, y: -20} }
         transition={ {duration: 0.4} }
       >
-        <h1 className="text-3xl font-bold mb-3 text-center">Cheat Cards</h1>
+        <h1 className="text-3xl text-slate-300 font-bold mb-3 text-center">Cheat Cards</h1>
 
         { (isCheatCardsLoading || isCategoriesLoading) && (
           <div className="flex justify-center items-center w-full h-40">

@@ -37,7 +37,7 @@ const LanguageDropDown = () => {
       </button>
 
       { isOpen &&
-        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white shadow-lg rounded">
+        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white shadow-lg rounded z-50">
 
           <div className="hover:bg-gray-200 rounded-t">
             <button

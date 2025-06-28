@@ -11,7 +11,7 @@ const GlobalLoader = ({isNavigating}: Props) => {
     { isNavigating && (
       <motion.div
         key="loader"
-        className="absolute inset-0 z-50 flex justify-center bg-gray-200 bg-opacity-60"
+        className="absolute inset-0 z-50 flex justify-center bg-opacity-60"
         initial={ {opacity: 0} }
         animate={ {opacity: 1} }
         exit={ {opacity: 0} }
