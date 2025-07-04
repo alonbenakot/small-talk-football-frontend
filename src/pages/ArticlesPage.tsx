@@ -4,7 +4,7 @@ import { useAuthStore } from "../store/store.ts";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { Link, useLoaderData, useSearchParams } from "react-router-dom";
 import { formatString } from "../utils/FormatUtil.ts";
-import { ArticleLoaderOutput } from "../routes/loaders/ArticleLoader.ts";
+import { ArticleLoaderOutput } from "../routes/loaders/ArticlesLoader.ts";
 import Button from "../components/ui/button/Button.tsx";
 
 export type ArticleFilter = "published" | "pending";
