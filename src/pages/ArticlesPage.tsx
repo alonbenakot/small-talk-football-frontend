@@ -2,10 +2,11 @@ import { motion } from "framer-motion";
 import ArticlesList from "../components/features/articles/ArticlesList.tsx";
 import { useAuthStore } from "../store/store.ts";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
-import { Link, useLoaderData, useSearchParams } from "react-router-dom";
+import { Link, useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { formatString } from "../utils/FormatUtil.ts";
 import { ArticleLoaderOutput } from "../routes/loaders/ArticlesLoader.ts";
 import Button from "../components/ui/button/Button.tsx";
+import { useEffect, useRef } from "react";
 
 export type ArticleFilter = "published" | "pending";
 
@@ -16,10 +17,21 @@ function getOppositeFilter(articlesFilter: ArticleFilter) {
 const ArticlesPage = () => {
   const { selectedUser } = useAuthStore();
   const [searchParams] = useSearchParams();
+  const {dispatchTriggerArticleInd} = useAuthStore();
   const filter: ArticleFilter =
     (searchParams.get("filter") as ArticleFilter) || "published";
   const { data: articles, error } = useLoaderData<ArticleLoaderOutput>();
+  const navigate = useNavigate();
   const buttonText = formatString(getOppositeFilter(filter));
+  const hasRunNoPending = useRef(false);
+
+  useEffect(() => {
+    if (filter === "pending" && !articles && !hasRunNoPending.current) {
+      hasRunNoPending.current = true;
+      dispatchTriggerArticleInd(false);
+      navigate(`?filter=published`, { replace: true });
+    }
+  }, [filter, articles, dispatchTriggerArticleInd, navigate]);
 
   return (
     <motion.div
@@ -38,7 +50,7 @@ const ArticlesPage = () => {
           {`${formatString(filter)} Articles`}
         </motion.h2>
 
-        {selectedUser?.userIndications.pendingArticles && (
+        {(selectedUser?.userIndications.pendingArticles || filter === 'pending') && (
           <motion.div
             className="absolute right-0 top-1/2 -translate-y-1/2"
             initial={{ opacity: 0, x: 10 }}

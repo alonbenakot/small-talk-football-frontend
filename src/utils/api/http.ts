@@ -17,6 +17,8 @@ const PUBLISH_ARTICLE_URL = import.meta.env.VITE_PUBLISH_ARTICLE_URL;
 const REMOVE_ARTICLE_URL = import.meta.env.VITE_REMOVE_ARTICLE_URL;
 const GET_ARTICLE_URL = import.meta.env.VITE_GET_ARTICLE_URL;
 
+export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
+
 export const signUp = async (signUpInput: SignUpInput) => {
   const response = await axios.post<SmallTalkResponse<User>>(SIGN_UP_URL, signUpInput);
   return response.data;

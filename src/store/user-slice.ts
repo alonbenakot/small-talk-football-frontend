@@ -20,9 +20,17 @@ const userSlice = createSlice({
     logout: (state: UserState) => {
       state.user = null;
       localStorage.removeItem("user");
+    },
+    triggerPendingArticleIndication: (state: UserState, action: PayloadAction<boolean>) => {
+      if (state.user) {
+        state.user.userIndications = {
+          ...state.user.userIndications,
+          pendingArticles: action.payload,
+        };
+      }
     }
   }
 });
 
-export const { login, logout} = userSlice.actions;
+export const { login, logout, triggerPendingArticleIndication} = userSlice.actions;
 export default userSlice.reducer;
