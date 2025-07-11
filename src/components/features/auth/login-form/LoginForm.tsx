@@ -8,7 +8,7 @@ import User from "../models/User.ts";
 import useApi from "../../../../utils/hooks/use-api.ts";
 import { login } from "../../../../utils/api/http.ts";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
-import Loader from "../../../ui/loader/Loader.tsx";
+import Spinner from "../../../ui/spinner/Spinner.tsx";
 import { useEffect } from "react";
 import { LoginInput } from "../../../../utils/api/api-inputs.ts";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
@@ -47,7 +47,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
         <form onSubmit={ handleSubmit(onSubmit) }>
           <h1 className="mb-2 font-medium">Login</h1>
           { error && <ErrorBlock title="Failed to Login" message={ error }/> }
-          { isLoading && <Loader/> }
+          { isLoading && <Spinner/> }
 
           <Input
             label="Email"

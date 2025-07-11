@@ -6,12 +6,13 @@ import ArticlesPage from "../pages/ArticlesPage.tsx";
 import { articlesLoader } from "./loaders/ArticlesLoader.ts";
 import ArticleView from "../components/features/articles/ArticleView.tsx";
 import { articleLoader } from "./loaders/ArticleLoader.ts";
+import { homeLoader } from "./loaders/HomeLoader.ts";
 
 const routes = createBrowserRouter([{
   path: "/",
   element: <RootLayout/>,
   children: [
-    {index: true, element: <Home/>},
+    {index: true, element: <Home/>, loader: homeLoader},
     {path: "home", element: <Navigate to="/" replace/>},
     {path: "cheat-cards", element: <CheatCardsPage/>},
     {path: "cheat-cards/:id", element: <CheatCardsPage/>},

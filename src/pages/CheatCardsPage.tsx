@@ -6,7 +6,7 @@ import CheatCardsByCategories
 import CheatCard from "../components/features/cheat-cards/cheat-card/CheatCard.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
-import Loader from "../components/ui/loader/Loader.tsx";
+import Spinner from "../components/ui/spinner/Spinner.tsx";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { motion } from "motion/react";
 
@@ -94,7 +94,7 @@ const CheatCardsPage = () => {
 
         { (isCheatCardsLoading || isCategoriesLoading) && (
           <div className="flex justify-center items-center w-full h-40">
-            <Loader/>
+            <Spinner/>
           </div>
         ) }
 

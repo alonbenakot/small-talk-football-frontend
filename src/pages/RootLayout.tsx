@@ -1,6 +1,6 @@
 import Header from "../components/ui/header/Header.tsx";
 import { Outlet, useNavigation } from "react-router-dom";
-import GlobalLoader from "../components/ui/loader/GlobalLoader.tsx";
+import GlobalSpinner from "../components/ui/spinner/GlobalSpinner.tsx";
 
 const RootLayout = () => {
   const navigation = useNavigation();
@@ -12,7 +12,7 @@ const RootLayout = () => {
       <div className="grid h-full grid-rows-[auto_5fr]">
         <Header/>
         <main className="p-3 overflow-y-auto relative">
-          <GlobalLoader isNavigating={ isNavigating }/>
+          <GlobalSpinner isNavigating={ isNavigating }/>
           <Outlet/>
         </main>
         {/* <Footer/> */ }

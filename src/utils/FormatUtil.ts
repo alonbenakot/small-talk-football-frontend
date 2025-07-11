@@ -14,6 +14,7 @@ export const subStringUntilColon = (text: string) => {
 export const formatParams = (text: string) => {
   return text
     .toLowerCase()
-    .split('-')
-    .join(' ');
-}
+    .replace(/[^a-z]/g, ' ') // replace any non-letter with space
+    .replace(/\s+/g, ' ')     // collapse multiple spaces
+    .trim();                  // remove leading/trailing spaces
+};

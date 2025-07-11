@@ -5,7 +5,7 @@ import useApi from "../../../utils/hooks/use-api.ts";
 import { publishArticle, removeArticle, UNAUTHORIZED_MSG } from "../../../utils/api/http.ts";
 import { OneArticleLoaderOutput } from "../../../routes/loaders/ArticleLoader.ts";
 import ErrorBlock from "../../ui/error-block/ErrorBlock.tsx";
-import Loader from "../../ui/loader/Loader.tsx";
+import Spinner from "../../ui/spinner/Spinner.tsx";
 
 type ButtonMode = 'PUBLISH' | 'REMOVE';
 
@@ -47,7 +47,7 @@ const ArticleView = () => {
             <Button buttonType="primary" onClick={ () => navigate(-1) }>Back</Button>
             { selectedUser?.role === 'ADMIN' && (
               <>
-                {isLoading && <Loader />}
+                {isLoading && <Spinner />}
                 <Button buttonType="primary" onClick={handleAdminButtonClick}>
                   {adminButtonText}
                 </Button>

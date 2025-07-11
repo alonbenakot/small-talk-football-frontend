@@ -8,7 +8,7 @@ import useApi from "../../../../utils/hooks/use-api.ts";
 import { SignUpInput } from "../../../../utils/api/api-inputs.ts";
 import User from "../models/User.ts";
 import { signUp } from "../../../../utils/api/http.ts";
-import Loader from "../../../ui/loader/Loader.tsx";
+import Spinner from "../../../ui/spinner/Spinner.tsx";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
 import { useEffect } from "react";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
@@ -46,7 +46,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       className="w-full max-w-md mx-auto absolute top-20 max-h-[80vh] overflow-y-auto">
       <form onSubmit={ handleSubmit(onSubmit) }>
         <h2 className="mb-2 font-medium">Sign Up</h2>
-        { isLoading && <Loader/> }
+        { isLoading && <Spinner/> }
         { error && <ErrorBlock title="SignUp Error" message={ error }/> }
 
         <Input

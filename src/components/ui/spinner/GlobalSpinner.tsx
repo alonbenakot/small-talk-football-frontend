@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import Loader from "./Loader.tsx";
+import Spinner from "./Spinner.tsx";
 
 type Props = {
   isNavigating: boolean;
 }
 
-const GlobalLoader = ({isNavigating}: Props) => {
+const GlobalSpinner = ({isNavigating}: Props) => {
   return (
     <AnimatePresence>
     { isNavigating && (
@@ -18,11 +18,11 @@ const GlobalLoader = ({isNavigating}: Props) => {
         transition={ {duration: 0.3} }
       >
         <div className="mt-24">
-          <Loader/>
+          <Spinner/>
         </div>
       </motion.div>
     ) }
   </AnimatePresence>)
 }
 
-export default GlobalLoader;
+export default GlobalSpinner;
