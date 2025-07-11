@@ -7,6 +7,7 @@ import { formatString } from "../utils/FormatUtil.ts";
 import { ArticleLoaderOutput } from "../routes/loaders/ArticlesLoader.ts";
 import Button from "../components/ui/button/Button.tsx";
 import { useEffect, useRef } from "react";
+import ProtectedButton from "../components/ui/ProtectedButton.tsx";
 
 export type ArticleFilter = "published" | "pending";
 
@@ -15,12 +16,12 @@ function getOppositeFilter(articlesFilter: ArticleFilter) {
 }
 
 const ArticlesPage = () => {
-  const { selectedUser } = useAuthStore();
+  const {selectedUser} = useAuthStore();
   const [searchParams] = useSearchParams();
   const {dispatchTriggerArticleInd} = useAuthStore();
   const filter: ArticleFilter =
     (searchParams.get("filter") as ArticleFilter) || "published";
-  const { data: articles, error } = useLoaderData<ArticleLoaderOutput>();
+  const {data: articles, error} = useLoaderData<ArticleLoaderOutput>();
   const navigate = useNavigate();
   const buttonText = formatString(getOppositeFilter(filter));
   const hasRunNoPending = useRef(false);
@@ -29,61 +30,70 @@ const ArticlesPage = () => {
     if (filter === "pending" && !articles && !hasRunNoPending.current) {
       hasRunNoPending.current = true;
       dispatchTriggerArticleInd(false);
-      navigate(`?filter=published`, { replace: true });
+      navigate(`?filter=published`, {replace: true});
     }
   }, [filter, articles, dispatchTriggerArticleInd, navigate]);
 
   return (
     <motion.div
       className="max-w-5xl mx-auto px-4 py-8 space-y-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      initial={ {opacity: 0, y: 20} }
+      animate={ {opacity: 1, y: 0} }
+      transition={ {duration: 0.4} }
     >
-      <div className="relative mb-6">
+      <div className="relative mb-6 flex justify-center items-center">
         <motion.h2
-          className="text-3xl font-bold text-slate-300 text-center"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          className="text-3xl font-bold text-slate-300"
+          initial={ {opacity: 0, y: -10} }
+          animate={ {opacity: 1, y: 0} }
+          transition={ {duration: 0.3, delay: 0.1} }
         >
-          {`${formatString(filter)} Articles`}
+          { `${ formatString(filter) } Articles` }
         </motion.h2>
 
-        {(selectedUser?.userIndications.pendingArticles || filter === 'pending') && (
-          <motion.div
-            className="absolute right-0 top-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+        <div className="absolute left-0">
+          <ProtectedButton
+            onClick={ () => console.log('loggedIn') }
+            buttonType="cta"
           >
-            <Link to={`?filter=${getOppositeFilter(filter)}`}>
-              <Button buttonType="primary">{buttonText}</Button>
+            Post Article
+          </ProtectedButton>
+        </div>
+
+        { (selectedUser?.userIndications.pendingArticles || filter === 'pending') && (
+          <motion.div
+            className="absolute right-0"
+            initial={ {opacity: 0, x: 10} }
+            animate={ {opacity: 1, x: 0} }
+            transition={ {duration: 0.3, delay: 0.2} }
+          >
+            <Link to={ `?filter=${ getOppositeFilter(filter) }` }>
+              <Button buttonType="primary">{ buttonText }</Button>
             </Link>
           </motion.div>
-        )}
+        ) }
       </div>
 
-      {error && (
+      { error && (
         <motion.div
           className="flex justify-center items-center w-full h-40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={ {opacity: 0} }
+          animate={ {opacity: 1} }
+          transition={ {duration: 0.3} }
         >
-          <ErrorBlock title="Article Error" message={error} />
+          <ErrorBlock title="Article Error" message={ error }/>
         </motion.div>
-      )}
+      ) }
 
-      {!error && articles && (
+      { !error && articles && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          initial={ {opacity: 0} }
+          animate={ {opacity: 1} }
+          transition={ {duration: 0.3, delay: 0.1} }
         >
-          <ArticlesList articles={articles} />
+          <ArticlesList articles={ articles }/>
         </motion.div>
-      )}
+      ) }
     </motion.div>
   );
 };

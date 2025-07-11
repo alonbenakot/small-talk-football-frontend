@@ -1,10 +1,10 @@
 import { ComponentPropsWithoutRef } from "react";
 
-type Props = {
+export type ButtonProps = {
   buttonType: 'cta' | 'primary' | 'secondary';
 } & ComponentPropsWithoutRef<'button'>;
 
-const Button = ({children, buttonType, ...props}: Props) => {
+const Button = ({children, buttonType, ...props}: ButtonProps) => {
   let className = 'text-white rounded-lg transition duration-300 cursor-pointer';
 
   if (buttonType === 'primary') {
