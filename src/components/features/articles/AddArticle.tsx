@@ -13,7 +13,7 @@ import { useState } from "react";
 import ErrorBlock from "../../ui/error-block/ErrorBlock.tsx";
 
 type FormData = AddArticleInput;
-const SUCCESS_MSG = "Your article was submitted and will be awaiting the approval of an admin";
+const SUCCESS_MSG = "Your article was submitted and will be awaiting the approval of an admin.";
 
 const AddArticle = () => {
   const {selectedUser} = useAuthStore();

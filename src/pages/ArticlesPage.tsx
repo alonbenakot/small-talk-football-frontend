@@ -7,7 +7,7 @@ import { formatString } from "../utils/FormatUtil.ts";
 import { ArticleLoaderOutput } from "../routes/loaders/ArticlesLoader.ts";
 import Button from "../components/ui/button/Button.tsx";
 import { useEffect, useRef } from "react";
-import ProtectedButton from "../components/ui/ProtectedButton.tsx";
+import ProtectedButton from "../components/ui/button/ProtectedButton.tsx";
 
 export type ArticleFilter = "published" | "pending";
 

@@ -72,3 +72,9 @@ export const addArticle = async (addArticleInput: AddArticleInput) => {
   return response.data;
 }
 
+export const deleteArticle = async (articleId: string) => {
+  const response = await jwtAxios.delete(`${BASE_ARTICLES_URL}/${articleId}`);
+  return response.data;
+}
+
+

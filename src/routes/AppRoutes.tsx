@@ -8,6 +8,7 @@ import ArticleView from "../components/features/articles/ArticleView.tsx";
 import { articleLoader } from "./loaders/ArticleLoader.ts";
 import { homeLoader } from "./loaders/HomeLoader.ts";
 import AddArticle from "../components/features/articles/AddArticle.tsx";
+import NotFoundPage from "../pages/NotFoundPage.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -19,7 +20,8 @@ const routes = createBrowserRouter([{
     {path: "cheat-cards/:id", element: <CheatCardsPage/>},
     {path: "articles", element: <ArticlesPage/>, loader: articlesLoader},
     {path: "articles/:id", element: <ArticleView/>, loader: articleLoader},
-    {path: "articles/post-article", element: <AddArticle/>}
+    {path: "articles/post-article", element: <AddArticle/>},
+    {path: "*", element: <NotFoundPage/>},
   ],
 }]);
 

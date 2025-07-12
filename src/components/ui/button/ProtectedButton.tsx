@@ -1,8 +1,8 @@
-import { useAuthStore } from "../../store/store.ts";
-import UserForm from "../features/auth/user-form/UserForm.tsx";
+import { useAuthStore } from "../../../store/store.ts";
+import UserForm from "../../features/auth/user-form/UserForm.tsx";
 import * as React from "react";
 import { useState } from "react";
-import Button, { ButtonProps } from "./button/Button.tsx";
+import Button, { ButtonProps } from "./Button.tsx";
 
 const ProtectedButton = ({onClick, ...rest}: ButtonProps) => {
   const {selectedUser} = useAuthStore();
