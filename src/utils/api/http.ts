@@ -1,7 +1,7 @@
 import axios from "axios";
 import User from "../../components/features/auth/models/User.ts";
 import { SmallTalkResponse } from "../../models/small-talk-response.ts";
-import { LoginInput, SignUpInput } from "./api-inputs.ts";
+import { AddArticleInput, LoginInput, SignUpInput } from "./api-inputs.ts";
 import CheatCardModel from "../../components/features/cheat-cards/models/CheatCardModel.ts";
 import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 import jwtAxios from "./jwtAxios.ts";
@@ -15,7 +15,7 @@ const PUBLISHED_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PUBLISHED_URL;
 const PENDING_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PENDING_URL;
 const PUBLISH_ARTICLE_URL = import.meta.env.VITE_PUBLISH_ARTICLE_URL;
 const REMOVE_ARTICLE_URL = import.meta.env.VITE_REMOVE_ARTICLE_URL;
-const GET_ARTICLE_URL = import.meta.env.VITE_GET_ARTICLE_URL;
+const BASE_ARTICLES_URL = import.meta.env.VITE_BASE_ARTICLE_URL;
 
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
 
@@ -63,7 +63,12 @@ export const removeArticle = async (articleId: string) => {
 
 export const getArticle = async (articleId: string) => {
   const response = await axios.get<SmallTalkResponse<ArticleModel>>(
-    `${GET_ARTICLE_URL}/${articleId}`);
+    `${BASE_ARTICLES_URL}/${articleId}`);
+  return response.data;
+}
+
+export const addArticle = async (addArticleInput: AddArticleInput) => {
+  const response = await jwtAxios.post<SmallTalkResponse<User>>(BASE_ARTICLES_URL, addArticleInput);
   return response.data;
 }
 

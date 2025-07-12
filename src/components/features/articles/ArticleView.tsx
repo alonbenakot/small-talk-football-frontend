@@ -37,7 +37,7 @@ const ArticleView = () => {
             { article.author }
           </h5>
 
-          { article.text.split('\\n\\n').map((paragraph) => (
+          { article.text.split('\n\n').map((paragraph) => (
             <p key={ paragraph } className="text-gray-800 leading-relaxed mb-4">
               { paragraph }
             </p>

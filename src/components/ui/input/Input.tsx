@@ -1,22 +1,27 @@
 import { ComponentPropsWithRef, forwardRef } from 'react';
+import * as React from "react";
+
+type InputProps = ComponentPropsWithRef<'input'>;
+type TextareaProps = ComponentPropsWithRef<'textarea'>;
 
 type Props = {
   label: string;
   id: string;
   error?: string;
-  isError?: boolean
+  isError?: boolean;
   checkbox?: boolean;
-} & ComponentPropsWithRef<'input'>;
+  textarea?: boolean;
+} & (InputProps & TextareaProps);
 
-const Input = forwardRef<HTMLInputElement, Props>(
-  ({label, id, error, isError, checkbox, ...props}, ref) => {
+const Input = forwardRef<HTMLInputElement & HTMLTextAreaElement, Props>(
+  ({label, id, error, isError, checkbox, textarea, ...props}, ref) => {
 
     if (checkbox) {
       return (
         <div className="mb-4">
           <div className="flex items-center">
             <input
-              ref={ ref }
+              ref={ ref as React.Ref<HTMLInputElement> }
               id={ id }
               type="checkbox"
               name={ id }
@@ -40,15 +45,28 @@ const Input = forwardRef<HTMLInputElement, Props>(
           { label }
         </label> }
         <div className="relative">
-          <input
-            ref={ ref }
-            id={ id }
-            name={ id }
-            { ...props }
-            className={ `mt-1 block px-2 py-1 w-full border-2 rounded-md shadow-sm focus:border-emerald-700 focus:ring-emerald-700 sm:text-sm ${
-              error || isError ? 'border-rose-500' : 'border-emerald-600/70'
-            }` }
-          />
+          {textarea ? (
+            <textarea
+              ref={ ref as React.Ref<HTMLTextAreaElement> }
+              id={ id }
+              name={ id }
+              rows={15}
+              { ...props }
+              className={ `mt-1 block px-2 py-1 w-full border-2 rounded-md shadow-sm focus:border-emerald-700 focus:ring-emerald-700 sm:text-sm ${
+                error || isError ? 'border-rose-500' : 'border-emerald-600/70'
+              }` }
+            />
+          ) : (
+            <input
+              ref={ ref as React.Ref<HTMLInputElement> }
+              id={ id }
+              name={ id }
+              { ...props }
+              className={ `mt-1 block px-2 py-1 w-full border-2 rounded-md shadow-sm focus:border-emerald-700 focus:ring-emerald-700 sm:text-sm ${
+                error || isError ? 'border-rose-500' : 'border-emerald-600/70'
+              }` }
+            />
+          )}
         </div>
         { error && <p className="mt-2 text-xs text-rose-600">{ error }</p> }
       </div>

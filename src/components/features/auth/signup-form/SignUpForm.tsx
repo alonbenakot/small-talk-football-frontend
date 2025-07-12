@@ -16,7 +16,7 @@ import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 type FormData = SignUpInput;
 
 const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
-  const {dispatchLogin} = useAuthStore();
+  const {dispatchLogin, selectedUser} = useAuthStore();
   const {isLoading, error, fetchedData, invokeApi: invokeSignUpApi} = useApi<User, SignUpInput>(signUp);
   const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
@@ -47,6 +47,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       <form onSubmit={ handleSubmit(onSubmit) }>
         <h2 className="mb-2 font-medium">Sign Up</h2>
         { isLoading && <Spinner/> }
+        { selectedUser && <ErrorBlock title="You are already logged in" message="Let's not overcomplicate things."/> }
         { error && <ErrorBlock title="SignUp Error" message={ error }/> }
 
         <Input
@@ -95,7 +96,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
           <Button buttonType='secondary' type='button' onClick={ handleSwitchForm }>Already a member</Button>
           <div className="flex gap-2">
             <Button buttonType='primary' type='button' onClick={ closeForm }>Cancel</Button>
-            <Button buttonType='cta' disabled={isLoading}>Sign Up</Button>
+            <Button buttonType='cta' disabled={isLoading || !!selectedUser}>Sign Up</Button>
           </div>
         </div>
       </form>

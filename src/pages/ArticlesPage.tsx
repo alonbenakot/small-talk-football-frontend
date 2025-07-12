@@ -53,7 +53,7 @@ const ArticlesPage = () => {
 
         <div className="absolute left-0">
           <ProtectedButton
-            onClick={ () => console.log('loggedIn') }
+            onClick={ () => navigate("post-article") }
             buttonType="cta"
           >
             Post Article
