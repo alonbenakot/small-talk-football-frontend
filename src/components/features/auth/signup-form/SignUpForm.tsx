@@ -10,7 +10,7 @@ import User from "../models/User.ts";
 import { signUp } from "../../../../utils/api/http.ts";
 import Spinner from "../../../ui/spinner/Spinner.tsx";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 
 type FormData = SignUpInput;
@@ -27,13 +27,17 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       priorFootballKnowledge: false,
     }
   });
+  const hasDispatchedLogin = useRef(false);
+
 
   useEffect(() => {
-    if (fetchedData && !error) {
-      dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt})
+    if (!hasDispatchedLogin.current && fetchedData && !error) {
+      dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
       closeForm();
+      hasDispatchedLogin.current = true;
     }
-  }, [fetchedData, closeForm, error, dispatchLogin]);
+  }, [fetchedData, error, closeForm, dispatchLogin]);
+
 
   const onSubmit = async (data: FormData) => {
     await invokeSignUpApi(data);

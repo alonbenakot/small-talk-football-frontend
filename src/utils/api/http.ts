@@ -7,16 +7,17 @@ import ArticleModel from "../../components/features/articles/models/ArticleModel
 import jwtAxios from "./jwtAxios.ts";
 
 
-const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
-const SIGN_UP_URL = import.meta.env.VITE_SIGNUP_URL;
-const CATEGORIES_URL = import.meta.env.VITE_CATEGORIES_URL;
-const CHEAT_CARDS_URL = import.meta.env.VITE_CHEAT_CARDS_URL;
-const PUBLISHED_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PUBLISHED_URL;
-const PENDING_ARTICLES_URL = import.meta.env.VITE_ARTICLES_PENDING_URL;
-const PUBLISH_ARTICLE_URL = import.meta.env.VITE_PUBLISH_ARTICLE_URL;
-const REMOVE_ARTICLE_URL = import.meta.env.VITE_REMOVE_ARTICLE_URL;
-const BASE_ARTICLES_URL = import.meta.env.VITE_BASE_ARTICLE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const LOGIN_URL = `${BASE_URL}users/login`;
+const SIGN_UP_URL = `${BASE_URL}users/signup`;
+const CATEGORIES_URL = `${BASE_URL}small-infos/categories`;
+const CHEAT_CARDS_URL = `${BASE_URL}small-infos`;
+const PUBLISHED_ARTICLES_URL = `${BASE_URL}articles/published`;
+const PENDING_ARTICLES_URL = `${BASE_URL}articles/pending`;
+const PUBLISH_ARTICLE_URL = `${BASE_URL}articles/publish`;
+const REMOVE_ARTICLE_URL = `${BASE_URL}articles/remove`;
+const BASE_ARTICLES_URL = `${BASE_URL}articles`;
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
 
 export const signUp = async (signUpInput: SignUpInput) => {

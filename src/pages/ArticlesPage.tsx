@@ -60,7 +60,7 @@ const ArticlesPage = () => {
           </ProtectedButton>
         </div>
 
-        { (selectedUser?.userIndications.pendingArticles || filter === 'pending') && (
+        { (selectedUser?.userIndications?.pendingArticles || filter === 'pending') && (
           <motion.div
             className="absolute right-0"
             initial={ {opacity: 0, x: 10} }

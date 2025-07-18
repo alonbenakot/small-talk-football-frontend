@@ -12,7 +12,7 @@ const getLinkStyle = ({isActive}: { isActive: boolean }) => {
 
 const Header = () => {
   const {selectedUser} = useAuthStore();
-  const isPendingArticle = selectedUser?.userIndications.pendingArticles;
+  const isPendingArticle = selectedUser?.userIndications?.pendingArticles;
 
   return (
     <header>
