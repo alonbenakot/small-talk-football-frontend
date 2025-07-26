@@ -9,6 +9,7 @@ import { articleLoader } from "./loaders/ArticleLoader.ts";
 import { homeLoader } from "./loaders/HomeLoader.ts";
 import AddArticle from "../components/features/articles/AddArticle.tsx";
 import NotFoundPage from "../pages/NotFoundPage.tsx";
+import About from "../pages/AboutPage.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -21,6 +22,7 @@ const routes = createBrowserRouter([{
     {path: "articles", element: <ArticlesPage/>, loader: articlesLoader},
     {path: "articles/:id", element: <ArticleView/>, loader: articleLoader},
     {path: "articles/post-article", element: <AddArticle/>},
+    {path: "about", element: <About/>},
     {path: "*", element: <NotFoundPage/>},
   ],
 }]);
