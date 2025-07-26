@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userSlice, { login, logout } from "./user-slice.ts";
+import userSlice, { login, logout, triggerPendingArticleIndication } from "./user-slice.ts";
 import langSlice, { toggleLang } from "./lang-slice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import Lang from "../components/features/language/Lang.ts";
@@ -36,7 +36,10 @@ export const useAuthStore = () => {
   const dispatchLogout = () => {
     dispatch(logout());
   }
+  const dispatchTriggerArticleInd = (isPendingArticles: boolean) => {
+    dispatch(triggerPendingArticleIndication(isPendingArticles));
+  }
 
-  return {selectedUser, dispatchLogin, dispatchLogout};
+  return {selectedUser, dispatchLogin, dispatchLogout, dispatchTriggerArticleInd};
 }
 

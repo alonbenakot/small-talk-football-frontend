@@ -6,7 +6,7 @@ import CheatCardsByCategories
 import CheatCard from "../components/features/cheat-cards/cheat-card/CheatCard.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
-import Loader from "../components/ui/loader/Loader.tsx";
+import Spinner from "../components/ui/spinner/Spinner.tsx";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { motion } from "motion/react";
 
@@ -84,17 +84,17 @@ const CheatCardsPage = () => {
 
     return (
       <motion.div
-        className="min-h-screen flex flex-col items-center px-4 py-2"
+        className="flex flex-col items-center px-4 py-2"
         initial={ {opacity: 0, y: 20} }
         animate={ {opacity: 1, y: 0} }
         exit={ {opacity: 0, y: -20} }
         transition={ {duration: 0.4} }
       >
-        <h1 className="text-3xl font-bold mb-3 text-center">Cheat Cards</h1>
+        <h1 className="text-3xl text-slate-300 font-bold mb-3 text-center">Cheat Cards</h1>
 
         { (isCheatCardsLoading || isCategoriesLoading) && (
           <div className="flex justify-center items-center w-full h-40">
-            <Loader/>
+            <Spinner/>
           </div>
         ) }
 

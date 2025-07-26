@@ -8,7 +8,7 @@ import User from "../models/User.ts";
 import useApi from "../../../../utils/hooks/use-api.ts";
 import { login } from "../../../../utils/api/http.ts";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
-import Loader from "../../../ui/loader/Loader.tsx";
+import Spinner from "../../../ui/spinner/Spinner.tsx";
 import { useEffect } from "react";
 import { LoginInput } from "../../../../utils/api/api-inputs.ts";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
@@ -16,7 +16,7 @@ import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 type FormData = LoginInput;
 
 const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
-    const {dispatchLogin} = useAuthStore();
+    const {dispatchLogin, selectedUser} = useAuthStore();
     const {isLoading, error, fetchedData, invokeApi: invokeLoginApi} = useApi<User, LoginInput>(login);
     const {register, handleSubmit, formState: {errors},} = useForm<FormData>({
       defaultValues: {
@@ -46,8 +46,9 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       >
         <form onSubmit={ handleSubmit(onSubmit) }>
           <h1 className="mb-2 font-medium">Login</h1>
+          { selectedUser && <ErrorBlock title="You are already logged in" message="Let's not overcomplicate things."/> }
           { error && <ErrorBlock title="Failed to Login" message={ error }/> }
-          { isLoading && <Loader/> }
+          { isLoading && <Spinner/> }
 
           <Input
             label="Email"
@@ -64,17 +65,17 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
             error={ errors.email?.message }
           />
 
-            <PasswordInput
-              placeholder="123456"
-              { ...register("password", {
-                required: "Don't be afraid to give us your password.",
-                minLength: {
-                  value: 6,
-                  message: "No way your password has less than 6 characters.",
-                },
-              }) }
-              error={ errors.password?.message }
-            />
+          <PasswordInput
+            placeholder="123456"
+            { ...register("password", {
+              required: "Don't be afraid to give us your password.",
+              minLength: {
+                value: 6,
+                message: "No way your password has less than 6 characters.",
+              },
+            }) }
+            error={ errors.password?.message }
+          />
 
           <div className="flex justify-between">
             <Button buttonType="secondary" type="button" onClick={ handleSwitchForm }>
@@ -84,7 +85,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
               <Button buttonType="primary" type="button" onClick={ closeForm }>
                 Cancel
               </Button>
-              <Button buttonType="cta" type="submit" disabled={ isLoading }>
+              <Button buttonType="cta" type="submit" disabled={ isLoading || !!selectedUser}>
                 Login
               </Button>
             </div>

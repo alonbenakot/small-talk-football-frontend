@@ -10,3 +10,9 @@ export interface SignUpInput {
   password: string,
   priorFootballKnowledge: boolean,
 }
+
+export interface AddArticleInput {
+  title: string,
+  author: string,
+  text: string,
+}

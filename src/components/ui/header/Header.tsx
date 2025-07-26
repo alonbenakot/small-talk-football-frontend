@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import AuthArea from "../../features/auth/auth-area/AuthArea.tsx";
 import LanguageDropDown from "../language-drop-down/LanguageDropDown.tsx";
+import { useAuthStore } from "../../../store/store.ts";
+import { NotepadText } from "lucide-react";
 
 
 const getLinkStyle = ({isActive}: { isActive: boolean }) => {
@@ -9,6 +11,9 @@ const getLinkStyle = ({isActive}: { isActive: boolean }) => {
 }
 
 const Header = () => {
+  const {selectedUser} = useAuthStore();
+  const isPendingArticle = selectedUser?.userIndications?.pendingArticles;
+
   return (
     <header>
       <nav className="flex items-center justify-between p-4 shadow-md bg-zinc-800 h-16">
@@ -25,9 +30,17 @@ const Header = () => {
                 Home
               </NavLink>
             </li>
-            <li
-              className="border-emerald-600 hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/articles">Articles</NavLink>
+            <li className="hover:text-emerald-600 cursor-pointer">
+              <NavLink to="/articles">
+                { ({isActive}) => (
+                  <span className={ `flex items-center ${ getLinkStyle({isActive}) }` }>
+                    Articles
+                    { isPendingArticle && (
+                      <NotepadText className="w-4 h-4 ml-1 text-emerald-500"/>
+                    ) }
+                  </span>
+                ) }
+              </NavLink>
             </li>
             <li className="hover:text-emerald-600 cursor-pointer">
               <NavLink to="/cheat-cards" className={ getLinkStyle }>

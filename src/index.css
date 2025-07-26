@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .link {
-    @apply text-blue-600 hover:underline;
+    @apply text-blue-700 hover:underline;
 }
 
 

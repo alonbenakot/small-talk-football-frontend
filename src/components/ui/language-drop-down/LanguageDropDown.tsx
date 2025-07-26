@@ -4,6 +4,7 @@ import Lang from "../../features/language/Lang.ts";
 import useOutsideClick from "../../../utils/hooks/outside-click.tsx";
 import { useState } from "react";
 import Notification from "../modals/Notification.tsx";
+import Button from "../button/Button.tsx";
 
 const chineseMsg = "The Chinese language is not supported at this time, nor do we have any plans to support it in the future."
 
@@ -37,7 +38,7 @@ const LanguageDropDown = () => {
       </button>
 
       { isOpen &&
-        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white shadow-lg rounded">
+        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white shadow-lg rounded z-50">
 
           <div className="hover:bg-gray-200 rounded-t">
             <button
@@ -76,7 +77,11 @@ const LanguageDropDown = () => {
           isModalOpen={ isChinese }
           onClose={ () => setIsChinese(false) }
           title="Error - Not English!"
-          text={ chineseMsg }/>
+          text={ chineseMsg }>
+          <Button buttonType="primary" onClick={ () => setIsChinese(false) }>
+            Sorry
+          </Button>
+        </Notification>
       }
 
     </div>

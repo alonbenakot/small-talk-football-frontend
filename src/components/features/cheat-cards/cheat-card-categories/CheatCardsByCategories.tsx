@@ -36,7 +36,7 @@ const CheatCardsByCategories = ({categories, cheatCards, selectedCard}: Props) =
   }
 
   return (
-    <aside className="relative flex flex-col items-center justify-center rounded-xl border border-gray-200 shadow-sm">
+    <aside className="relative flex flex-col items-center justify-center bg-slate-200 rounded-xl border border-gray-600 shadow-sm">
       <h3
         className="relative overflow-hidden whitespace-nowrap mb-1 px-3 py-2 text-md font-bold flex items-center justify-between bg-zinc-800 w-full rounded-t-xl">
         <button

@@ -8,15 +8,15 @@ import useApi from "../../../../utils/hooks/use-api.ts";
 import { SignUpInput } from "../../../../utils/api/api-inputs.ts";
 import User from "../models/User.ts";
 import { signUp } from "../../../../utils/api/http.ts";
-import Loader from "../../../ui/loader/Loader.tsx";
+import Spinner from "../../../ui/spinner/Spinner.tsx";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 
 type FormData = SignUpInput;
 
 const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
-  const {dispatchLogin} = useAuthStore();
+  const {dispatchLogin, selectedUser} = useAuthStore();
   const {isLoading, error, fetchedData, invokeApi: invokeSignUpApi} = useApi<User, SignUpInput>(signUp);
   const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
@@ -27,13 +27,17 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       priorFootballKnowledge: false,
     }
   });
+  const hasDispatchedLogin = useRef(false);
+
 
   useEffect(() => {
-    if (fetchedData && !error) {
-      dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt})
+    if (!hasDispatchedLogin.current && fetchedData && !error) {
+      dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
       closeForm();
+      hasDispatchedLogin.current = true;
     }
-  }, [fetchedData, closeForm, error, dispatchLogin]);
+  }, [fetchedData, error, closeForm, dispatchLogin]);
+
 
   const onSubmit = async (data: FormData) => {
     await invokeSignUpApi(data);
@@ -46,7 +50,8 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       className="w-full max-w-md mx-auto absolute top-20 max-h-[80vh] overflow-y-auto">
       <form onSubmit={ handleSubmit(onSubmit) }>
         <h2 className="mb-2 font-medium">Sign Up</h2>
-        { isLoading && <Loader/> }
+        { isLoading && <Spinner/> }
+        { selectedUser && <ErrorBlock title="You are already logged in" message="Let's not overcomplicate things."/> }
         { error && <ErrorBlock title="SignUp Error" message={ error }/> }
 
         <Input
@@ -95,7 +100,7 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
           <Button buttonType='secondary' type='button' onClick={ handleSwitchForm }>Already a member</Button>
           <div className="flex gap-2">
             <Button buttonType='primary' type='button' onClick={ closeForm }>Cancel</Button>
-            <Button buttonType='cta' disabled={isLoading}>Sign Up</Button>
+            <Button buttonType='cta' disabled={isLoading || !!selectedUser}>Sign Up</Button>
           </div>
         </div>
       </form>

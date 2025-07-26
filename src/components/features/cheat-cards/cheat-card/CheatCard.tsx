@@ -34,7 +34,7 @@ const CheatCard = ({title, subtitle, infoTexts, onNext, onPrev, isFirst, isLast}
   return (
     <AnimatePresence mode="popLayout">
       <motion.article
-        className="shadow-sm rounded-xl border border-gray-200 max-w-3xl"
+        className="shadow-sm rounded-xl border bg-slate-200 border-gray-600 max-w-3xl"
         variants={ containerVariants }
         initial="hidden"
         animate="show"
