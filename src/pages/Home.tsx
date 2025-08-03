@@ -77,9 +77,9 @@ const Home = () => {
         >
           <p>
             With our{" "}
-            <Link to="../one-liners" className="link">
-              One Liners
-            </Link>{" "}
+            {/*<Link to="../one-liners" className="link">*/}
+             soon to be released One Liners {" "}
+            {/*</Link>{" "}*/}
             feature, you’ll get a quick summary of last night's games, complete with a one-liner to impress your
             friends. For example, if Manchester City had a goal disallowed for{" "}
             <Link to={ `../cheat-cards/${cheatCards.data.find(card => formatParams(card.title) === 'offside')?.id}` } className="link">

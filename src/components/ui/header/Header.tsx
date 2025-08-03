@@ -47,11 +47,11 @@ const Header = () => {
                 Cheat Cards
               </NavLink>
             </li>
-            <li className="hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/one-liners" className={ getLinkStyle }>
-                One-Liners
-              </NavLink>
-            </li>
+            {/*<li className="hover:text-emerald-600 cursor-pointer">*/}
+            {/*  <NavLink to="/one-liners" className={ getLinkStyle }>*/}
+            {/*    One-Liners*/}
+            {/*  </NavLink>*/}
+            {/*</li>*/}
             <li className="hover:text-emerald-600 cursor-pointer">
               <NavLink to="/about" className={ getLinkStyle }>
                 About
