@@ -3,7 +3,7 @@ const About = () => {
     <main className="max-w-5xl mx-auto p-6 mt-10 space-y-10">
       <section className="bg-white rounded-2xl shadow-lg p-4 flex flex-col md:flex-row items-center gap-6">
         <img
-          src="/public/AlonProfile.png"
+          src="/AlonProfile.png"
           alt="Alon Benakot"
           className="w-40 h-40 rounded-full object-cover border-4 border-gray-200 shadow-sm"
         />
