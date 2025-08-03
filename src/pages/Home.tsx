@@ -59,7 +59,7 @@ const Home = () => {
         {sections.map((type) => (
           <motion.p
             key={type}
-            className="bg-gray-200 p-4 border-l-4 border-gray-900 rounded-lg shadow-sm"
+            className="bg-gray-200 p-4 rounded-lg shadow-sm"
             variants={itemVariants}
           >
             <HomeSectionBlock
@@ -72,7 +72,7 @@ const Home = () => {
         ))}
 
         <motion.div
-          className="p-5 border-l-4 border-gray-900 bg-gray-100 rounded-lg"
+          className="p-5 bg-gray-100 rounded-lg"
           variants={itemVariants}
         >
           <p>
