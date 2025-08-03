@@ -16,47 +16,49 @@ const About = () => {
       </section>
 
       <section className="bg-white rounded-2xl shadow-md p-4 space-y-4">
-        <h2 className="text-2xl font-semibold text-gray-800">How It All Started</h2>
+        <h2 className="text-xl font-semibold text-gray-800">How It All Started</h2>
         <p className="text-gray-700">
-          I was born and raised a normal person with normal hobbies. At no point was I ever interested in watching other
-          people play a game. If it looks fun I'll play it, but watching other people play? Boring. My wife thought
+          I was raised as a normal person with normal hobbies. At no point was I ever interested in watching people
+          kicking a ball. My wife thought
           differently. With both her parents hailing from Manchester, she grew up with football. Our first date was in a
-          sports bar and I had to compete for her attention with the football game playing in the background. Years
-          before I became a football fan myself i had to master the art of making small talk with people who actually
+          sports bar and I had to compete for her attention with the football game in the background. Years
+          before I became a football fan myself I had to master the art of making small talk with people who actually
           new what an offside is.
         </p>
         <p className="text-gray-700">
-          But I noticed something: if you haven't become a fan by the age of around 15 - you're going to have a hard
+          But if you haven't become a fan by the age of around 15 - you're going to have a hard
           time understanding what's going on. There is a whole lot of discourse that you aren't a part of.
-          There’s lingo, history, and culture that can feel overwhelming for newcomers. There are things that even I
-          don't understand yet - why is a grown up man taking his shirt off during work? If someone did that in an
-          office he would be fired.
+          There’s lingo, history, and culture that as a newcomer just seems bizarre. I still cant figure
+          out why a grown man takes his shirt off after accomplishing a work-related mission. I never did that at
+          the office.
         </p>
       </section>
 
       <section className="bg-white rounded-2xl shadow-md p-4 space-y-4">
-        <h2 className="text-2xl font-semibold text-gray-800">What is SmallTalkFootball?</h2>
+        <h2 className="text-xl font-semibold text-gray-800">What is SmallTalkFootball?</h2>
         <p className="text-gray-700">
-          SmallTalkFootball is a beginner-friendly platform that helps football "noobs" feel confident joining football
-          conversations — whether it’s at the office, the bar, or the dinner table.
+          Were you ever sitting down for a quiet lunch and the whole table is talking about "last night's game"? Have
+          you ever been stuck in an elevator football conversation? There is no one more left out than a normal person
+          around football fans.
         </p>
         <p className="text-gray-700">
-          With cheat cards, simplified articles, and quick facts, you’ll always have something to say — even if you’ve
+          SmallTalkFootball is a beginner-friendly platform that helps football "noobs" feel confident joining
+          conversations — whether it's at the office, the bar, or the dinner table.
+          With cheat cards, simplified articles, and quick facts, you'll always have something to say — even if you've
           never kicked a ball in your life.
         </p>
       </section>
 
       <section className="bg-white rounded-2xl shadow-md p-4 space-y-4">
-        <h2 className="text-2xl font-semibold text-gray-800">About Me as a Developer</h2>
+        <h2 className="text-xl font-semibold text-gray-800">About Me as a Developer</h2>
         <p className="text-gray-700">
           I'm a full-stack developer with a focus on Java, Spring, React and TypeScript. I love building tools that make
           people feel more informed, confident, and included — whether they’re learning to code or joining a football
           chat.
         </p>
         <p className="text-gray-700">
-          This site is built with a modern stack: React + Vite + Tailwind on the frontend, backed by a Java Spring Boot
-          API. I’m actively looking for opportunities where I can contribute, learn, and build products that make a real
-          difference.
+          This site is built with a modern stack: Java, Spring Boot, MongoDb
+          for the backend and React, Vite, Tailwind for the frontend .
         </p>
       </section>
     </main>
