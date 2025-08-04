@@ -39,7 +39,7 @@ const Home = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <h1 className="text-3xl font-bold text-center text-slate-300 mb-6">
-        Small Talk Football ⚽ <br /> Make Small Talk Like a Pro
+        Make Small Talk Like a Fan
       </h1>
 
       {isSignUpButtonClicked && (
