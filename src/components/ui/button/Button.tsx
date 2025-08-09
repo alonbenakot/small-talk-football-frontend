@@ -4,7 +4,7 @@ export type ButtonProps = {
   buttonType: 'cta' | 'primary' | 'secondary';
 } & ComponentPropsWithoutRef<'button'>;
 
-const Button = ({children, buttonType, ...props}: ButtonProps) => {
+const Button = ({children, buttonType, className: customClassName, ...props}: ButtonProps) => {
   let className = 'text-white rounded-lg transition duration-300 cursor-pointer';
 
   if (buttonType === 'primary') {
@@ -19,8 +19,11 @@ const Button = ({children, buttonType, ...props}: ButtonProps) => {
     className += ' bg-emerald-500 px-4 py-2 hover:bg-slate-300 hover:text-emerald-600';
   }
 
+  // Merge custom className if provided
+  const finalClassName = customClassName ? `${className} ${customClassName}` : className;
+
   return (
-    <button className={ className } { ...props }>{ children }</button>
+    <button className={ finalClassName } { ...props }>{ children }</button>
   )
 }
 export default Button;

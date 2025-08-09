@@ -10,6 +10,7 @@ import { homeLoader } from "./loaders/HomeLoader.ts";
 import AddArticle from "../components/features/articles/AddArticle.tsx";
 import NotFoundPage from "../pages/NotFoundPage.tsx";
 import About from "../pages/AboutPage.tsx";
+import { cheatCardsLoader } from "./loaders/CheatCardLoader.ts";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -17,8 +18,7 @@ const routes = createBrowserRouter([{
   children: [
     {index: true, element: <Home/>, loader: homeLoader},
     {path: "home", element: <Navigate to="/" replace/>},
-    {path: "cheat-cards", element: <CheatCardsPage/>},
-    {path: "cheat-cards/:id", element: <CheatCardsPage/>},
+    {path: "cheat-cards/:id?", element: <CheatCardsPage/>, loader: cheatCardsLoader},
     {path: "articles", element: <ArticlesPage/>, loader: articlesLoader},
     {path: "articles/:id", element: <ArticleView/>, loader: articleLoader},
     {path: "articles/post-article", element: <AddArticle/>},

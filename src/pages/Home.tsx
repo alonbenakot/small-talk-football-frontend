@@ -10,7 +10,7 @@ import { formatParams } from "../utils/FormatUtil.ts";
 const Home = () => {
   const { selectedLang } = useLangStore();
   const [isSignUpButtonClicked, setIsSignUpButtonClicked] = useState(false);
-  const { articles, cheatCards }: HomeLoaderOutput = useLoaderData();
+  const { articles, cheatCards }: HomeLoaderOutput = useLoaderData<HomeLoaderOutput>();
 
   const offsideOneliner = selectedLang === "british"
     ? "Haaland didn't do no fucking offside, did he?! That judge was a bloody fucking wanker if you ask me."

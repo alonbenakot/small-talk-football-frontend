@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import useApi from "../utils/hooks/use-api.ts";
-import { getCheatCardCategories, getCheatCards } from "../utils/api/http.ts";
 import CheatCardsByCategories
   from "../components/features/cheat-cards/cheat-card-categories/CheatCardsByCategories.tsx";
 import CheatCard from "../components/features/cheat-cards/cheat-card/CheatCard.tsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
-import Spinner from "../components/ui/spinner/Spinner.tsx";
 import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { motion } from "motion/react";
+import { CheatCardsPageLoaderOutput } from "../routes/loaders/CheatCardLoader.ts";
 
 type CheatCardParams = { id?: string };
 const ERROR_TITLE = "Cheat Cards Error";
@@ -18,26 +16,7 @@ const CheatCardsPage = () => {
     const {id} = useParams<CheatCardParams>();
     const [selectedCheatCard, setSelectedCheatCard] = useState<CheatCardModel | undefined>();
     const navigate = useNavigate();
-    const {
-      fetchedData: categories,
-      isLoading: isCategoriesLoading,
-      error: categoriesError,
-      invokeApi: invokeCategoriesApi
-    } = useApi<string[]>(getCheatCardCategories);
-    const {
-      fetchedData: cheatCards,
-      isLoading: isCheatCardsLoading,
-      error: cheatCardsError,
-      invokeApi: invokeCheatCardsApi
-    } = useApi<CheatCardModel[]>(getCheatCards);
-
-    // fetch data
-    useEffect(() => {
-      const fetchData = async () => {
-        await Promise.all([invokeCategoriesApi(), invokeCheatCardsApi()]);
-      };
-      fetchData();
-    }, [invokeCategoriesApi, invokeCheatCardsApi]);
+  const { categories, cheatCards }: CheatCardsPageLoaderOutput = useLoaderData<CheatCardsPageLoaderOutput>();
 
     // handle cheatCards changes
     useEffect(() => {
@@ -48,8 +27,7 @@ const CheatCardsPage = () => {
       }
     }, [cheatCards, id]);
 
-    const allApiCallsOk = !isCheatCardsLoading && !isCategoriesLoading
-      && !cheatCardsError && !categoriesError;
+    const allApiCallsOk = !cheatCards.error && !categories.error;
 
     const isFirst = (): boolean => {
       if (cheatCards?.data && selectedCheatCard) {
@@ -92,13 +70,7 @@ const CheatCardsPage = () => {
       >
         <h1 className="text-3xl text-slate-300 font-bold mb-3 text-center">Cheat Cards</h1>
 
-        { (isCheatCardsLoading || isCategoriesLoading) && (
-          <div className="flex justify-center items-center w-full h-40">
-            <Spinner/>
-          </div>
-        ) }
-
-        { (cheatCardsError || categoriesError) && (
+        { (cheatCards.error || categories.error) && (
           <div className="flex justify-center items-center w-full h-40">
             <ErrorBlock title={ ERROR_TITLE } message={ ERROR_MSG }/>
           </div>
