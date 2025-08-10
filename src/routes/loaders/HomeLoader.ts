@@ -1,54 +1,31 @@
 import { getPublishedArticles, getCheatCards } from "../../utils/api/http";
 import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 import CheatCardModel from "../../components/features/cheat-cards/models/CheatCardModel.ts";
+import { handleLoaderApiCall } from "../../utils/api/api-utils.ts";
 
-export type ArticleLoaderOutput = {
+export type ArticleData = {
   data: ArticleModel[];
   error: string | null;
-  loading: boolean;
 };
 
-export type CheatCardLoaderOutput = {
+export type CheatCardData = {
   data: CheatCardModel[];
   error: string | null;
-  loading: boolean;
 };
 
 export type HomeLoaderOutput = {
-  articles: ArticleLoaderOutput;
-  cheatCards: CheatCardLoaderOutput;
+  articles: ArticleData;
+  cheatCards: CheatCardData;
 };
 
 export const homeLoader = async (): Promise<HomeLoaderOutput> => {
-  const [articlesResult, cheatCardsResult] = await Promise.allSettled([
-    (async () => {
-      try {
-        const data = await getPublishedArticles();
-        return { data: data.data, error: null, loading: false };
-      } catch (err: unknown) {
-        let errorMessage = "Failed to load articles";
-        if (err instanceof Error) {
-          errorMessage = err.message;
-        }
-        return { data: [], error: errorMessage, loading: false };
-      }
-    })(),
-    (async () => {
-      try {
-        const data = await getCheatCards();
-        return { data: data.data, error: null, loading: false };
-      } catch (err: unknown) {
-        let errorMessage = "Failed to load cheat cards";
-        if (err instanceof Error) {
-          errorMessage = err.message;
-        }
-        return { data: [], error: errorMessage, loading: false };
-      }
-    })(),
+  const [articles, cheatCards] = await Promise.all([
+    handleLoaderApiCall(getPublishedArticles, "Failed to load articles", [] as ArticleModel[]),
+    handleLoaderApiCall(getCheatCards, "Failed to load cheat cards", [] as CheatCardModel[])
   ]);
 
   return {
-    articles: articlesResult.status === "fulfilled" ? articlesResult.value : { data: [], error: "Failed to load articles", loading: false },
-    cheatCards: cheatCardsResult.status === "fulfilled" ? cheatCardsResult.value : { data: [], error: "Failed to load cheat cards", loading: false },
+    articles,
+    cheatCards,
   };
 };

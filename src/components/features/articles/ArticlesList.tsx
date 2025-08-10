@@ -4,7 +4,7 @@ import ArticleModel from "./models/ArticleModel.ts";
 import { motion } from "framer-motion";
 
 type Props = {
-  articles: ArticleModel[] | undefined
+  articles: ArticleModel[] | undefined;
 };
 
 const containerVariants = {
@@ -23,14 +23,14 @@ const itemVariants = {
 
 const ArticlesList = ({ articles }: Props) => {
   return (
-    <div className="px-4 py-6">
+    <div className="py-4 sm:py-6">
       <motion.ul
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {articles?.map((article: ArticleModel) => (
+        {articles?.map((article) => (
           <motion.li
             key={article.id}
             className="rounded-2xl shadow-md"
@@ -38,13 +38,13 @@ const ArticlesList = ({ articles }: Props) => {
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <Link to={`${article.id}`}>
-            <ArticleCard
-              id={article.id}
-              title={article.title}
-              author={article.author}
-              text={article.text}
-              published={article.published}
-            />
+              <ArticleCard
+                id={article.id}
+                title={article.title}
+                author={article.author}
+                text={article.text}
+                published={article.published}
+              />
             </Link>
           </motion.li>
         ))}

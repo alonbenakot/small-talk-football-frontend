@@ -16,14 +16,14 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="flex items-center justify-between p-4 shadow-md bg-zinc-800 h-16">
+      <nav className="flex flex-col md:flex-row md:items-center md:justify-between p-4 shadow-md bg-zinc-800 gap-2">
         <div className="flex items-center gap-4">
 
           <span className="text-2xl font-bold text-emerald-600">
             <NavLink to="/">Small Talk Football</NavLink>
           </span>
 
-          <ul className="flex gap-6 ml-4 text-slate-300">
+          <ul className="hidden md:flex gap-6 ml-4 text-slate-300">
             <li
               className="hover:text-emerald-600 cursor-pointer">
               <NavLink to="/" className={ getLinkStyle }>
@@ -59,9 +59,11 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <div className="flex items-center gap-4">
-          <AuthArea/>
-          <LanguageDropDown/>
+        <div className="flex items-center w-full md:w-auto gap-4">
+          <AuthArea />
+          <div className="ml-auto">
+            <LanguageDropDown />
+          </div>
         </div>
       </nav>
     </header>

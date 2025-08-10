@@ -1,6 +1,6 @@
 import LoginForm from "../login-form/LoginForm.tsx";
 import SignUpForm from "../signup-form/SignUpForm.tsx";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export type FormType = 'login' | 'signup';
 
@@ -10,20 +10,23 @@ type Props = {
   setIsOpenModal: (isOpenModal: boolean) => void;
 };
 
-
 const UserForm = ({initialFormType = 'login', isOpenModal, setIsOpenModal}: Props) => {
   const [userFormType, setUserFormType] = useState<FormType>(initialFormType);
 
-  const switchForm = () =>
+  const closeForm = useCallback(() => {
+    setIsOpenModal(false);
+  }, [setIsOpenModal]);
+
+  const switchForm = useCallback(() =>
     setUserFormType((prevState: FormType) =>
-      prevState === 'login' ? 'signup' : 'login');
+      prevState === 'login' ? 'signup' : 'login'), []);
 
   return (
     <>
       { userFormType === 'login' && (
         <LoginForm
           isModalOpen={ isOpenModal }
-          closeForm={ () => setIsOpenModal(false) }
+          closeForm={ closeForm }
           handleSwitchForm={ switchForm }
         />
       ) }
@@ -31,7 +34,7 @@ const UserForm = ({initialFormType = 'login', isOpenModal, setIsOpenModal}: Prop
       { userFormType === 'signup' && (
         <SignUpForm
           isModalOpen={ isOpenModal }
-          closeForm={ () => setIsOpenModal(false) }
+          closeForm={ closeForm }
           handleSwitchForm={ switchForm }
         />
       ) }

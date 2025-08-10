@@ -36,14 +36,14 @@ const ArticlesPage = () => {
 
   return (
     <motion.div
-      className="max-w-5xl mx-auto px-4 py-8 space-y-6"
+      className="max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6"
       initial={ {opacity: 0, y: 20} }
       animate={ {opacity: 1, y: 0} }
       transition={ {duration: 0.4} }
     >
-      <div className="relative mb-6 flex justify-center items-center">
+      <div className="mb-6">
         <motion.h2
-          className="text-3xl font-bold text-slate-300"
+          className="text-2xl sm:text-3xl font-bold text-slate-300 text-center mb-4"
           initial={ {opacity: 0, y: -10} }
           animate={ {opacity: 1, y: 0} }
           transition={ {duration: 0.3, delay: 0.1} }
@@ -51,32 +51,34 @@ const ArticlesPage = () => {
           { `${ formatString(filter) } Articles` }
         </motion.h2>
 
-        <div className="absolute left-0">
-          <ProtectedButton
-            onClick={ () => navigate("post-article") }
-            buttonType="cta"
-          >
-            Post Article
-          </ProtectedButton>
-        </div>
+        <div className="flex justify-center gap-4 sm:grid sm:grid-cols-3 sm:gap-6 sm:items-center">
+          <div className="sm:col-start-1 sm:row-start-1 sm:justify-self-start">
+            <ProtectedButton
+              onClick={ () => navigate("post-article") }
+              buttonType="cta"
+            >
+              Post Article
+            </ProtectedButton>
+          </div>
 
-        { (selectedUser?.userIndications?.pendingArticles || filter === 'pending') && (
-          <motion.div
-            className="absolute right-0"
-            initial={ {opacity: 0, x: 10} }
-            animate={ {opacity: 1, x: 0} }
-            transition={ {duration: 0.3, delay: 0.2} }
-          >
-            <Link to={ `?filter=${ getOppositeFilter(filter) }` }>
-              <Button buttonType="primary">{ buttonText }</Button>
-            </Link>
-          </motion.div>
-        ) }
+          { (selectedUser?.userIndications?.pendingArticles || filter === 'pending') && (
+            <motion.div
+              className="sm:col-start-3 sm:row-start-1 sm:justify-self-end"
+              initial={ {opacity: 0, x: 10} }
+              animate={ {opacity: 1, x: 0} }
+              transition={ {duration: 0.3, delay: 0.2} }
+            >
+              <Link to={ `?filter=${ getOppositeFilter(filter) }` }>
+                <Button buttonType="primary">{ buttonText }</Button>
+              </Link>
+            </motion.div>
+          ) }
+        </div>
       </div>
 
       { error && (
         <motion.div
-          className="flex justify-center items-center w-full h-40"
+          className="flex justify-center items-center w-full h-32 sm:h-40"
           initial={ {opacity: 0} }
           animate={ {opacity: 1} }
           transition={ {duration: 0.3} }

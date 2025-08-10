@@ -25,14 +25,12 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       }
     });
 
-    useEffect(() => {
-        if (fetchedData && !error) {
-          dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
-          closeForm();
-        }
-
-      }, [fetchedData, error, closeForm, dispatchLogin]
-    );
+  useEffect(() => {
+    if (fetchedData && !error && !selectedUser) {
+      dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
+      closeForm();
+    }
+  }, [fetchedData, error, selectedUser, closeForm, dispatchLogin]);
 
     const onSubmit = async (data: FormData) => {
       await invokeLoginApi(data);
@@ -46,7 +44,7 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       >
         <form onSubmit={ handleSubmit(onSubmit) }>
           <h1 className="mb-2 font-medium">Login</h1>
-          { selectedUser && <ErrorBlock title="You are already logged in" message="Let's not overcomplicate things."/> }
+          { selectedUser && !fetchedData && <ErrorBlock title="You are already logged in" message="Let's not overcomplicate things."/> }
           { error && <ErrorBlock title="Failed to Login" message={ error }/> }
           { isLoading && <Spinner/> }
 
