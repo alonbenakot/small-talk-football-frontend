@@ -8,7 +8,7 @@ export default interface CheatCardModel {
   infoCategory: string,
 }
 
-interface InfoText {
+export interface InfoText {
   text: string,
   lang: Lang
 }
