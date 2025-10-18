@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import ArticlesList from "../components/features/articles/ArticlesList.tsx";
 import { useAuthStore } from "../store/store.ts";
-import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { Link, useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { formatString } from "../utils/FormatUtil.ts";
 import { ArticleLoaderOutput } from "../routes/loaders/ArticlesLoader.ts";
@@ -21,7 +20,7 @@ const ArticlesPage = () => {
   const {dispatchTriggerArticleInd} = useAuthStore();
   const filter: ArticleFilter =
     (searchParams.get("filter") as ArticleFilter) || "published";
-  const {data: articles, error} = useLoaderData<ArticleLoaderOutput>();
+  const {data: articles} = useLoaderData<ArticleLoaderOutput>();
   const navigate = useNavigate();
   const buttonText = formatString(getOppositeFilter(filter));
   const hasRunNoPending = useRef(false);
@@ -76,18 +75,7 @@ const ArticlesPage = () => {
         </div>
       </div>
 
-      { error && (
-        <motion.div
-          className="flex justify-center items-center w-full h-32 sm:h-40"
-          initial={ {opacity: 0} }
-          animate={ {opacity: 1} }
-          transition={ {duration: 0.3} }
-        >
-          <ErrorBlock title="Article Error" message={ error }/>
-        </motion.div>
-      ) }
-
-      { !error && articles && (
+      { articles && (
         <motion.div
           initial={ {opacity: 0} }
           animate={ {opacity: 1} }

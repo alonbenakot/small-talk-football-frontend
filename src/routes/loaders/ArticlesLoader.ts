@@ -17,6 +17,10 @@ export const articlesLoader = async ({request}: LoaderFunctionArgs): Promise<Art
 
   const result = await handleLoaderApiCall(articlesApi, errorMessage, [] as ArticleModel[]);
 
+  if (result.error) {
+    throw new Response(result.error, {status: result.statusCode});
+  }
+
   return {
     data: result.data,
     error: result.error

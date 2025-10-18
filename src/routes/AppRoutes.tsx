@@ -11,19 +11,60 @@ import AddArticle from "../components/features/articles/AddArticle.tsx";
 import NotFoundPage from "../pages/NotFoundPage.tsx";
 import About from "../pages/AboutPage.tsx";
 import { cheatCardsLoader } from "./loaders/CheatCardLoader.ts";
+import MatchesPage from "../pages/MatchesPage.tsx";
+import { matchesLoader } from "./loaders/MatchesLoader.ts";
+import ErrorPage from "../pages/ErrorPage.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
   element: <RootLayout/>,
   children: [
-    {index: true, element: <Home/>, loader: homeLoader},
-    {path: "home", element: <Navigate to="/" replace/>},
-    {path: "cheat-cards/:id?", element: <CheatCardsPage/>, loader: cheatCardsLoader},
-    {path: "articles", element: <ArticlesPage/>, loader: articlesLoader},
-    {path: "articles/:id", element: <ArticleView/>, loader: articleLoader},
-    {path: "articles/post-article", element: <AddArticle/>},
-    {path: "about", element: <About/>},
-    {path: "*", element: <NotFoundPage/>},
+    {
+      index: true,
+      element: <Home/>,
+      loader: homeLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "home",
+      element: <Navigate to="/" replace/>
+    },
+    {
+      path: "cheat-cards/:id?",
+      element: <CheatCardsPage/>,
+      loader: cheatCardsLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "articles",
+      element: <ArticlesPage/>,
+      loader: articlesLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "articles/:id",
+      element: <ArticleView/>,
+      loader: articleLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "articles/post-article",
+      element: <AddArticle/>
+    },
+    {
+      path: "matches",
+      element: <MatchesPage/>,
+      loader: matchesLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "about",
+      element: <About/>
+    },
+    {
+      path: "*",
+      element: <NotFoundPage/>
+    },
   ],
 }]);
 

@@ -2,15 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
-import ErrorBlock from "../components/ui/error-block/ErrorBlock.tsx";
 import { CheatCardsPageLoaderOutput } from "../routes/loaders/CheatCardLoader.ts";
 import { formatString } from "../utils/FormatUtil.ts";
 import CheatCardDisplay from "../components/features/cheat-cards/cheat-card-display/CheatCardDisplay.tsx";
 import CheatCardPreviewGrid from "../components/features/cheat-cards/cheat-card-preview-grid/CheatCardPreviewGrid.tsx";
 
 type CheatCardParams = { id?: string };
-const ERROR_TITLE = "Cheat Cards Error";
-const ERROR_MSG = "Hi. We seem to have a problem displaying our cheat cards. If in doubt - blame the referee.";
 
 const CheatCardsPage = () => {
   const {id} = useParams<CheatCardParams>();
@@ -45,7 +42,6 @@ const CheatCardsPage = () => {
     }
   }, [cheatCards, id, categories]);
 
-  const isError = !!cheatCards?.error || !!categories?.error;
   const filteredCards = cheatCards?.data
     ? cheatCards.data.filter((card: CheatCardModel) => card.infoCategory === selectedCategory)
     : [];
@@ -85,21 +81,6 @@ const CheatCardsPage = () => {
       navigate(`/cheat-cards/${ filteredCards[prevIndex].id }`);
     }
   }, [selectedCardIndex, filteredCards, navigate]);
-
-  if (isError) {
-    return (
-      <motion.div
-        className="flex flex-col items-center px-4 py-8"
-        initial={ {opacity: 0, y: 20} }
-        animate={ {opacity: 1, y: 0} }
-        transition={ {duration: 0.4} }
-      >
-        <div className="flex justify-center items-center w-full h-40">
-          <ErrorBlock title={ ERROR_TITLE } message={ ERROR_MSG }/>
-        </div>
-      </motion.div>
-    );
-  }
 
   return (
     <motion.div

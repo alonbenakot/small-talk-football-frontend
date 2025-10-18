@@ -18,6 +18,7 @@ const PENDING_ARTICLES_URL = `${BASE_URL}articles/pending`;
 const PUBLISH_ARTICLE_URL = `${BASE_URL}articles/publish`;
 const REMOVE_ARTICLE_URL = `${BASE_URL}articles/remove`;
 const BASE_ARTICLES_URL = `${BASE_URL}articles`;
+const FIXTURES_URL = `${BASE_URL}fixtures`
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
 
 export const signUp = async (signUpInput: SignUpInput) => {
@@ -75,6 +76,11 @@ export const addArticle = async (addArticleInput: AddArticleInput) => {
 
 export const deleteArticle = async (articleId: string) => {
   const response = await jwtAxios.delete(`${BASE_ARTICLES_URL}/${articleId}`);
+  return response.data;
+}
+
+export const getFixtures = async () => {
+  const response = await axios.get(FIXTURES_URL);
   return response.data;
 }
 

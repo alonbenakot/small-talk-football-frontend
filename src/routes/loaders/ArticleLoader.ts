@@ -19,6 +19,10 @@ export const articleLoader = async ({ request }: LoaderFunctionArgs): Promise<On
     {} as ArticleModel
   );
 
+    if (result.error) {
+      throw new Response(result.error, {status: result.statusCode});
+    }
+
   return {
     data: result.data,
     error: result.error

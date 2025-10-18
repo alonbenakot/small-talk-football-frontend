@@ -48,8 +48,8 @@ const Header = () => {
               </NavLink>
             </li>
             <li className="hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/one-liners" className={ getLinkStyle }>
-                One-Liners
+              <NavLink to="/matches" className={ getLinkStyle }>
+                Matches
               </NavLink>
             </li>
             <li className="hover:text-emerald-600 cursor-pointer">

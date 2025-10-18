@@ -29,6 +29,14 @@ export const cheatCardsLoader = async (): Promise<CheatCardsPageLoaderOutput> =>
     handleLoaderApiCall(getCheatCardCategories, "Failed to load cheat card categories", [] as string[])
   ]);
 
+  if (cheatCards.error) {
+    throw new Response(cheatCards.error, {status: cheatCards.statusCode});
+  }
+
+  if (categories.error) {
+    throw new Response(categories.error, {status: categories.statusCode});
+  }
+
   const result = {cheatCards, categories};
   cache = result;
   return result;
