@@ -14,3 +14,9 @@ export const handleLoaderApiCall = async <T>(
     return {data: fallbackData, error: message, statusCode: 500};
   }
 };
+
+export const extractIdFromUrl = (request: Request) => {
+  const url = new URL(request.url);
+  const pathSegments = url.pathname.split("/");
+  return pathSegments[pathSegments.length - 1];
+}

@@ -14,6 +14,8 @@ import { cheatCardsLoader } from "./loaders/CheatCardLoader.ts";
 import MatchesPage from "../pages/MatchesPage.tsx";
 import { matchesLoader } from "./loaders/MatchesLoader.ts";
 import ErrorPage from "../pages/ErrorPage.tsx";
+import { matchLoader } from "./loaders/MatchLoader.ts";
+import MatchView from "../components/features/matches/MatchView.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -55,6 +57,12 @@ const routes = createBrowserRouter([{
       path: "matches",
       element: <MatchesPage/>,
       loader: matchesLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "matches/:id",
+      element: <MatchView/>,
+      loader: matchLoader,
       errorElement: <ErrorPage/>
     },
     {

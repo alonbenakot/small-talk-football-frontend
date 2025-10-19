@@ -7,7 +7,7 @@ export default interface MatchModel {
   score: Score,
   homeTeam: Team,
   awayTeam: Team,
-  gaols: Goal[],
+  goals: Goal[],
   durationInMinutes: number,
   matchDateTime: Date,
   finished: boolean,

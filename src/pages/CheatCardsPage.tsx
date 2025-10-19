@@ -6,6 +6,7 @@ import { CheatCardsPageLoaderOutput } from "../routes/loaders/CheatCardLoader.ts
 import { formatString } from "../utils/FormatUtil.ts";
 import CheatCardDisplay from "../components/features/cheat-cards/cheat-card-display/CheatCardDisplay.tsx";
 import CheatCardPreviewGrid from "../components/features/cheat-cards/cheat-card-preview-grid/CheatCardPreviewGrid.tsx";
+import SubjectButtons from "../components/ui/subject-buttons/SubjectButtons.tsx";
 
 type CheatCardParams = { id?: string };
 
@@ -104,37 +105,14 @@ const CheatCardsPage = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          className="mb-8"
-          initial={ {y: 20, opacity: 0} }
-          animate={ {y: 0, opacity: 1} }
-          transition={ {duration: 0.6, delay: 0.2} }
-        >
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6">
-            { categories?.data?.map((category: string, index: number) => (
-              <motion.button
-                key={ category }
-                onClick={ () => handleCategoryChange(category) }
-                className={ `px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-all duration-300 ${
-                  selectedCategory === category
-                    ? 'bg-emerald-600 text-white shadow-lg scale-105'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 shadow-md hover:shadow-lg'
-                }` }
-                whileHover={ {scale: 1.05} }
-                whileTap={ {scale: 0.95} }
-                initial={ {opacity: 0, y: 10} }
-                animate={ {opacity: 1, y: 0} }
-                transition={ {duration: 0.4, delay: 0.1 * index} }
-              >
-                { formatString(category) }
-              </motion.button>
-            )) }
-          </div>
+          <SubjectButtons
+            subjects={categories.data}
+            handleSubjectChange={handleCategoryChange}
+            selectedSubject={selectedCategory}/>
 
           <div className="text-center text-slate-400 text-sm">
             { filteredCards.length } cards in { formatString(selectedCategory) }
           </div>
-        </motion.div>
 
         { currentCard && (
           <CheatCardDisplay

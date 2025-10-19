@@ -84,4 +84,9 @@ export const getFixtures = async () => {
   return response.data;
 }
 
+export const getFixture = async (fixtureId: string) => {
+  const response = await axios.get(`${FIXTURES_URL}/${fixtureId}`);
+  return response.data;
+}
+
 
