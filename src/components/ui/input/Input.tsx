@@ -8,13 +8,15 @@ type Props = {
   label: string;
   id: string;
   error?: string;
+  radioValue?: string;
   isError?: boolean;
   checkbox?: boolean;
+  radio?: boolean;
   textarea?: boolean;
 } & (InputProps | TextareaProps);
 
 const Input = forwardRef<unknown, Props>(
-  ({ label, id, error, isError, checkbox, textarea, ...props }, ref) => {
+  ({ label, id, error, isError, checkbox, radio, radioValue, textarea, ...props }, ref) => {
     const inputProps = props as InputProps;
     const textareaProps = props as TextareaProps;
 
@@ -26,6 +28,30 @@ const Input = forwardRef<unknown, Props>(
               ref={ref as React.Ref<HTMLInputElement>}
               id={id}
               type="checkbox"
+              name={id}
+              {...inputProps} // Narrowed to input props only
+              className={`w-3 h-3 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-700 accent-emerald-600 ${
+                error ? 'border-red-400' : ''
+              }`}
+            />
+            <label htmlFor={id} className="ml-2 text-sm font-medium text-gray-700">
+              {label}
+            </label>
+          </div>
+          {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+        </div>
+      );
+    }
+
+    if (radio) {
+      return (
+        <div className="mb-4">
+          <div className="flex items-center">
+            <input
+              ref={ref as React.Ref<HTMLInputElement>}
+              id={id}
+              type="radio"
+              value={radioValue}
               name={id}
               {...inputProps} // Narrowed to input props only
               className={`w-3 h-3 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-700 accent-emerald-600 ${

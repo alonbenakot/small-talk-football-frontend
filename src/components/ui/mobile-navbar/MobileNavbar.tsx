@@ -5,15 +5,15 @@ import {
   Home,
   FileText,
   StickyNote,
-  // MessageSquareQuote,
+  Trophy,
   Info
 } from "lucide-react";
 
 const links = [
   { to: "/", label: "Home", icon: <Home className="w-5 h-5" /> },
   { to: "/articles", label: "Articles", icon: <FileText className="w-5 h-5" /> },
+  { to: "/matches", label: "One-Liners", icon: <Trophy className="w-5 h-5" /> },
   { to: "/cheat-cards", label: "Cheat Cards", icon: <StickyNote className="w-5 h-5" /> },
-  // { to: "/one-liners", label: "One-Liners", icon: <MessageSquareQuote className="w-5 h-5" /> },
   { to: "/about", label: "About", icon: <Info className="w-5 h-5" /> },
 ];
 

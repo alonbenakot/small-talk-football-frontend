@@ -35,7 +35,7 @@ const MatchCard = ({match}: Props) => {
 
   return (
     <div
-      className="flex flex-col m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm border-2 border-transparent hover:border-emerald-600 transition-all duration-100">
+      className="flex flex-col m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm">
       <div className="flex items-center justify-center gap-4 sm:gap-8">
         { team(homeTeam) }
 
