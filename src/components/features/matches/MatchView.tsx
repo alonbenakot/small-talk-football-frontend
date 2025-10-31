@@ -18,7 +18,7 @@ type FormData = {
 const MatchView = () => {
   const {data: match} = useLoaderData<MatchLoaderOutput>();
   const navigate = useNavigate();
-  const {register, handleSubmit, reset,} = useForm<FormData>({
+  const {register, handleSubmit, reset, formState} = useForm<FormData>({
     defaultValues: {
       team: ""
     }
@@ -40,7 +40,7 @@ const MatchView = () => {
 
         <div className="bg-white p-6 rounded-lg shadow-md">
           <form onSubmit={ handleSubmit(onSubmit) }>
-            <h1 className="mb-4 text-xl font-semibold">Choose Your Team and Adjust the Language</h1>
+            <h1 className="mb-4 text-xl font-semibold">Choose a team you support and adjust the language</h1>
 
             <div className="space-y-3 mb-6">
               <div className="flex items-start gap-3">
@@ -75,8 +75,8 @@ const MatchView = () => {
 
             <div className="flex flex-col sm:flex-row justify-between gap-2">
               <div className="flex gap-2">
-                <Button buttonType='primary' type='button' onClick={ () => reset() }>
-                  I regret! I support either team
+                <Button buttonType='primary' type='button' onClick={ () => reset() } disabled={ !formState.isDirty }>
+                  I regret! I don't support either team
                 </Button>
                 <Button buttonType='cta' type='submit'>
                   Generate One-Liner!
