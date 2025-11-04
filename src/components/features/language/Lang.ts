@@ -1,3 +1,4 @@
-type Lang = 'british' | 'american';
-
-export default Lang;
+export enum Lang {
+  BRITISH = 'BRITISH',
+  AMERICAN = 'AMERICAN'
+}

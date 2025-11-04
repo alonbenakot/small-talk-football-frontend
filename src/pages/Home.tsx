@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import HomeSectionBlock from "./HomeSectionBlock.tsx";
 import { HomeLoaderOutput } from "../routes/loaders/HomeLoader.ts";
 import { formatParams } from "../utils/FormatUtil.ts";
+import {Lang} from "../components/features/language/Lang.ts";
 
 const Home = () => {
   const { selectedLang } = useLangStore();
   const [isSignUpButtonClicked, setIsSignUpButtonClicked] = useState(false);
   const { articles, cheatCards }: HomeLoaderOutput = useLoaderData<HomeLoaderOutput>();
 
-  const offsideOneliner = selectedLang === "british"
+  const offsideOneliner = selectedLang === Lang.BRITISH
     ? "Haaland didn't do no fucking offside, did he?! That judge was a bloody fucking wanker if you ask me."
     : "Gosh darn it! Haaland never went behind the defence line! He would never do something like that, bless his soul.";
 
