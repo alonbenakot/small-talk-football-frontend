@@ -1,8 +1,7 @@
+import * as React from 'react';
 import {ComponentPropsWithRef, forwardRef} from 'react';
-import * as React from "react";
 
 type InputProps = ComponentPropsWithRef<'input'>;
-type TextareaProps = ComponentPropsWithRef<'textarea'>;
 
 type Props = {
   label: string;
@@ -13,12 +12,11 @@ type Props = {
   checkbox?: boolean;
   radio?: boolean;
   textarea?: boolean;
-} & (InputProps | TextareaProps);
+} & InputProps;
 
 const Input = forwardRef<unknown, Props>(
-    ({label, id, error, isError, checkbox, radio, radioValue, textarea, ...props}, ref) => {
+    ({label, id, error, isError, checkbox, radio, radioValue, ...props}, ref) => {
       const inputProps = props as InputProps;
-      const textareaProps = props as TextareaProps;
 
       if (checkbox) {
         return (
