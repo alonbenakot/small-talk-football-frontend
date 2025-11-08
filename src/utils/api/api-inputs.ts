@@ -1,5 +1,5 @@
 import {Lang} from "../../components/features/language/Lang.ts";
-import {TeamType} from "../../components/features/matches/models/TeamType.tsx";
+import {TeamType} from "../../components/features/matches/models/MatchModel.ts";
 
 export interface LoginInput {
   email: string,

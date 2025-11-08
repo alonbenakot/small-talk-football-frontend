@@ -6,6 +6,7 @@ import CheatCardModel from "../../components/features/cheat-cards/models/CheatCa
 import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 import jwtAxios from "./jwtAxios.ts";
 import MatchModel from "../../components/features/matches/models/MatchModel.ts";
+import OneLiner from "../../components/features/matches/models/OneLiner.ts";
 
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -93,7 +94,7 @@ export const getFixture = async (fixtureId: string) => {
 
 export const getOneLiner = async (oneLinerInput: OneLinerInput) => {
   const params = {lang: oneLinerInput.lang, teamType: oneLinerInput.teamType};
-  const response = await axios.get<SmallTalkResponse<string>>(`${ONE_LINERS_URL}/${oneLinerInput.matchId}`, {params: params});
+  const response = await axios.get<SmallTalkResponse<OneLiner>>(`${ONE_LINERS_URL}/${oneLinerInput.matchId}`, {params: params});
   return response.data;
 }
 
