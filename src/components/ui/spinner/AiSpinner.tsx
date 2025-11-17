@@ -6,7 +6,6 @@ type Props = {
   isLoading: boolean;
 };
 
-const AiSpinner = ({isLoading}: Props) => {
   const messages = [
     "Analyzing data...",
     "Referencing sources...",
@@ -15,6 +14,8 @@ const AiSpinner = ({isLoading}: Props) => {
     "Kicking...",
     "Goal..."
   ];
+
+const AiSpinner = ({isLoading}: Props) => {
 
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");

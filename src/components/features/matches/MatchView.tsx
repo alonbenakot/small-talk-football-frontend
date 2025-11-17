@@ -11,6 +11,7 @@ import AiSpinner from "../../ui/spinner/AiSpinner.tsx";
 import OneLinerForm, {NEUTRAL, OneLinerFormData} from "./OneLinerForm.tsx";
 import OneLinerResult from "./OneLinerResult.tsx";
 import {useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
 
 const normalizeMatchDate = (match: MatchModel) => ({
   ...match,
@@ -22,7 +23,6 @@ const MatchView = () => {
   const {selectedLang} = useLangStore();
   const [formKey, setFormKey] = useState<number>(0);
   const {isLoading, fetchedData, setFetchedData, invokeApi} = useApi<OneLiner, OneLinerInput>(getOneLiner);
-
 
   const onSubmit = (data: OneLinerFormData) => {
     console.log(data);
@@ -45,39 +45,49 @@ const MatchView = () => {
         <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl">
           <MatchCard match={normalizeMatchDate(match)}/>
 
-          <h3 className="text-lg sm:text-xl font-bold text-slate-300 text-center mb-4">
+          <motion.h3
+              className="text-lg sm:text-xl font-bold text-slate-300 text-center mb-4"
+              initial={{opacity: 0, y: -10}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.4}}
+          >
             Use AI to sound like a proper fan and impress your friends!
-          </h3>
+          </motion.h3>
 
-          {isLoading && (
-              <div className="bg-white p-6 m-2 rounded-lg shadow-md">
-                <AiSpinner isLoading={isLoading}/>
-              </div>
-          )}
+          <AiSpinner isLoading={isLoading}/>
 
           <div className="relative">
-            <div className={`transition-all duration-500 ${
-                hasResult ? 'opacity-0 scale-95 pointer-events-none absolute' : 'opacity-100 scale-100'
-            }`}>
-              <OneLinerForm
-                  key={formKey}
-                  match={match}
-                  isLoading={isLoading}
-                  onSubmit={onSubmit}
-              />
-            </div>
-            <div
-                className={`transition-all duration-500 ${
-                    hasResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute inset-0'
-                }`}
-            >
-              {fetchedData &&
-                  <OneLinerResult
-                      oneLinerText={fetchedData.data.text}
-                      handleStartOver={handleStartOver}
-                  />
+            <AnimatePresence mode="wait">
+              {!hasResult &&
+                  <motion.div
+                      key={`form-${formKey}`}
+                      initial={{opacity: 0, scale: 0.95}}
+                      animate={{opacity: 1, scale: 1}}
+                      exit={{opacity: 0, scale: 0.95}}
+                      transition={{duration: 0.5, ease: "easeInOut"}}
+                  >
+                      <OneLinerForm
+                          match={match}
+                          isLoading={isLoading}
+                          onSubmit={onSubmit}
+                      />
+                  </motion.div>
               }
-            </div>
+              {hasResult && fetchedData &&
+                  <motion.div
+                      key="result"
+                      initial={{opacity: 0, scale: 0.95}}
+                      animate={{opacity: 1, scale: 1}}
+                      exit={{opacity: 0, scale: 0.95}}
+                      transition={{duration: 0.5, ease: "easeInOut"}}
+                  >
+                      <OneLinerResult
+                          oneLinerText={fetchedData.data.text}
+                          handleStartOver={handleStartOver}
+                      />
+                  </motion.div>
+              }
+            </AnimatePresence>
           </div>
         </div>
       </div>
