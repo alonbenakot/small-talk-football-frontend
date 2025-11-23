@@ -1,18 +1,12 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
-import {
-  Home,
-  FileText,
-  StickyNote,
-  Trophy,
-  Info
-} from "lucide-react";
+import {useEffect, useState} from "react";
+import {NavLink} from "react-router-dom";
+import {motion} from "framer-motion";
+import {FileText, Home, Info, StickyNote, Trophy} from "lucide-react";
 
 const links = [
-  { to: "/", label: "Home", icon: <Home className="w-5 h-5" /> },
+  { to: "/home", label: "Home", icon: <Home className="w-5 h-5" /> },
   { to: "/articles", label: "Articles", icon: <FileText className="w-5 h-5" /> },
-  { to: "/matches", label: "One-Liners", icon: <Trophy className="w-5 h-5" /> },
+  { to: "/matches", label: "Matches", icon: <Trophy className="w-5 h-5" /> },
   { to: "/cheat-cards", label: "Cheat Cards", icon: <StickyNote className="w-5 h-5" /> },
   { to: "/about", label: "About", icon: <Info className="w-5 h-5" /> },
 ];

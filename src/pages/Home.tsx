@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
-import { useLangStore } from "../store/store.ts";
+import {useCallback, useState} from "react";
+import {Link, useLoaderData} from "react-router-dom";
+import {useLangStore} from "../store/store.ts";
 import UserForm from "../components/features/auth/user-form/UserForm.tsx";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import HomeSectionBlock from "./HomeSectionBlock.tsx";
-import { HomeLoaderOutput } from "../routes/loaders/HomeLoader.ts";
-import { formatParams } from "../utils/FormatUtil.ts";
+import {HomeLoaderOutput} from "../routes/loaders/HomeLoader.ts";
+import {formatParams} from "../utils/FormatUtil.ts";
 import {Lang} from "../components/features/language/Lang.ts";
 
 const Home = () => {
@@ -79,8 +79,8 @@ const Home = () => {
         >
           <p className="text-gray-800 leading-relaxed whitespace-normal break-words">
             With our{" "}
-            <Link to="../one-liners" className="link">
-              One Liners
+            <Link to="../matches" className="link">
+              Match One-Liner
             </Link>{" "}
             feature, you’ll get a quick summary of last night's games, complete with a one-liner to impress your
             friends. For example, if Manchester City had a goal disallowed for{" "}
