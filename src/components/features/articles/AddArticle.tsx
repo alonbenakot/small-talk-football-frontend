@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import MessageBlock from "../../ui/message-block/MessageBlock.tsx";
 import { useState } from "react";
 import ErrorBlock from "../../ui/error-block/ErrorBlock.tsx";
+import TextArea from "../../ui/text-area/TextArea.tsx";
 
 type FormData = AddArticleInput;
 const SUCCESS_MSG = "Your article was submitted and will be awaiting the approval of an admin.";
@@ -50,7 +51,6 @@ const AddArticle = () => {
           label="Title"
           id="title"
           type="text"
-          // placeholder="yekutiel.cohen@gmail.com"
           { ...register('title', {
             required: 'Title is required',
             minLength: {
@@ -76,11 +76,10 @@ const AddArticle = () => {
           error={ errors.author?.message }
         />
 
-        <Input
+        <TextArea
           label="Article"
           id="text"
-          type="text"
-          textarea
+          rows={15}
           { ...register('text', {
             required: 'You failed to do the basic thing of actually providing an article',
             minLength: {

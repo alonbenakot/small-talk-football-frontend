@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Lang from "../components/features/language/Lang.ts";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Lang} from "../components/features/language/Lang.ts";
 
 type LangState = { lang: Lang }
 
-const initialState: LangState = {lang: 'british'};
+const initialState: LangState = {lang: Lang.BRITISH};
 
 const langSlice = createSlice({
   name: 'lang',

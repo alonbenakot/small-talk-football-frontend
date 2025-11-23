@@ -1,10 +1,10 @@
 import Flag from "react-flagkit";
-import { useLangStore } from "../../../store/store.ts";
-import Lang from "../../features/language/Lang.ts";
+import {useLangStore} from "../../../store/store.ts";
 import useOutsideClick from "../../../utils/hooks/outside-click.tsx";
-import { useState } from "react";
+import {useState} from "react";
 import Notification from "../modals/Notification.tsx";
 import Button from "../button/Button.tsx";
+import {Lang} from "../../features/language/Lang.ts";
 
 const chineseMsg = "The Chinese language is not supported at this time, nor do we have any plans to support it in the future."
 
@@ -34,7 +34,7 @@ const LanguageDropDown = () => {
         className="flex items-center px-4 py-2 text-slate-300 bg-zinc-800 rounded transform transform-400 cursor-pointer hover:bg-zinc-700"
         onClick={ handleDropDownClicked }>
         <span>Language</span>
-        <Flag country={ selectedLang === 'american' ? 'US' : 'GB' } className="mx-2 bg-transparent"/>
+        <Flag country={ selectedLang === Lang.AMERICAN ? 'US' : 'GB' } className="mx-2 bg-transparent"/>
       </button>
 
       { isOpen &&
@@ -43,7 +43,7 @@ const LanguageDropDown = () => {
           <div className="hover:bg-gray-200 rounded-t">
             <button
               className="flex items-center p-2 cursor-pointer"
-              onClick={ () => handleFlagClicked("british") }
+              onClick={ () => handleFlagClicked(Lang.BRITISH) }
             >
               <Flag country="GB" className="mr-2"/>
               British
@@ -53,7 +53,7 @@ const LanguageDropDown = () => {
           <div className="hover:bg-gray-200">
             <button
               className="flex items-center p-2 cursor-pointer hover:bg-gray-200"
-              onClick={ () => handleFlagClicked("american") }
+              onClick={ () => handleFlagClicked(Lang.AMERICAN) }
             >
               <Flag country="US" className="mr-2"/>
               American

@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import AuthArea from "../../features/auth/auth-area/AuthArea.tsx";
 import LanguageDropDown from "../language-drop-down/LanguageDropDown.tsx";
-import { useAuthStore } from "../../../store/store.ts";
-import { NotepadText } from "lucide-react";
+import {useAuthStore} from "../../../store/store.ts";
+import {NotepadText} from "lucide-react";
 
 
 const getLinkStyle = ({isActive}: { isActive: boolean }) => {
@@ -26,7 +26,7 @@ const Header = () => {
           <ul className="hidden md:flex gap-6 ml-4 text-slate-300">
             <li
               className="hover:text-emerald-600 cursor-pointer">
-              <NavLink to="/" className={ getLinkStyle }>
+              <NavLink to="/home" className={ getLinkStyle }>
                 Home
               </NavLink>
             </li>
@@ -47,11 +47,11 @@ const Header = () => {
                 Cheat Cards
               </NavLink>
             </li>
-            {/*<li className="hover:text-emerald-600 cursor-pointer">*/}
-            {/*  <NavLink to="/one-liners" className={ getLinkStyle }>*/}
-            {/*    One-Liners*/}
-            {/*  </NavLink>*/}
-            {/*</li>*/}
+            <li className="hover:text-emerald-600 cursor-pointer">
+              <NavLink to="/matches" className={ getLinkStyle }>
+                Matches
+              </NavLink>
+            </li>
             <li className="hover:text-emerald-600 cursor-pointer">
               <NavLink to="/about" className={ getLinkStyle }>
                 About

@@ -1,4 +1,4 @@
-import Lang from "../../language/Lang.ts";
+import {Lang} from "../../language/Lang.ts";
 
 export default interface CheatCardModel {
   id: string,

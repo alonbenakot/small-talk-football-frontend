@@ -3,8 +3,8 @@ import userSlice, { login, logout, triggerPendingArticleIndication } from "./use
 import langSlice, { toggleLang } from "./lang-slice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react"; // Add this import
-import Lang from "../components/features/language/Lang.ts";
 import User from "../components/features/auth/models/User.ts";
+import {Lang} from "../components/features/language/Lang.ts";
 
 const store = configureStore({
   reducer: {

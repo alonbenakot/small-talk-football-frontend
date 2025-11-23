@@ -1,10 +1,12 @@
 import axios from "axios";
 import User from "../../components/features/auth/models/User.ts";
-import { SmallTalkResponse } from "../../models/small-talk-response.ts";
-import { AddArticleInput, LoginInput, SignUpInput } from "./api-inputs.ts";
+import {SmallTalkResponse} from "../../models/small-talk-response.ts";
+import {AddArticleInput, LoginInput, OneLinerInput, SignUpInput} from "./api-inputs.ts";
 import CheatCardModel from "../../components/features/cheat-cards/models/CheatCardModel.ts";
 import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 import jwtAxios from "./jwtAxios.ts";
+import MatchModel from "../../components/features/matches/models/MatchModel.ts";
+import OneLiner from "../../components/features/matches/models/OneLiner.ts";
 
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -18,6 +20,8 @@ const PENDING_ARTICLES_URL = `${BASE_URL}articles/pending`;
 const PUBLISH_ARTICLE_URL = `${BASE_URL}articles/publish`;
 const REMOVE_ARTICLE_URL = `${BASE_URL}articles/remove`;
 const BASE_ARTICLES_URL = `${BASE_URL}articles`;
+const FIXTURES_URL = `${BASE_URL}fixtures`;
+const ONE_LINERS_URL = `${BASE_URL}one-liners`;
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
 
 export const signUp = async (signUpInput: SignUpInput) => {
@@ -52,19 +56,19 @@ export const getPendingArticles = async () => {
 
 export const publishArticle = async (articleId: string) => {
   const response = await jwtAxios.patch<SmallTalkResponse<ArticleModel>>(
-    `${PUBLISH_ARTICLE_URL}/${articleId}`);
+      `${PUBLISH_ARTICLE_URL}/${articleId}`);
   return response.data;
 }
 
 export const removeArticle = async (articleId: string) => {
   const response = await jwtAxios.patch<SmallTalkResponse<ArticleModel>>(
-    `${REMOVE_ARTICLE_URL}/${articleId}`);
+      `${REMOVE_ARTICLE_URL}/${articleId}`);
   return response.data;
 }
 
 export const getArticle = async (articleId: string) => {
   const response = await axios.get<SmallTalkResponse<ArticleModel>>(
-    `${BASE_ARTICLES_URL}/${articleId}`);
+      `${BASE_ARTICLES_URL}/${articleId}`);
   return response.data;
 }
 
@@ -75,6 +79,22 @@ export const addArticle = async (addArticleInput: AddArticleInput) => {
 
 export const deleteArticle = async (articleId: string) => {
   const response = await jwtAxios.delete(`${BASE_ARTICLES_URL}/${articleId}`);
+  return response.data;
+}
+
+export const getFixtures = async () => {
+  const response = await axios.get(FIXTURES_URL);
+  return response.data;
+}
+
+export const getFixture = async (fixtureId: string) => {
+  const response = await axios.get<SmallTalkResponse<MatchModel>>(`${FIXTURES_URL}/${fixtureId}`);
+  return response.data;
+}
+
+export const getOneLiner = async (oneLinerInput: OneLinerInput) => {
+  const params = {lang: oneLinerInput.lang, teamType: oneLinerInput.teamType};
+  const response = await axios.get<SmallTalkResponse<OneLiner>>(`${ONE_LINERS_URL}/${oneLinerInput.matchId}`, {params: params});
   return response.data;
 }
 
