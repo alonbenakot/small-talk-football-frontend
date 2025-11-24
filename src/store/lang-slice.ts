@@ -3,7 +3,7 @@ import {Lang} from "../components/features/language/Lang.ts";
 
 type LangState = { lang: Lang }
 
-const initialState: LangState = {lang: Lang.BRITISH};
+const initialState: LangState = {lang: Lang.AMERICAN};
 
 const langSlice = createSlice({
   name: 'lang',

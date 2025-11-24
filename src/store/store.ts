@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userSlice, { login, logout, triggerPendingArticleIndication } from "./user-slice.ts";
-import langSlice, { toggleLang } from "./lang-slice.ts";
-import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react"; // Add this import
+import {configureStore} from "@reduxjs/toolkit";
+import userSlice, {login, logout, triggerPendingArticleIndication} from "./user-slice.ts";
+import langSlice, {toggleLang} from "./lang-slice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {useCallback} from "react";
 import User from "../components/features/auth/models/User.ts";
 import {Lang} from "../components/features/language/Lang.ts";
 
