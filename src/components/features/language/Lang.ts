@@ -1,4 +1,5 @@
 export enum Lang {
   BRITISH = 'BRITISH',
-  AMERICAN = 'AMERICAN'
+  AMERICAN = 'AMERICAN',
+  HEBREW = 'HEBREW'
 }

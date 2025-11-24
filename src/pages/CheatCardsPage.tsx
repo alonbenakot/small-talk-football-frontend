@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import {useCallback, useEffect, useState} from "react";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {motion} from "framer-motion";
 import CheatCardModel from "../components/features/cheat-cards/models/CheatCardModel.ts";
-import { CheatCardsPageLoaderOutput } from "../routes/loaders/CheatCardLoader.ts";
-import { formatString } from "../utils/FormatUtil.ts";
+import {CheatCardsPageLoaderOutput} from "../routes/loaders/CheatCardLoader.ts";
+import {formatString} from "../utils/FormatUtil.ts";
 import CheatCardDisplay from "../components/features/cheat-cards/cheat-card-display/CheatCardDisplay.tsx";
 import CheatCardPreviewGrid from "../components/features/cheat-cards/cheat-card-preview-grid/CheatCardPreviewGrid.tsx";
 import SubjectButtons from "../components/ui/subject-buttons/SubjectButtons.tsx";
+import {useLangStore} from "../store/store.ts";
+import {Lang} from "../components/features/language/Lang.ts";
 
 type CheatCardParams = { id?: string };
 
@@ -15,6 +17,7 @@ const CheatCardsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedCardIndex, setSelectedCardIndex] = useState<number>(0);
   const navigate = useNavigate();
+  const {selectedLang, dispatchToggleLang} = useLangStore();
   const {categories, cheatCards}: CheatCardsPageLoaderOutput = useLoaderData<CheatCardsPageLoaderOutput>();
 
   // initialize selected category
@@ -31,7 +34,7 @@ const CheatCardsPage = () => {
       if (targetCard) {
         setSelectedCategory(targetCard.infoCategory);
         const filteredCards = cheatCards.data.filter((card: CheatCardModel) =>
-          card.infoCategory === targetCard.infoCategory
+            card.infoCategory === targetCard.infoCategory
         );
         const cardIndex = filteredCards.findIndex((card: CheatCardModel) => card.id === id);
         setSelectedCardIndex(cardIndex >= 0 ? cardIndex : 0);
@@ -43,9 +46,13 @@ const CheatCardsPage = () => {
     }
   }, [cheatCards, id, categories]);
 
+  if (selectedLang == Lang.HEBREW) {
+    dispatchToggleLang(Lang.AMERICAN);
+  }
+
   const filteredCards = cheatCards?.data
-    ? cheatCards.data.filter((card: CheatCardModel) => card.infoCategory === selectedCategory)
-    : [];
+      ? cheatCards.data.filter((card: CheatCardModel) => card.infoCategory === selectedCategory)
+      : [];
   const currentCard = filteredCards[selectedCardIndex];
 
   const handleCategoryChange = useCallback((category: string) => {
@@ -53,17 +60,17 @@ const CheatCardsPage = () => {
     setSelectedCardIndex(0);
 
     const newCategoryCards = cheatCards?.data?.filter((card: CheatCardModel) =>
-      card.infoCategory === category
+        card.infoCategory === category
     );
     if (newCategoryCards && newCategoryCards.length > 0) {
-      navigate(`/cheat-cards/${ newCategoryCards[0].id }`);
+      navigate(`/cheat-cards/${newCategoryCards[0].id}`);
     }
   }, [cheatCards?.data, navigate]);
 
   const handleCardSelect = useCallback((index: number) => {
     setSelectedCardIndex(index);
     if (filteredCards[index]) {
-      navigate(`/cheat-cards/${ filteredCards[index].id }`);
+      navigate(`/cheat-cards/${filteredCards[index].id}`);
     }
   }, [filteredCards, navigate]);
 
@@ -71,7 +78,7 @@ const CheatCardsPage = () => {
     if (selectedCardIndex < filteredCards.length - 1) {
       const nextIndex = selectedCardIndex + 1;
       setSelectedCardIndex(nextIndex);
-      navigate(`/cheat-cards/${ filteredCards[nextIndex].id }`);
+      navigate(`/cheat-cards/${filteredCards[nextIndex].id}`);
     }
   }, [selectedCardIndex, filteredCards, navigate]);
 
@@ -79,60 +86,60 @@ const CheatCardsPage = () => {
     if (selectedCardIndex > 0) {
       const prevIndex = selectedCardIndex - 1;
       setSelectedCardIndex(prevIndex);
-      navigate(`/cheat-cards/${ filteredCards[prevIndex].id }`);
+      navigate(`/cheat-cards/${filteredCards[prevIndex].id}`);
     }
   }, [selectedCardIndex, filteredCards, navigate]);
 
   return (
-    <motion.div
-      className="min-h-screen p-4 sm:p-6 lg:p-8"
-      initial={ {opacity: 0} }
-      animate={ {opacity: 1} }
-      transition={ {duration: 0.5} }
-    >
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          className="text-center mb-8"
-          initial={ {y: -20, opacity: 0} }
-          animate={ {y: 0, opacity: 1} }
-          transition={ {duration: 0.6} }
-        >
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-300 mb-2">
-            Football Cheat Cards
-          </h1>
-          <p className="text-slate-400 text-lg">
-            Quick reference for football conversations
-          </p>
-        </motion.div>
+      <motion.div
+          className="min-h-screen p-4 sm:p-6 lg:p-8"
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          transition={{duration: 0.5}}
+      >
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+              className="text-center mb-8"
+              initial={{y: -20, opacity: 0}}
+              animate={{y: 0, opacity: 1}}
+              transition={{duration: 0.6}}
+          >
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-300 mb-2">
+              Football Cheat Cards
+            </h1>
+            <p className="text-slate-400 text-lg">
+              Quick reference for football conversations
+            </p>
+          </motion.div>
 
           <SubjectButtons
-            subjects={categories.data}
-            handleSubjectChange={handleCategoryChange}
-            selectedSubject={selectedCategory}/>
+              subjects={categories.data}
+              handleSubjectChange={handleCategoryChange}
+              selectedSubject={selectedCategory}/>
 
           <div className="text-center text-slate-400 text-sm">
-            { filteredCards.length } cards in { formatString(selectedCategory) }
+            {filteredCards.length} cards in {formatString(selectedCategory)}
           </div>
 
-        { currentCard && (
-          <CheatCardDisplay
-            currentCard={ currentCard }
-            selectedCategory={ selectedCategory }
-            selectedCardIndex={ selectedCardIndex }
-            filteredCards={ filteredCards }
-            onNext={ handleNext }
-            onPrev={ handlePrev }
-            onCardSelect={ handleCardSelect }
-          />
-        ) }
+          {currentCard && (
+              <CheatCardDisplay
+                  currentCard={currentCard}
+                  selectedCategory={selectedCategory}
+                  selectedCardIndex={selectedCardIndex}
+                  filteredCards={filteredCards}
+                  onNext={handleNext}
+                  onPrev={handlePrev}
+                  onCardSelect={handleCardSelect}
+              />
+          )}
 
-        <CheatCardPreviewGrid
-          filteredCards={ filteredCards }
-          selectedCardIndex={ selectedCardIndex }
-          onCardSelect={ handleCardSelect }
-        />
-      </div>
-    </motion.div>
+          <CheatCardPreviewGrid
+              filteredCards={filteredCards}
+              selectedCardIndex={selectedCardIndex}
+              onCardSelect={handleCardSelect}
+          />
+        </div>
+      </motion.div>
   );
 };
 
