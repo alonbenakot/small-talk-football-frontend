@@ -4,6 +4,7 @@ import {useLoaderData} from "react-router-dom";
 import {MatchesLoaderOutput} from "../routes/loaders/MatchesLoader.ts";
 import {useState} from "react";
 import {motion} from "motion/react";
+import TogglePill from "../components/ui/toggle-pill/TogglePill.tsx";
 
 const pageVariants = {
   hidden: { opacity: 0 },
@@ -36,6 +37,7 @@ const MatchesPage = () => {
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
       matchesResponse.competitions[0]
   );
+  const [filterMode, setFilterMode] = useState<string>("all");
 
   return (
       <motion.div
@@ -65,10 +67,17 @@ const MatchesPage = () => {
             handleSubjectChange={setSelectedCompetition}
         />
 
+        <TogglePill
+            options={["All", "Finished"]}
+            selectedValue={filterMode}
+            onChange={setFilterMode}
+        />
+
         <Matches
             key={selectedCompetition}
             matches={matchesResponse.fixtures}
             selectedCompetition={selectedCompetition}
+            showFinishedOnly={filterMode === "finished"}
         />
       </motion.div>
   );
