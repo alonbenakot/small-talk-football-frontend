@@ -1,4 +1,4 @@
-import MatchModel, { Team } from "./models/MatchModel.ts";
+import MatchModel, {Team} from "./models/MatchModel.ts";
 
 type Props = {
   match: MatchModel
@@ -44,9 +44,9 @@ const MatchCard = ({match}: Props) => {
             <div>{ displayDate(match.matchDateTime) }</div>
             <div>{ displayTime(match.matchDateTime) }</div>
           </div>
-          <h5 className="text-xl sm:text-2xl font-bold text-gray-900">
-            { `${ match.score.home } - ${ match.score.away }` }
-          </h5>
+          { match.finished && <h5 className="text-xl sm:text-2xl font-bold text-gray-900">
+            {`${match.score.home} - ${match.score.away}`}
+          </h5>}
         </div>
 
         { team(awayTeam) }
