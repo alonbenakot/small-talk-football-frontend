@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 type Props = {
   matches: MatchModel[];
   selectedCompetition: string;
+  showFinishedOnly: boolean;
 };
 
 const listVariants = {
@@ -22,11 +23,12 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const Matches = ({ matches, selectedCompetition }: Props) => {
+const Matches = ({ matches, selectedCompetition, showFinishedOnly }: Props) => {
   const filteredMatches = matches
       ?.filter(
           (m) => m.competition.toLowerCase() === selectedCompetition.toLowerCase()
       )
+      .filter((m) => !showFinishedOnly || m.finished)
       .map((m) => ({ ...m, matchDateTime: new Date(m.matchDateTime) }))
       .sort((a, b) => b.matchDateTime.getTime() - a.matchDateTime.getTime());
 
