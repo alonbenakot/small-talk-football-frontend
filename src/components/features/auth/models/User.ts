@@ -1,3 +1,8 @@
+export enum UserRole {
+  MEMBER = 'MEMBER',
+  ADMIN = 'ADMIN'
+}
+
 export default interface User {
   id?: number,
   email: string,
@@ -5,7 +10,7 @@ export default interface User {
   lastName: string,
   priorFootballKnowledge: boolean,
   userIndications: UserIndications,
-  role: 'MEMBER' | 'ADMIN',
+  role: UserRole,
   jwt?: string
 }
 

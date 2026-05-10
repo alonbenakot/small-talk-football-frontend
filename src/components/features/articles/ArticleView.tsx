@@ -1,13 +1,14 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import Button from "../../ui/button/Button.tsx";
-import { useAuthStore } from "../../../store/store.ts";
+import {useAuthStore} from "../../../store/store.ts";
 import useApi from "../../../utils/hooks/use-api.ts";
-import { deleteArticle, publishArticle, removeArticle, UNAUTHORIZED_MSG } from "../../../utils/api/http.ts";
-import { OneArticleLoaderOutput } from "../../../routes/loaders/ArticleLoader.ts";
+import {deleteArticle, publishArticle, removeArticle, UNAUTHORIZED_MSG} from "../../../utils/api/http.ts";
+import {OneArticleLoaderOutput} from "../../../routes/loaders/ArticleLoader.ts";
 import ErrorBlock from "../../ui/error-block/ErrorBlock.tsx";
 import Spinner from "../../ui/spinner/Spinner.tsx";
-import { useState } from "react";
-import Notification from "../../ui/modals/Notification.tsx";
+import {useState} from "react";
+import ConfirmationNotification from "../../ui/modals/ConfirmationNotification.tsx";
+import {UserRole} from "../auth/models/User.ts";
 
 type ButtonMode = 'PUBLISH' | 'REMOVE';
 
@@ -76,7 +77,7 @@ const ArticleView = () => {
                 Back
               </Button>
 
-              {selectedUser?.role === 'ADMIN' && (
+              {selectedUser?.role === UserRole.ADMIN && (
                 <div className="flex flex-col sm:flex-row sm:justify-end items-stretch sm:items-center gap-3 sm:gap-4">
                   {isLoading && (
                     <div className="flex justify-center sm:justify-start">
@@ -110,33 +111,14 @@ const ArticleView = () => {
       ) }
 
       { isDeleteClicked && (
-        <Notification
-          isModalOpen={ isDeleteClicked }
-          onClose={ () => setIsDeleteClicked(false) }
+        <ConfirmationNotification
+          isOpen={isDeleteClicked}
+          onClose={() => setIsDeleteClicked(false)}
+          onConfirm={handleDeleteConfirmation}
           title="Deleting Article"
           text="Are you sure you want to delete this article? Members cannot even see it because it's not published. Once deleted it remains in the void."
-        >
-          { isDeleteLoading ? (
-            <div className="flex justify-center">
-              <Spinner/>
-            </div>
-          ) : (
-            <div className="flex gap-3">
-              <Button
-                buttonType="secondary"
-                onClick={ () => setIsDeleteClicked(false) }
-              >
-                No
-              </Button>
-              <Button
-                buttonType="primary"
-                onClick={ handleDeleteConfirmation }
-              >
-                Yes
-              </Button>
-            </div>
-          ) }
-        </Notification>
+          isLoading={isDeleteLoading}
+        />
       )}
     </div>
   );

@@ -16,6 +16,7 @@ import {matchesLoader} from "./loaders/MatchesLoader.ts";
 import ErrorPage from "../pages/ErrorPage.tsx";
 import {matchLoader} from "./loaders/MatchLoader.ts";
 import MatchView from "../components/features/matches/MatchView.tsx";
+import AdminPage from "../pages/AdminPage.tsx";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -68,6 +69,10 @@ const routes = createBrowserRouter([{
     {
       path: "about",
       element: <About/>
+    },
+    {
+      path: "admin",
+      element: <AdminPage/>
     },
     {
       path: "*",
