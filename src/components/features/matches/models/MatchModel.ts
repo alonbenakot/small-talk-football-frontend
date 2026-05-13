@@ -22,7 +22,7 @@ interface Score {
 }
 
 export interface Team {
-  externalId: string,
+  id: string,
   name: string,
   coach: string,
   crest: string

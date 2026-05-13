@@ -15,13 +15,18 @@ const LOGIN_URL = `${BASE_URL}users/login`;
 const SIGN_UP_URL = `${BASE_URL}users/signup`;
 const CATEGORIES_URL = `${BASE_URL}small-infos/categories`;
 const CHEAT_CARDS_URL = `${BASE_URL}small-infos`;
+const BASE_ARTICLES_URL = `${BASE_URL}articles`;
 const PUBLISHED_ARTICLES_URL = `${BASE_URL}articles/published`;
 const PENDING_ARTICLES_URL = `${BASE_URL}articles/pending`;
 const PUBLISH_ARTICLE_URL = `${BASE_URL}articles/publish`;
 const REMOVE_ARTICLE_URL = `${BASE_URL}articles/remove`;
-const BASE_ARTICLES_URL = `${BASE_URL}articles`;
 const FIXTURES_URL = `${BASE_URL}fixtures`;
 const ONE_LINERS_URL = `${BASE_URL}one-liners`;
+const INIT_ARTICLES_URL = `${BASE_ARTICLES_URL}/init`;
+const INIT_CHEAT_CARDS = `${CHEAT_CARDS_URL}/init`;
+const TEAMS_URL = `${BASE_URL}teams`;
+
+
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
 
 export const signUp = async (signUpInput: SignUpInput) => {
@@ -95,6 +100,36 @@ export const getFixture = async (fixtureId: string) => {
 export const getOneLiner = async (oneLinerInput: OneLinerInput) => {
   const params = {lang: oneLinerInput.lang, teamType: oneLinerInput.teamType};
   const response = await axios.get<SmallTalkResponse<OneLiner>>(`${ONE_LINERS_URL}/${oneLinerInput.matchId}`, {params: params});
+  return response.data;
+}
+
+export const initArticles = async () => {
+  const response = await jwtAxios.post(INIT_ARTICLES_URL);
+  return response.data;
+}
+
+export const initCheatCards = async () => {
+  const response = await jwtAxios.post(INIT_CHEAT_CARDS);
+  return response.data;
+}
+
+export const initTeams = async () => {
+  const response = await jwtAxios.post(TEAMS_URL);
+  return response.data;
+}
+
+export const fetchFixtures = async () => {
+  const response = await jwtAxios.post(FIXTURES_URL, null, { params: { matchDays: 25 } });
+  return response.data;
+}
+
+export const deleteTeams = async () => {
+  const response = await jwtAxios.delete(TEAMS_URL);
+  return response.data;
+}
+
+export const deleteFixtures = async () => {
+  const response = await jwtAxios.delete(FIXTURES_URL);
   return response.data;
 }
 
