@@ -34,18 +34,13 @@ const Home = () => {
   const offsideCard = findCheatCard("offside");
   const varCard = findCheatCard("VAR in Football: The Impact of Video Assistant Referee");
 
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.15 } }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
   return (
-    <div className="w-full">
+    <motion.div
+      className="w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       {isSignUpButtonClicked && (
         <UserForm
           isOpenModal={isSignUpButtonClicked}
@@ -56,9 +51,9 @@ const Home = () => {
 
       <motion.section
         className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-center"
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.5, delay: 0.1 }}
       >
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-100 mb-4 sm:mb-6">
           Make Small Talk Like a Pro
@@ -74,23 +69,21 @@ const Home = () => {
 
       <motion.section
         className="w-full bg-slate-800/50 py-12 sm:py-16"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6">
-          <motion.h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-slate-100 mb-10 sm:mb-14"
-            variants={itemVariants}
-          >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-slate-100 mb-10 sm:mb-14">
             Everything You Need to Sound Like a Fan
-          </motion.h2>
+          </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <motion.div
               className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
             >
               <div className="bg-emerald-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <Zap className="w-7 h-7 text-emerald-400" />
@@ -106,7 +99,9 @@ const Home = () => {
 
             <motion.div
               className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
             >
               <div className="bg-blue-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <Sparkles className="w-7 h-7 text-blue-400" />
@@ -132,7 +127,9 @@ const Home = () => {
 
             <motion.div
               className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
             >
               <div className="bg-purple-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <BookOpen className="w-7 h-7 text-purple-400" />
@@ -153,7 +150,9 @@ const Home = () => {
 
             <motion.div
               className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.6 }}
             >
               <div className="bg-orange-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-7 h-7 text-orange-400" />
@@ -175,10 +174,9 @@ const Home = () => {
 
       <motion.section
         className="w-full py-12 sm:py-16"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
       >
         <div className="max-w-screen-lg mx-auto px-4 sm:px-6">
           <div className="bg-gradient-to-br from-slate-800 to-slate-700 p-8 sm:p-10 rounded-2xl shadow-2xl">
@@ -216,10 +214,9 @@ const Home = () => {
 
       <motion.section
         className="w-full bg-slate-800/50 py-12 sm:py-16"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
       >
         <div className="max-w-screen-lg mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-slate-100 mb-8 sm:mb-10">
@@ -274,7 +271,7 @@ const Home = () => {
           </div>
         </div>
       </motion.section>
-    </div>
+    </motion.div>
   );
 };
 
