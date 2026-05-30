@@ -30,7 +30,7 @@ const routes = createBrowserRouter([{
     },
     {
       path: "/",
-      element: <Navigate to="matches" replace/>
+      element: <Navigate to="home" replace/>
     },
     {
       path: "cheat-cards/:id?",
