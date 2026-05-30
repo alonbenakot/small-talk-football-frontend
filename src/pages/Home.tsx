@@ -68,7 +68,7 @@ const Home = () => {
           We'll teach you everything you need to know to impress your co-workers, loved ones, and even random people in the elevator!
         </p>
         <Button onClick={toggleForm} buttonType="prominent">
-          Get Started Free
+          Get Started
         </Button>
       </motion.section>
 
