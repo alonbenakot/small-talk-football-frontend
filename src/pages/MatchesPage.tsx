@@ -14,30 +14,12 @@ const pageVariants = {
   }
 };
 
-const titleVariants = {
-  hidden: { y: -20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6 }
-  }
-};
-
-const subtitleVariants = {
-  hidden: { y: -10, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6, delay: 0.15 }
-  }
-};
-
 const MatchesPage = () => {
   const { data: matchesResponse } = useLoaderData<MatchesLoaderOutput>();
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
       matchesResponse.competitions[0]
   );
-  const [filterMode, setFilterMode] = useState<string>("all");
+  const [filterMode, setFilterMode] = useState<string>("finished");
 
   return (
       <motion.div
@@ -45,21 +27,19 @@ const MatchesPage = () => {
           initial="hidden"
           animate="visible"
       >
-        <motion.h2
-            className="text-2xl sm:text-3xl font-bold text-slate-300 text-center mb-4"
-            variants={titleVariants}
+        <motion.div
+            className="text-center mb-8"
+            initial={{y: -20, opacity: 0}}
+            animate={{y: 0, opacity: 1}}
+            transition={{duration: 0.6}}
         >
-          Recent Matches
-        </motion.h2>
-
-        <motion.h3
-            className="text-lg sm:text-xl font-bold text-slate-300 text-center mb-4"
-            variants={subtitleVariants}
-        >
-          Dont know what to say about last night's match?
-          <br />
-          Pick a match and we'll help you out!
-        </motion.h3>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-300 mb-2">
+            Recent Matches
+          </h1>
+          <p className="text-slate-400 text-lg">
+            Get AI-powered conversation starters for any match
+          </p>
+        </motion.div>
 
         <SubjectButtons
             subjects={matchesResponse.competitions}

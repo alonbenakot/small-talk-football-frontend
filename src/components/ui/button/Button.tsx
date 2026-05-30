@@ -1,8 +1,8 @@
-import { ComponentPropsWithoutRef } from "react";
+import {HTMLMotionProps, motion} from "framer-motion";
 
 export type ButtonProps = {
-  buttonType: 'cta' | 'primary' | 'secondary';
-} & ComponentPropsWithoutRef<'button'>;
+  buttonType: 'cta' | 'primary' | 'secondary' | 'prominent';
+} & Omit<HTMLMotionProps<'button'>, 'buttonType'>;
 
 const Button = ({children, buttonType, className: customClassName, ...props}: ButtonProps) => {
   let className = 'text-white rounded-lg transition duration-300 cursor-pointer';
@@ -16,14 +16,24 @@ const Button = ({children, buttonType, className: customClassName, ...props}: Bu
   }
 
   if (buttonType === 'cta') {
-    className += ' bg-emerald-500 px-4 py-2 hover:bg-slate-300 hover:text-emerald-600';
+    className += ' bg-emerald-500 px-4 py-2 hover:bg-emerald-700';
   }
 
-  // Merge custom className if provided
+  if (buttonType === 'prominent') {
+    className += ' bg-emerald-600 px-8 py-4 hover:bg-emerald-700 font-semibold text-lg shadow-lg';
+  }
+
   const finalClassName = customClassName ? `${className} ${customClassName}` : className;
 
   return (
-    <button className={ finalClassName } { ...props }>{ children }</button>
+    <motion.button 
+      className={finalClassName} 
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      {...props}
+    >
+      {children}
+    </motion.button>
   )
 }
 export default Button;
