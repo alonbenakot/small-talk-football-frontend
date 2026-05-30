@@ -58,12 +58,6 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
 
   const options = [
     {
-      label: "Keep it Neutral",
-      id: "neutral",
-      radioValue: NEUTRAL,
-      icon: <Scale className="w-6 h-6 text-slate-600" />,
-    },
-    {
       label: match.homeTeam.name,
       id: "homeTeam",
       radioValue: TeamType.HOME,
@@ -87,6 +81,12 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
           />
       ),
     },
+    {
+      label: "Keep it Neutral",
+      id: "neutral",
+      radioValue: NEUTRAL,
+      icon: <Scale className="w-6 h-6 text-slate-600" />,
+    }
   ];
 
   return (
@@ -99,7 +99,7 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
               initial="hidden"
               animate="visible"
           >
-            Choose a team you support and adjust the language
+            Choose your team!
           </motion.h1>
 
           <motion.div

@@ -37,7 +37,7 @@ const MatchesPage = () => {
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
       matchesResponse.competitions[0]
   );
-  const [filterMode, setFilterMode] = useState<string>("all");
+  const [filterMode, setFilterMode] = useState<string>("finished");
 
   return (
       <motion.div
