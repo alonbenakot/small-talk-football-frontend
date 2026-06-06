@@ -2,9 +2,11 @@ import SubjectButtons from "../components/ui/subject-buttons/SubjectButtons.tsx"
 import Matches from "../components/features/matches/Matches.tsx";
 import {useLoaderData} from "react-router-dom";
 import {MatchesLoaderOutput} from "../routes/loaders/MatchesLoader.ts";
-import {useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {motion} from "motion/react";
-import TogglePill from "../components/ui/toggle-pill/TogglePill.tsx";
+import DateNavigator from "../components/ui/date-navigator/DateNavigator.tsx";
+import {DateUtils} from "../utils/DateUtils.ts";
+import MatchModel from "../components/features/matches/models/MatchModel.ts";
 
 const pageVariants = {
   hidden: { opacity: 0 },
@@ -14,12 +16,58 @@ const pageVariants = {
   }
 };
 
+/**
+ * Extracts unique dates from fixtures for a given competition.
+ * Normalizes each matchDateTime to midnight in local timezone.
+ * Returns sorted array (ascending).
+ */
+const extractAvailableDates = (fixtures: MatchModel[], competition: string): Date[] => {
+  const datesSet = new Set<number>();
+  fixtures
+    .filter(match => match.competition.toLowerCase() === competition.toLowerCase())
+    .forEach(match => {
+      const matchDate = new Date(match.matchDateTime);
+
+      if (!isNaN(matchDate.getTime())) {
+        const midnight = DateUtils.toMidnight(matchDate);
+        datesSet.add(midnight.getTime());
+      } else {
+        console.warn(`Invalid matchDateTime for match ${match.id}:`, match.matchDateTime);
+      }
+    });
+
+  return Array.from(datesSet)
+    .sort((a, b) => a - b)
+    .map(timestamp => new Date(timestamp));
+}
+
 const MatchesPage = () => {
   const { data: matchesResponse } = useLoaderData<MatchesLoaderOutput>();
   const [selectedCompetition, setSelectedCompetition] = useState<string>(
       matchesResponse.competitions[0]
   );
-  const [filterMode, setFilterMode] = useState<string>("finished");
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    DateUtils.toMidnight(new Date())
+  );
+
+  const availableDates = useMemo(() => {
+    return extractAvailableDates(matchesResponse.fixtures, selectedCompetition);
+  }, [matchesResponse.fixtures, selectedCompetition]);
+
+  // synchronize selected date when competition changes
+  useEffect(() => {
+    const dateExists = availableDates.some(date =>
+      DateUtils.isSameDay(date, selectedDate)
+    );
+    
+    if (!dateExists && availableDates.length > 0) {
+      const nearestDate = DateUtils.findNearestDate(selectedDate, availableDates);
+      if (nearestDate) {
+        setSelectedDate(nearestDate);
+      }
+    }
+    // if availableDates is empty, keep current selectedDate (edge case handling)
+  }, [selectedCompetition, availableDates, selectedDate]);
 
   return (
       <motion.div
@@ -47,17 +95,16 @@ const MatchesPage = () => {
             handleSubjectChange={setSelectedCompetition}
         />
 
-        <TogglePill
-            options={["All", "Finished"]}
-            selectedValue={filterMode}
-            onChange={setFilterMode}
+        <DateNavigator
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+            availableDates={availableDates}
         />
 
         <Matches
-            key={selectedCompetition}
             matches={matchesResponse.fixtures}
             selectedCompetition={selectedCompetition}
-            showFinishedOnly={filterMode === "finished"}
+            selectedDate={selectedDate}
         />
       </motion.div>
   );
