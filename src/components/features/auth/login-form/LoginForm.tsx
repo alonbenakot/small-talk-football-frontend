@@ -1,22 +1,23 @@
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import Modal from '../../../ui/modals/Modal.tsx';
 import Input from '../../../ui/input/Input.tsx';
 import Button from '../../../ui/button/Button.tsx';
-import { FormProps } from '../user-form/UserForm.tsx';
-import { useAuthStore } from "../../../../store/store.ts";
+import {FormProps} from '../user-form/UserForm.tsx';
+import {useAuthStore, useLangStore} from "../../../../store/store.ts";
 import User from "../models/User.ts";
 import useApi from "../../../../utils/hooks/use-api.ts";
-import { login } from "../../../../utils/api/http.ts";
+import {login} from "../../../../utils/api/http.ts";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
 import Spinner from "../../../ui/spinner/Spinner.tsx";
-import { useEffect } from "react";
-import { LoginInput } from "../../../../utils/api/api-inputs.ts";
+import {useEffect} from "react";
+import {LoginInput} from "../../../../utils/api/api-inputs.ts";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
 
 type FormData = LoginInput;
 
 const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
     const {dispatchLogin, selectedUser} = useAuthStore();
+    const {dispatchToggleLang} = useLangStore()
     const {isLoading, error, fetchedData, invokeApi: invokeLoginApi} = useApi<User, LoginInput>(login);
     const {register, handleSubmit, formState: {errors},} = useForm<FormData>({
       defaultValues: {
@@ -28,9 +29,10 @@ const LoginForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
   useEffect(() => {
     if (fetchedData && !error && !selectedUser) {
       dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
+      dispatchToggleLang(fetchedData.data.userIndications?.preferredLanguage)
       closeForm();
     }
-  }, [fetchedData, error, selectedUser, closeForm, dispatchLogin]);
+  }, [fetchedData, error, selectedUser, closeForm, dispatchLogin, dispatchToggleLang]);
 
     const onSubmit = async (data: FormData) => {
       await invokeLoginApi(data);

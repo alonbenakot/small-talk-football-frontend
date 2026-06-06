@@ -119,7 +119,7 @@ export const initTeams = async () => {
 }
 
 export const fetchFixtures = async () => {
-  const response = await jwtAxios.post(FIXTURES_URL, null, { params: { matchDays: 25 } });
+  const response = await jwtAxios.post(FIXTURES_URL, null, { params: { matchDays: 25, matchDaysIntoFuture: 15 } });
   return response.data;
 }
 

@@ -51,7 +51,7 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
   const navigate = useNavigate();
 
   const { register, handleSubmit, watch } = useForm<OneLinerFormData>({
-    defaultValues: { team: NEUTRAL },
+    defaultValues: { team: TeamType.HOME },
   });
 
   const selectedTeam = watch("team");

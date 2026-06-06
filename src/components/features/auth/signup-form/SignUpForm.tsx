@@ -1,22 +1,25 @@
 import Modal from "../../../ui/modals/Modal.tsx";
 import Input from "../../../ui/input/Input.tsx";
 import Button from "../../../ui/button/Button.tsx";
-import { FormProps } from "../user-form/UserForm.tsx";
-import { useForm } from "react-hook-form";
-import { useAuthStore } from "../../../../store/store.ts";
+import {FormProps} from "../user-form/UserForm.tsx";
+import {useForm} from "react-hook-form";
+import {useAuthStore, useLangStore} from "../../../../store/store.ts";
 import useApi from "../../../../utils/hooks/use-api.ts";
-import { SignUpInput } from "../../../../utils/api/api-inputs.ts";
+import {SignUpInput} from "../../../../utils/api/api-inputs.ts";
 import User from "../models/User.ts";
-import { signUp } from "../../../../utils/api/http.ts";
+import {signUp} from "../../../../utils/api/http.ts";
 import Spinner from "../../../ui/spinner/Spinner.tsx";
 import ErrorBlock from "../../../ui/error-block/ErrorBlock.tsx";
-import { useEffect } from "react";
+import {useEffect} from "react";
 import PasswordInput from "../../../ui/password-input/PasswordInput.tsx";
+import {COUNTRY_CODES, Lang, LANGUAGE_LABELS} from "../../language/Lang.ts";
+import Flag from "react-flagkit";
 
 type FormData = SignUpInput;
 
 const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
   const {dispatchLogin, selectedUser} = useAuthStore();
+  const {dispatchToggleLang} = useLangStore();
   const {isLoading, error, fetchedData, invokeApi: invokeSignUpApi} = useApi<User, SignUpInput>(signUp);
   const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
@@ -25,15 +28,27 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
       email: "",
       password: "",
       priorFootballKnowledge: false,
+      userIndications: {
+        preferredLanguage: Lang.BRITISH,
+      }
     }
   });
 
   useEffect(() => {
+    console.log('SignUpForm useEffect triggered:', { 
+      hasFetchedData: !!fetchedData, 
+      hasError: !!error, 
+      hasSelectedUser: !!selectedUser,
+      preferredLang: fetchedData?.data?.userIndications?.preferredLanguage 
+    });
+    
     if (fetchedData && !error && !selectedUser) {
+      console.log('Dispatching login and language change');
       dispatchLogin({...fetchedData.data, jwt: fetchedData.jwt});
+      dispatchToggleLang(fetchedData.data.userIndications?.preferredLanguage);
       closeForm();
     }
-  }, [fetchedData, error, selectedUser, closeForm, dispatchLogin]);
+  }, [fetchedData, error, selectedUser, closeForm, dispatchLogin, dispatchToggleLang]);
 
   const onSubmit = async (data: FormData) => {
     await invokeSignUpApi(data);
@@ -91,8 +106,35 @@ const SignUpForm = ({isModalOpen, closeForm, handleSwitchForm}: FormProps) => {
           error={ errors.password?.message }
         />
 
+        <div className="mb-4">
+          <label htmlFor="preferredLanguage" className="block text-sm font-medium mb-2">
+            Preferred Language
+          </label>
+          <div className="flex gap-2">
+            {Object.values(Lang).map((lang) => (
+              <label
+                key={lang}
+                className="flex-1 flex items-center justify-center gap-2 p-3 border-2 rounded-md cursor-pointer transition-colors has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 hover:border-emerald-400"
+              >
+                <input
+                  type="radio"
+                  value={lang}
+                  {...register("userIndications.preferredLanguage", { required: "Please select your preferred language" })}
+                  className="sr-only"
+                />
+                <Flag country={COUNTRY_CODES[lang]} className="w-6 h-4" />
+                <span className="text-sm">{LANGUAGE_LABELS[lang]}</span>
+              </label>
+            ))}
+          </div>
+          {errors.userIndications?.preferredLanguage && (
+            <p className="text-red-500 text-xs mt-1">{errors.userIndications.preferredLanguage.message}</p>
+          )}
+        </div>
+
         <Input label="Prior Football Knowledge" id="priorFootballKnowledge" checkbox
                { ...register("priorFootballKnowledge") }/>
+
         <div className="flex justify-between">
           <Button buttonType='secondary' type='button' onClick={ handleSwitchForm }>Already a member</Button>
           <div className="flex gap-2">
