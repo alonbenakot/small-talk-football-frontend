@@ -25,6 +25,7 @@ const ONE_LINERS_URL = `${BASE_URL}one-liners`;
 const INIT_ARTICLES_URL = `${BASE_ARTICLES_URL}/init`;
 const INIT_CHEAT_CARDS = `${CHEAT_CARDS_URL}/init`;
 const TEAMS_URL = `${BASE_URL}teams`;
+const STANDINGS_URL = `${TEAMS_URL}/standings`;
 
 
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
@@ -125,6 +126,10 @@ export const fetchFixtures = async () => {
 
 export const deleteTeams = async () => {
   const response = await jwtAxios.delete(TEAMS_URL);
+  return response.data;
+}
+export const refreshStandings = async () => {
+  const response = await jwtAxios.patch(STANDINGS_URL);
   return response.data;
 }
 
