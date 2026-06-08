@@ -2,11 +2,12 @@ import {motion} from "motion/react";
 import MatchCard from "./MatchCard.tsx";
 import MatchModel from "./models/MatchModel.ts";
 import {Link} from "react-router-dom";
+import {DateUtils} from "../../../utils/DateUtils.ts";
 
 type Props = {
   matches: MatchModel[];
   selectedCompetition: string;
-  showFinishedOnly: boolean;
+  selectedDate: Date;
 };
 
 const listVariants = {
@@ -23,12 +24,12 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const Matches = ({ matches, selectedCompetition, showFinishedOnly }: Props) => {
+const Matches = ({ matches, selectedCompetition, selectedDate }: Props) => {
   const filteredMatches = matches
       ?.filter(
           (m) => m.competition.toLowerCase() === selectedCompetition.toLowerCase()
       )
-      .filter((m) => !showFinishedOnly || m.finished)
+      .filter((m) => DateUtils.isSameDay(new Date(m.matchDateTime), selectedDate))
       .map((m) => ({ ...m, matchDateTime: new Date(m.matchDateTime) }))
       .sort((a, b) => b.matchDateTime.getTime() - a.matchDateTime.getTime());
 

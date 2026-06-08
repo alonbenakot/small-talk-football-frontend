@@ -4,7 +4,7 @@ import useOutsideClick from "../../../utils/hooks/outside-click.tsx";
 import {useState} from "react";
 import Notification from "../modals/Notification.tsx";
 import Button from "../button/Button.tsx";
-import {Lang} from "../../features/language/Lang.ts";
+import {COUNTRY_CODES, Lang} from "../../features/language/Lang.ts";
 import {Location, useLocation} from "react-router-dom";
 
 const chineseMsg = "The Chinese language is not supported at this time, nor do we have any plans to support it in the future."
@@ -15,12 +15,6 @@ interface FlagOption {
   lang?: Lang;
   onClick?: () => void;
   className?: string;
-}
-
-const COUNTRY_CODES: Record<Lang, string> = {
-  [Lang.AMERICAN]: 'US',
-  [Lang.BRITISH]: 'GB',
-  [Lang.HEBREW]: 'IL'
 }
 
 const filterOptions = (flagOptions: FlagOption[], location: Location) => {

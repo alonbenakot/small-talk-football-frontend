@@ -1,3 +1,5 @@
+import {Lang} from "../../language/Lang.ts";
+
 export enum UserRole {
   MEMBER = 'MEMBER',
   ADMIN = 'ADMIN'
@@ -16,4 +18,5 @@ export default interface User {
 
 interface UserIndications {
   pendingArticles: boolean
+  preferredLanguage: Lang
 }

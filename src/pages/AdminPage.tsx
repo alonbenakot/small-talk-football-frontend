@@ -8,7 +8,8 @@ import {
   fetchFixtures,
   initArticles,
   initCheatCards,
-  initTeams
+  initTeams,
+  refreshStandings
 } from "../utils/api/http.ts";
 import ConfirmationNotification from "../components/ui/modals/ConfirmationNotification.tsx";
 
@@ -48,9 +49,10 @@ const AdminPage = () => {
   const { invokeApi: callFetchFixtures, isLoading: isFetchFixturesLoading } = useApi(fetchFixtures);
   const { invokeApi: callDeleteTeams, isLoading: isDeleteTeamsLoading } = useApi(deleteTeams);
   const { invokeApi: callDeleteFixtures, isLoading: isDeleteFixturesLoading } = useApi(deleteFixtures);
+  const { invokeApi: callRefreshStandings, isLoading: isRefreshStandings } = useApi(refreshStandings);
 
   const isLoading = isInitArticlesLoading || isInitCheatCardsLoading || isInitTeamsLoading || 
-                    isFetchFixturesLoading || isDeleteTeamsLoading || isDeleteFixturesLoading;
+                    isFetchFixturesLoading || isDeleteTeamsLoading || isDeleteFixturesLoading || isRefreshStandings;
 
   const buttonList: AdminButton[] = [
     {
@@ -69,14 +71,19 @@ const AdminPage = () => {
       apiCall: callInitTeams
     },
     {
-      label: "Fetch Fixtures",
-      confirmText: "Are you sure you want to fetch fixtures? This will retrieve the latest fixture data from the external API.",
-      apiCall: callFetchFixtures
-    },
-    {
       label: "Delete Teams",
       confirmText: "Are you sure you want to delete all teams? This action cannot be undone.",
       apiCall: callDeleteTeams
+    },
+    {
+      label: "Refresh Standings",
+      confirmText: "Are you sure you want to refresh standings?",
+      apiCall: callRefreshStandings
+    },
+    {
+      label: "Fetch Fixtures",
+      confirmText: "Are you sure you want to fetch fixtures? This will retrieve the latest fixture data from the external API.",
+      apiCall: callFetchFixtures
     },
     {
       label: "Delete Fixtures",

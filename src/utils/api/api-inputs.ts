@@ -11,7 +11,10 @@ export interface SignUpInput {
   firstName: string,
   lastName: string,
   password: string,
-  priorFootballKnowledge: boolean
+  priorFootballKnowledge: boolean,
+  userIndications: {
+    preferredLanguage: Lang
+  }
 }
 
 export interface AddArticleInput {

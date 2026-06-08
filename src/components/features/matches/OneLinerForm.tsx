@@ -51,7 +51,7 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
   const navigate = useNavigate();
 
   const { register, handleSubmit, watch } = useForm<OneLinerFormData>({
-    defaultValues: { team: NEUTRAL },
+    defaultValues: { team: TeamType.HOME },
   });
 
   const selectedTeam = watch("team");
@@ -135,7 +135,7 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
                 whileTap={{ scale: 0.98 }}
             >
               <Button
-                  buttonType="cta"
+                  buttonType="prominent"
                   type="submit"
                   className="w-full flex items-center justify-center gap-2"
                   disabled={isLoading}
@@ -149,7 +149,7 @@ const OneLinerForm = ({ onSubmit, match, isLoading }: Props) => {
               <Button
                   buttonType="secondary"
                   type="button"
-                  className="w-full text-sm py-2"
+                  className="w-full h-full text-sm"
                   onClick={() => navigate(-1)}
               >
                 Back to Matches
