@@ -14,7 +14,7 @@ const RootLayout = () => {
       <div className="grid min-h-screen grid-rows-[auto_1fr] sm:grid-rows-[auto_5fr]">
         <Analytics/>
         <Header/>
-        <main className="p-4 sm:p-6 md:p-8 overflow-y-auto relative">
+        <main className="p-4 pb-24 sm:p-6 md:p-8 overflow-y-auto relative">
           <GlobalSpinner isNavigating={ isNavigating }/>
           <Outlet/>
         </main>
