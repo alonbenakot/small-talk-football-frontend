@@ -1,12 +1,12 @@
 import {NavLink} from "react-router-dom";
-import {FileText, Home, Info, StickyNote, Trophy} from "lucide-react";
+import {FileText, Home, Shield, StickyNote, Trophy} from "lucide-react";
 
 const links = [
   { to: "/home", label: "Home", icon: <Home className="w-5 h-5" /> },
   { to: "/articles", label: "Articles", icon: <FileText className="w-5 h-5" /> },
   { to: "/matches", label: "Matches", icon: <Trophy className="w-5 h-5" /> },
+  { to: "/teams", label: "Teams", icon: <Shield className="w-5 h-5" /> },
   { to: "/cheat-cards", label: "Cheat Cards", icon: <StickyNote className="w-5 h-5" /> },
-  { to: "/about", label: "About", icon: <Info className="w-5 h-5" /> },
 ];
 
 const getLinkStyle = ({ isActive }: { isActive: boolean }) =>

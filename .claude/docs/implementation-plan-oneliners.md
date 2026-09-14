@@ -419,7 +419,20 @@ Done when: match page works as before minus "Start over"; all tests green. Nothi
 
 ### Phase 3 — Teams page and navigation
 
-Status: **open**
+Status: **done (2026-09-14)**
+
+Notes for the next session (Phase 4):
+- `TeamList.tsx` owns the `?competition=CHAMPIONS_LEAGUE` link rule (`teamLink(team)`) and reads the
+  competition from the row itself, not from the selected tab — same result, since rows are filtered by tab.
+  `TeamRow` takes a ready `to` string and is itself the `Link` (card classes copied from `MatchCard`).
+- `FallbackImage` renders the lucide icon with `aria-label={alt}` when `src` is empty or the image errors, so
+  tests can find it with `getByLabelText(alt)`; it has no `role="img"` in that state.
+- `Footer` is rendered inside `<main>` (after `<Outlet/>`), so the existing `pb-24` on `main` already keeps it
+  clear of `MobileNavbar`; no extra padding was added.
+- `TeamsPage` empty state uses `MessageBlock` (green "✓" block) — it is the only empty-state primitive in the
+  repo. Reuse it for the empty squad in Phase 4 too.
+- Phase 4's `teamLoader` reads `params.id` (see §2); `TeamsLoader.ts` is the copy-source for the envelope
+  handling and its test file for the error cases.
 
 Pattern to copy: `MatchesPage.tsx` + `Matches.tsx` + `MatchCard.tsx`, `matchesLoader`, their tests.
 
