@@ -64,17 +64,18 @@ const OneLinerForm = <V extends string>({
   const goBack = () => typeof backTo === "number" ? navigate(backTo) : navigate(backTo);
 
   return (
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md mt-4">
         <form onSubmit={handleSubmit((data) => onSubmit(data.choice))}>
 
-          <motion.h1
-              className="mb-4 text-xl font-semibold text-zinc-800"
+          <motion.div
+              className="mb-4"
               variants={titleVariants}
               initial="hidden"
               animate="visible"
           >
-            {title}
-          </motion.h1>
+            <h1 className="text-xl font-semibold text-zinc-800">{title}</h1>
+            <p className="text-sm text-gray-600">Get an AI written line that you can use with proper fans!</p>
+          </motion.div>
 
           {options.length > 0 &&
               <motion.div

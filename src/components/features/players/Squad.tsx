@@ -40,9 +40,17 @@ const Squad = ({squad, teamId, notablePlayerIds}: Props) => {
     return <MessageBlock title="No squad yet" message="This team's squad has not been loaded. Check back soon."/>;
   }
 
+  // Players with no recorded appearances go into a "Rest of the squad" group at the end instead of their position.
+  const featured = squad.filter((p) => p.matchesPlayed !== null);
+  const notFeatured = squad.filter((p) => p.matchesPlayed === null);
+  const groups = [
+    ...groupByPosition(featured),
+    ...(notFeatured.length > 0 ? [{position: "Rest of the squad", players: notFeatured}] : []),
+  ];
+
   return (
       <div>
-        {groupByPosition(squad).map((group) => (
+        {groups.map((group) => (
             <section key={group.position}>
               <h3 className="text-lg font-bold text-slate-300 mt-6 mb-2 mx-2">{group.position}</h3>
               <motion.ul initial="hidden" animate="visible" variants={listVariants}>

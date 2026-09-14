@@ -1,15 +1,15 @@
-import {TeamSummary} from "./models/TeamsResponse.ts";
+import {TeamFacts} from "./models/TeamOneLiner.ts";
 import FallbackImage from "../../ui/fallback-image/FallbackImage.tsx";
 import {formatString} from "../../../utils/FormatUtil.ts";
 
 type Props = {
-  team: TeamSummary;
+  team: TeamFacts;
   competition: string | null;
 };
 
 const TeamHeader = ({team, competition}: Props) => {
   return (
-      <div className="flex items-center m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm">
+      <div className="flex items-center gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm">
         <FallbackImage
             src={team.crest}
             alt={team.name}

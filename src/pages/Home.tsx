@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {HomeLoaderOutput} from "../routes/loaders/HomeLoader.ts";
 import {formatParams} from "../utils/FormatUtil.ts";
 import {Lang} from "../components/features/language/Lang.ts";
-import {BookOpen, Sparkles, Trophy, Users, Zap} from "lucide-react";
+import {BookOpen, Shield, Sparkles, Trophy, Users, Zap} from "lucide-react";
 import Button from "../components/ui/button/Button.tsx";
 
 const Home = () => {
@@ -17,6 +17,10 @@ const Home = () => {
   const offsideOneliner = selectedLang === Lang.BRITISH
       ? "Haaland didn't do no fucking offside, did he?! That judge was a bloody fucking wanker if you ask me."
       : "Gosh darn it! Haaland never went behind the defence line! He would never do something like that, bless his soul.";
+
+  const teamOneliner = "Four wins from four under Maresca, derby away and Porto handled, we're looking sharp even " +
+      "without Doku and O'Reilly. Haaland on eight already and only second in the charts, Sunderland at home should " +
+      "be another chance for him to fill his boots.";
 
   const toggleForm = useCallback(() => {
     setIsSignUpButtonClicked(prev => !prev);
@@ -81,7 +85,7 @@ const Home = () => {
               Everything You Need to Sound Like a Fan
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               <motion.div
                   className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                   initial={{opacity: 0, y: 20}}
@@ -106,6 +110,25 @@ const Home = () => {
                   initial={{opacity: 0, y: 20}}
                   animate={{opacity: 1, y: 0}}
                   transition={{duration: 0.4, delay: 0.4}}
+              >
+                <div className="bg-emerald-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+                  <Shield className="w-7 h-7 text-emerald-400"/>
+                </div>
+                <h3 className="text-xl font-semibold text-slate-100 mb-3">Team & Player One-Liners</h3>
+                <p className="text-slate-300 leading-relaxed mb-4">
+                  Pick a club or a player and get a line you can actually say — as a fan, a rival, or a neutral.
+                </p>
+                <Link to="/teams"
+                      className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center">
+                  Browse Teams →
+                </Link>
+              </motion.div>
+
+              <motion.div
+                  className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.4, delay: 0.5}}
               >
                 <div className="bg-blue-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <Sparkles className="w-7 h-7 text-blue-400"/>
@@ -134,7 +157,7 @@ const Home = () => {
                   className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                   initial={{opacity: 0, y: 20}}
                   animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.4, delay: 0.5}}
+                  transition={{duration: 0.4, delay: 0.6}}
               >
                 <div className="bg-purple-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <BookOpen className="w-7 h-7 text-purple-400"/>
@@ -158,7 +181,7 @@ const Home = () => {
                   className="bg-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                   initial={{opacity: 0, y: 20}}
                   animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.4, delay: 0.6}}
+                  transition={{duration: 0.4, delay: 0.7}}
               >
                 <div className="bg-orange-600/20 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <Users className="w-7 h-7 text-orange-400"/>
@@ -216,6 +239,14 @@ const Home = () => {
                   "{offsideOneliner}"
                 </p>
               </blockquote>
+              <p className="text-slate-300 text-lg mt-6 mb-4">
+                Or ask about a club as one of their own fans:
+              </p>
+              <blockquote className="bg-slate-900/50 border-l-4 border-emerald-500 p-6 rounded-r-lg">
+                <p className="text-slate-200 text-lg sm:text-xl italic leading-relaxed">
+                  "{teamOneliner}"
+                </p>
+              </blockquote>
             </div>
           </div>
         </motion.section>
@@ -234,7 +265,11 @@ const Home = () => {
               <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
                 <p>
                   <span className="font-semibold text-slate-100">Step 1:</span> Pick a team. Not a simple choice — a
-                  true football fan will tell you that a team is for life.
+                  true football fan will tell you that a team is for life.{" "}
+                  <Link to="/teams" className="text-emerald-400 hover:underline font-medium">
+                    Browse the tables
+                  </Link>{" "}
+                  and see what there is to say about each club.
                   {pickATeamArticle && (
                       <>
                         {" "}Check out{" "}
@@ -260,9 +295,15 @@ const Home = () => {
                 <p>
                   <span className="font-semibold text-slate-100">Step 3:</span> Use{" "}
                   <Link to="/matches" className="text-emerald-400 hover:underline font-medium">
-                    Match One-Liners
+                    Match
+                  </Link>,{" "}
+                  <Link to="/teams" className="text-emerald-400 hover:underline font-medium">
+                    Team
+                  </Link>{" "}and{" "}
+                  <Link to="/teams" className="text-emerald-400 hover:underline font-medium">
+                    Player One-Liners
                   </Link>{" "}
-                  to sound confident discussing recent games.
+                  to sound confident discussing recent games, clubs and the players everyone is talking about.
                 </p>
                 {partnerArticle && (
                     <p className="pt-4 border-t border-slate-600">

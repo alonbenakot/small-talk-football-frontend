@@ -138,6 +138,26 @@ Response (trimmed to the first rows of two competitions):
 - Team names here come from the standings feed and can differ slightly from the one-liner's `facts.name` or
   the fixture names ("Arsenal FC" here vs "Arsenal" on fixtures). Key on `id`, display whichever you loaded.
 
+### 1.3 `GET /teams/{teamId}` — team facts without a one-liner (added 2026-09-14)
+
+Public, no parameters. Returns the same `facts` object that §3 embeds in the team one-liner — coach, venue,
+`primaryCompetition`, `standings`, `recentForm`, `nextFixture`, `notablePlayers` — without generating a
+sentence, so the team page can show the card on arrival. `notablePlayers` is included (it is a stored-squad
+query, not part of the LLM call).
+
+Request: `GET /teams/80` → `data` is exactly the §3 `facts` shape.
+
+Differences from the one-liner:
+
+- A national side is **not** refused: its `standings` carry the `WORLD_CUP` entry and `primaryCompetition`
+  is `null` (the one-liner throws its "no league standing" 400 instead). Tolerate `null` there.
+
+**Errors**
+
+| HTTP | `systemMessage.messageText` | When |
+|---|---|---|
+| 404 | `No team was found for id: {id}` | unknown team id |
+
 ---
 
 ## 2. `GET /players/teams/{teamId}` — the squad picker

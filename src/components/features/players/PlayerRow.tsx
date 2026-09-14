@@ -12,9 +12,7 @@ const PlayerRow = ({player, teamId, notable}: Props) => {
   return (
       <Link
           to={`/teams/${teamId}/players/${player.id}`}
-          className={`flex items-center m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm ${
-              player.matchesPlayed === null ? "opacity-60" : ""
-          }`}
+          className="flex items-center m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm"
       >
         <FallbackImage
             src={player.image}

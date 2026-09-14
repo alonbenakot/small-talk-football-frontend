@@ -8,7 +8,6 @@ import OneLiner from "./models/OneLiner.ts";
 import OneLinerGenerator from "../one-liners/OneLinerGenerator.tsx";
 import {OneLinerOption} from "../one-liners/models/OneLinerOption.ts";
 import {Scale} from "lucide-react";
-import {motion} from "motion/react";
 
 const NEUTRAL = "NEUTRAL";
 type Side = TeamType | typeof NEUTRAL;
@@ -41,16 +40,8 @@ const MatchView = () => {
   return (
       <div className="min-h-screen flex justify-center p-4">
         <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl">
-          <MatchCard match={normalizeMatchDate(match)}/>
+          <MatchCard match={normalizeMatchDate(match)} linkTeams/>
 
-          <motion.h3
-              className="text-lg sm:text-xl font-bold text-slate-300 text-center mb-4"
-              initial={{opacity: 0, y: -10}}
-              animate={{opacity: 1, y: 0}}
-              transition={{duration: 0.4}}
-          >
-            Use AI to sound like a proper fan and impress your friends!
-          </motion.h3>
 
           <OneLinerGenerator<OneLiner, Side>
               title="Choose your team!"

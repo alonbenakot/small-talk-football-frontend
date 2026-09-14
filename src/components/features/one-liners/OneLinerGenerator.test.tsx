@@ -21,8 +21,8 @@ const options: OneLinerOption<Side>[] = [
 
 const envelope = (text: string) => ({ data: { text }, statusCode: 200 });
 
-const renderGenerator = (overrides: { options?: OneLinerOption<Side>[] } = {}) => {
-  const fetchOneLiner = vi.fn();
+const renderGenerator = (overrides: { options?: OneLinerOption<Side>[]; autoFetch?: boolean } = {}) => {
+  const fetchOneLiner = vi.fn().mockResolvedValue(envelope('Auto'));
   const onResult = vi.fn();
   renderWithProviders(
     <OneLinerGenerator<Payload, Side>
@@ -32,6 +32,7 @@ const renderGenerator = (overrides: { options?: OneLinerOption<Side>[] } = {}) =
       fetchOneLiner={fetchOneLiner}
       getText={(data) => data.text}
       onResult={onResult}
+      autoFetch={overrides.autoFetch}
       backLabel="Back to Teams"
       backTo="/teams"
     />,
@@ -115,5 +116,20 @@ describe('OneLinerGenerator', () => {
     await user.click(screen.getByRole('button', { name: 'Back to Teams' }));
 
     expect(navigate).toHaveBeenCalledWith('/teams');
+  });
+
+  it('generates once on mount with the default choice when autoFetch is set', async () => {
+    const { fetchOneLiner, onResult } = renderGenerator({ autoFetch: true });
+
+    expect(await screen.findByText(/Auto/)).toBeInTheDocument();
+    expect(fetchOneLiner).toHaveBeenCalledTimes(1);
+    expect(fetchOneLiner).toHaveBeenCalledWith('HOME');
+    expect(onResult).toHaveBeenCalledWith({ text: 'Auto' });
+  });
+
+  it('does not generate on mount without autoFetch', () => {
+    const { fetchOneLiner } = renderGenerator();
+
+    expect(fetchOneLiner).not.toHaveBeenCalled();
   });
 });

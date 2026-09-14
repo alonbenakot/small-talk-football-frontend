@@ -64,12 +64,10 @@ const oneLiner: TeamOneLiner = {
   facts,
 };
 
-const renderPage = ({ route = '/teams/80', squadRows = squad }: { route?: string; squadRows?: SquadPlayer[] } = {}) => {
-  loaderData.mockReturnValue({
-    team: { id: '80', name: 'Manchester City', crest: '', competition: 'PREMIER_LEAGUE', position: 2, points: 12 },
-    competitions: ['PREMIER_LEAGUE'],
-    squad: squadRows,
-  } as TeamLoaderOutput);
+const renderPage = ({ route = '/teams/80', squadRows = squad, teamFacts = facts }: {
+  route?: string; squadRows?: SquadPlayer[]; teamFacts?: TeamFacts;
+} = {}) => {
+  loaderData.mockReturnValue({ facts: teamFacts, squad: squadRows } as TeamLoaderOutput);
   const store = makeTestStore({ lang: { lang: Lang.BRITISH } });
   return { ...renderWithProviders(<TeamPage />, { store, route }), user: userEvent.setup() };
 };
@@ -131,12 +129,21 @@ describe('TeamPage', () => {
     expect(screen.getByRole('link', { name: /Ruben Dias/ })).toHaveAttribute('href', '/teams/80/players/3');
   });
 
-  it('dims players who have not featured and badges injured ones', () => {
+  it('lists players who have not featured in a rest-of-squad group at the end and badges injured ones', () => {
     renderPage();
 
-    expect(screen.getByRole('link', { name: /Marcus Bettinelli/ })).toHaveClass('opacity-60');
-    expect(screen.getByRole('link', { name: /Gianluigi Donnarumma/ })).not.toHaveClass('opacity-60');
+    const headings = screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
+    expect(headings.slice(-4)).toEqual(['Goalkeepers', 'Defenders', 'Forwards', 'Rest of the squad']);
+    const bench = screen.getByRole('heading', { name: 'Rest of the squad' }).nextElementSibling!;
+    expect(within(bench as HTMLElement).getByRole('link', { name: /Marcus Bettinelli/ })).toBeInTheDocument();
+    expect(within(bench as HTMLElement).queryByRole('link', { name: /Gianluigi Donnarumma/ })).not.toBeInTheDocument();
     expect(within(screen.getByRole('link', { name: /Jeremy Doku/ })).getByText('Injured')).toBeInTheDocument();
+  });
+
+  it('omits the rest-of-squad group when every player has featured', () => {
+    renderPage({ squadRows: squad.filter((p) => p.matchesPlayed !== null) });
+
+    expect(screen.queryByText('Rest of the squad')).not.toBeInTheDocument();
   });
 
   it('shows an empty state when the squad is empty', () => {
@@ -145,35 +152,52 @@ describe('TeamPage', () => {
     expect(screen.getByText('No squad yet')).toBeInTheDocument();
   });
 
-  it('shows the facts and notable-player dot only after generating', async () => {
-    const { user } = renderPage();
+  it('shows the facts and notable-player dot from the loader before generating', () => {
+    renderPage();
 
-    expect(screen.queryByText(/Enzo Maresca/)).not.toBeInTheDocument();
-    expect(screen.queryByTestId('notable-dot')).not.toBeInTheDocument();
-
-    await user.click(generate());
-
-    expect(await screen.findByText(/Four wins from four/)).toBeInTheDocument();
-    expect(screen.getByText('Enzo Maresca')).toBeInTheDocument();
-    expect(screen.getByText('2nd · 12 pts · 4 played · 4W-0D-0L')).toBeInTheDocument();
-    expect(screen.getByText(/Champions League: 8th · 3 pts · 1 played · 1W-0D-0L/)).toBeInTheDocument();
-    expect(screen.getByText(/0-1 at Manchester Utd/)).toBeInTheDocument();
-    expect(screen.getByText(/1-1 vs Chelsea/)).toBeInTheDocument();
+    expect(mockedGetTeamOneLiner).not.toHaveBeenCalled();
+    expect(screen.getByText('Coach: Enzo Maresca')).toBeInTheDocument();
+    expect(screen.getByText('Premier League')).toBeInTheDocument();
+    expect(screen.getByText('2nd')).toBeInTheDocument();
+    expect(screen.getByText('4-0-0')).toBeInTheDocument();
+    expect(screen.getByText(/8th · 3 pts · 1 played · 1W-0D-0L/)).toBeInTheDocument();
+    expect(screen.getByText('at Manchester Utd')).toBeInTheDocument();
+    expect(screen.getByText('vs Chelsea')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /vs Sunderland/ })).toHaveAttribute('href', '/matches/fx1');
     expect(within(screen.getByRole('link', { name: /Jeremy Doku/ })).getByTestId('notable-dot')).toBeInTheDocument();
     expect(screen.getAllByTestId('notable-dot')).toHaveLength(1);
   });
 
-  it('omits the next fixture when there is none', async () => {
-    mockedGetTeamOneLiner.mockResolvedValue({
-      data: { ...oneLiner, facts: { ...facts, nextFixture: null } },
-      statusCode: 200,
-    });
+  it('shows the one-liner beneath the form after generating', async () => {
     const { user } = renderPage();
 
     await user.click(generate());
 
-    await screen.findByText(/Four wins from four/);
+    expect(await screen.findByText(/Four wins from four/)).toBeInTheDocument();
+  });
+
+  it('omits the next fixture when there is none', () => {
+    renderPage({ teamFacts: { ...facts, nextFixture: null } });
+
     expect(screen.queryByText(/Next:/)).not.toBeInTheDocument();
+  });
+
+  it('falls back to the only standing when primaryCompetition is null (national side)', () => {
+    renderPage({
+      teamFacts: {
+        ...facts,
+        primaryCompetition: null,
+        standings: {
+          WORLD_CUP: {
+            competition: 'WORLD_CUP', position: 3, playedMatches: 2, points: 4,
+            overall: { wins: 1, losses: 0, draws: 1 }, home: { wins: 0, losses: 0, draws: 0 }, away: { wins: 0, losses: 0, draws: 0 },
+          },
+        },
+      },
+    });
+
+    expect(screen.getByText('World Cup')).toBeInTheDocument();
+    expect(screen.getByText('3rd')).toBeInTheDocument();
+    expect(screen.getByText('1-1-0')).toBeInTheDocument();
   });
 });

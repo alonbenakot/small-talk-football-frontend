@@ -327,7 +327,7 @@ Coverage is measured against `coverage.include` in `vite.config.ts`; new files f
 | D1 | Fixture team ids **are** the `/teams` ids. `MatchCard` crests link to `/teams/{id}`. |
 | D2 | Home: hero unchanged; five tiles in a 3 + 2 grid; hard-coded team example in "See It In Action". |
 | D3 | Player route is `/teams/:teamId/players/:playerId`. |
-| D4 | `teamLoader` filters `GET /teams` for now. Ask the backend for `GET /teams/{id}` and switch when it lands. |
+| D4 | ~~`teamLoader` filters `GET /teams` for now.~~ `GET /teams/{id}` landed 2026-09-14 (handoff §1.3); `teamLoader` uses it. |
 | D5 | Competition tabs are `SubjectButtons` text pills; `GET /competitions` is not used. |
 | D6 | Team form order `FAN`, `RIVAL_FAN`, `NEUTRAL`; default `FAN` — engages the football noob and mirrors the fixture form ("pick a side first, neutral last"). |
 | D7 | No "Start over" anywhere, including Matches. The form stays on screen; the result renders beneath it; Generate again replaces it. |
@@ -478,7 +478,22 @@ renders grouped, and player rows link to the (not yet existing) player route.
 
 ### Phase 5 — Player page
 
-Status: **open**
+Status: **done (2026-09-14)**
+
+Notes for the next session (Phase 6 was done in the same session; see its notes):
+- `playerLoader` (`src/routes/loaders/PlayerLoader.ts`) reads `params.teamId` / `params.playerId` and returns
+  `{teamId, player}`; its test copies the `LoaderFunctionArgs` shape from `TeamLoader.test.ts`.
+- `PlayerPage` renders `OneLinerGenerator<PlayerOneLiner, never>` with `options={[]}`, title "Get a line about
+  him", `submitLabel` per D10, `backTo` `/teams/{teamId}`.
+- `PlayerFacts` **skips** `null` / `""` stats (§6) rather than rendering "–", so the §4 "null as –" rule has
+  no live instance on the player page either; the stat sheet is a `<dl>` two-column grid, GK trio appended
+  only when `position === "Goalkeepers"`. The club stub is a `Link` to `/teams/{team.id}`.
+- Shared bits extracted for reuse: `ordinal(n)` moved to `src/utils/FormatUtil.ts` (now returns `"2nd"`, not
+  just the suffix) and the next-fixture block became `features/teams/NextFixtureLink.tsx`, used by both
+  `TeamFacts` and `PlayerFacts`.
+- No browser was available in the session (Playwright's Chromium is not installed), so the end-to-end check
+  was done with `curl` against the live backend: `/players/teams/80` and `/one-liners/players/{id}` return
+  exactly the modelled shapes. Worth one manual click-through Teams → team → player → generate.
 
 Pattern to copy: `TeamPage` from Phase 4.
 
@@ -492,7 +507,39 @@ Done when: Teams → team → player → one-liner works end to end.
 
 ### Phase 6 — Home, cross-links, docs
 
-Status: **open**
+Status: **done (2026-09-14)**
+
+Notes for the next session (feature complete; anything after this is follow-up):
+- `MatchCard` got a `linkTeams?: boolean` prop (default `false`); only `MatchView` passes it, so the list
+  card inside `Matches.tsx`'s `Link` never nests anchors. `MatchCard.test.tsx` asserts both modes.
+- `Home`: fifth tile inserted after "Match One-Liners" (tile delays reflowed 0.3→0.7), grid is
+  `lg:grid-cols-3`, second hard-coded blockquote uses the handoff §3 `FAN` sentence, Step 1 links "Browse the
+  tables" to `/teams`, Step 3 links Match / Team / Player One-Liners. `Home.test.tsx` added.
+- `CLAUDE.md` updated: product blurb, feature domains, `FallbackImage`, the `OneLinerGenerator` convention,
+  the teams routes, and the stale `.kiro/` note replaced with a pointer to `.claude/docs/`.
+- Backend wish-list still open: `GET /teams/{id}` (D4).
+- `npm run lint` still reports only the 3 pre-existing `CheatCardsPage` warnings. No commit made.
+
+Post-phase changes after Alon's review (2026-09-14):
+- Alon asked for the team facts to be visible without generating, then rejected the auto-fetch that
+  required (an `autoFetch` prop was added and removed again in the same session). The backend then shipped
+  `GET /teams/{id}` (handoff §1.3): `http.getTeamFacts`, `teamLoader` now returns `{facts, squad}` (the
+  `GET /teams` filter and the `team`/`competitions` fields are gone), `TeamHeader` takes `TeamFacts`, and
+  `TeamPage` renders `TeamFacts` and the notable dots straight from the loader with no `useState`/`onResult`.
+  `TeamFacts.primaryCompetition` is now `string | null`; the component falls back to the first standing.
+  The 404 for an unknown id comes from the backend envelope.
+- `autoFetch` is back on `OneLinerGenerator` and set by `PlayerPage` only (the player form has no input, so
+  the sentence and facts load on arrival; the button stays for regenerating after a language change).
+  `TeamPage` and `MatchView` still wait for a tap.
+- `TeamFacts` and `PlayerFacts` were restyled to match the cheat-card display (`rounded-2xl shadow-xl`,
+  emerald icon circle + `text-slate-800` heading, emerald uppercase section labels, `bg-gray-50` stat tiles,
+  W/D/L as coloured circles). Content and links unchanged.
+- `Squad` no longer dims `matchesPlayed: null` rows inside their position; they are listed together in a
+  final "Rest of the squad" group (omitted when empty). `PlayerRow` lost the `opacity-60` class. The
+  label is deliberately neutral (earlier "Yet to play this season" and "No stats recorded yet" were both
+  rejected): the backend returned `matchesPlayed: null` and an all-null `season` for Elliot Anderson (Man
+  City) the day after he played, so the flag lags the feed and must not read as a claim about playing time
+  or as blaming the data.
 
 - `Home` per §6 "Home" (fifth tile, second example, step copy).
 - `MatchCard` crests/names link to `/teams/{id}` (D1). Note `MatchCard` is itself wrapped in a `Link` inside

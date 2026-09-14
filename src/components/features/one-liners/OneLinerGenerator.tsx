@@ -15,15 +15,21 @@ type Props<T, V extends string> = {
   fetchOneLiner: (choice: V | undefined) => Promise<SmallTalkResponse<T>>;
   getText: (data: T) => string;
   onResult?: (data: T) => void;
+  autoFetch?: boolean;                             // generate once on mount with the default choice
   backLabel: string;
   backTo: string | number;
 };
 
 const OneLinerGenerator = <T, V extends string>({
-  title, options, defaultValue, submitLabel, fetchOneLiner, getText, onResult, backLabel, backTo,
+  title, options, defaultValue, submitLabel, fetchOneLiner, getText, onResult, autoFetch, backLabel, backTo,
 }: Props<T, V>) => {
   const {isLoading, fetchedData, invokeApi} = useApi<T, V | undefined>(fetchOneLiner);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (autoFetch) invokeApi(defaultValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!fetchedData) return;

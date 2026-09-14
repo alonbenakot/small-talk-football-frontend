@@ -18,3 +18,8 @@ export const formatParams = (text: string) => {
     .replace(/\s+/g, ' ')     // collapse multiple spaces
     .trim();                  // remove leading/trailing spaces
 };
+export const ordinal = (n: number) => {
+  const rem = n % 100;
+  const suffix = rem >= 11 && rem <= 13 ? "th" : ["th", "st", "nd", "rd"][n % 10] ?? "th";
+  return `${n}${suffix}`;
+}

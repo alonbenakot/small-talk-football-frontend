@@ -107,6 +107,12 @@ describe('http', () => {
       });
     });
 
+    it('getTeamFacts targets the team by id', async () => {
+      await http.getTeamFacts('80');
+
+      expect(publicClient.get).toHaveBeenCalledWith(`${BASE}teams/80`);
+    });
+
     it('getSquad targets the team by id', async () => {
       await http.getSquad('80');
 

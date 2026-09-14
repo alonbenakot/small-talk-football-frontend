@@ -1,24 +1,15 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {teamLoader} from './TeamLoader.ts';
-import {getSquad, getTeams} from '../../utils/api/http.ts';
-import TeamsResponse, {TeamSummary} from '../../components/features/teams/models/TeamsResponse.ts';
+import {getSquad, getTeamFacts} from '../../utils/api/http.ts';
+import {TeamFacts} from '../../components/features/teams/models/TeamOneLiner.ts';
 import SquadPlayer from '../../components/features/players/models/SquadPlayer.ts';
 
-vi.mock('../../utils/api/http.ts', () => ({ getTeams: vi.fn(), getSquad: vi.fn() }));
+vi.mock('../../utils/api/http.ts', () => ({ getTeamFacts: vi.fn(), getSquad: vi.fn() }));
 
-const mockedGetTeams = vi.mocked(getTeams);
+const mockedGetTeamFacts = vi.mocked(getTeamFacts);
 const mockedGetSquad = vi.mocked(getSquad);
 
-const city = (competition: string, position: number): TeamSummary =>
-  ({ id: '80', name: 'Manchester City', crest: 'city.jpg', competition, position, points: 12 });
-
-const arsenal: TeamSummary =
-  { id: '141', name: 'Arsenal FC', crest: 'arsenal.jpg', competition: 'PREMIER_LEAGUE', position: 1, points: 12 };
-
-const teams: TeamsResponse = {
-  competitions: ['PREMIER_LEAGUE', 'CHAMPIONS_LEAGUE'],
-  teams: [arsenal, city('PREMIER_LEAGUE', 2), city('CHAMPIONS_LEAGUE', 8)],
-};
+const facts = { id: '80', name: 'Manchester City', crest: 'city.jpg', coach: 'Enzo Maresca' } as TeamFacts;
 
 const squad: SquadPlayer[] = [
   { id: '1', name: 'Gianluigi Donnarumma', image: '', number: '1', position: 'Goalkeepers', injured: false, matchesPlayed: 9 },
@@ -30,46 +21,28 @@ const load = (id: string) =>
 describe('teamLoader', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    mockedGetTeams.mockResolvedValue({ data: teams, statusCode: 200 });
+    mockedGetTeamFacts.mockResolvedValue({ data: facts, statusCode: 200 });
     mockedGetSquad.mockResolvedValue({ data: squad, statusCode: 200 });
   });
 
-  it('picks the first row for the id and lists every competition it appears in', async () => {
-    await expect(load('80')).resolves.toEqual({
-      team: city('PREMIER_LEAGUE', 2),
-      competitions: ['PREMIER_LEAGUE', 'CHAMPIONS_LEAGUE'],
-      squad,
-    });
+  it('returns the team facts and squad for the id', async () => {
+    await expect(load('80')).resolves.toEqual({ facts, squad });
+    expect(mockedGetTeamFacts).toHaveBeenCalledWith('80');
     expect(mockedGetSquad).toHaveBeenCalledWith('80');
   });
 
-  it('returns a single competition for a domestic-only club', async () => {
-    const result = await load('141');
-
-    expect(result.team).toEqual(arsenal);
-    expect(result.competitions).toEqual(['PREMIER_LEAGUE']);
-  });
-
-  it('throws a 404 Response when no row matches the id', async () => {
-    const thrown = await load('999').catch((e) => e);
-
-    expect(thrown).toBeInstanceOf(Response);
-    expect((thrown as Response).status).toBe(404);
-    await expect((thrown as Response).text()).resolves.toBe('Team not found');
-  });
-
-  it('throws a Response carrying the backend message when the teams envelope is an error', async () => {
-    mockedGetTeams.mockResolvedValue({
-      data: teams,
-      statusCode: 503,
-      systemMessage: { messageText: 'Standings unavailable', isError: true },
+  it('throws a Response carrying the backend message when the facts envelope is an error', async () => {
+    mockedGetTeamFacts.mockResolvedValue({
+      data: {} as TeamFacts,
+      statusCode: 404,
+      systemMessage: { messageText: 'No team was found for id: 80', isError: true },
     });
 
     const thrown = await load('80').catch((e) => e);
 
     expect(thrown).toBeInstanceOf(Response);
-    expect((thrown as Response).status).toBe(503);
-    await expect((thrown as Response).text()).resolves.toBe('Standings unavailable');
+    expect((thrown as Response).status).toBe(404);
+    await expect((thrown as Response).text()).resolves.toBe('No team was found for id: 80');
   });
 
   it('throws a 500 Response when the squad request rejects', async () => {

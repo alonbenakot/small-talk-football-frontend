@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {formatParams, formatString, subStringUntilColon} from './FormatUtil.ts';
+import {formatParams, formatString, subStringUntilColon, ordinal} from './FormatUtil.ts';
 
 describe('formatString', () => {
   it('converts SNAKE_CASE to Title Case with spaces', () => {
@@ -64,5 +64,26 @@ describe('formatParams', () => {
 
   it('returns an empty string unchanged', () => {
     expect(formatParams('')).toBe('');
+  });
+});
+
+describe('ordinal', () => {
+  it('appends st/nd/rd for 1, 2, 3', () => {
+    expect(ordinal(1)).toBe('1st');
+    expect(ordinal(2)).toBe('2nd');
+    expect(ordinal(3)).toBe('3rd');
+  });
+
+  it('appends th for the teens and other numbers', () => {
+    expect(ordinal(4)).toBe('4th');
+    expect(ordinal(11)).toBe('11th');
+    expect(ordinal(12)).toBe('12th');
+    expect(ordinal(13)).toBe('13th');
+    expect(ordinal(20)).toBe('20th');
+  });
+
+  it('handles larger numbers ending in 1, 2, 3', () => {
+    expect(ordinal(21)).toBe('21st');
+    expect(ordinal(112)).toBe('112th');
   });
 });

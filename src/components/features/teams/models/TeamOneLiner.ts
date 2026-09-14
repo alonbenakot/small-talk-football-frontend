@@ -20,7 +20,7 @@ export interface TeamFacts {
   coach: string,
   founded: string,
   venue: Venue,
-  primaryCompetition: string,
+  primaryCompetition: string | null,   // null for a national side (WORLD_CUP standing only)
   standings: Record<string, Standing>,
   recentForm: FormEntry[],
   nextFixture: NextFixture | null,

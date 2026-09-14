@@ -21,6 +21,8 @@ import TeamsPage from "../pages/TeamsPage.tsx";
 import {teamsLoader} from "./loaders/TeamsLoader.ts";
 import TeamPage from "../pages/TeamPage.tsx";
 import {teamLoader} from "./loaders/TeamLoader.ts";
+import PlayerPage from "../pages/PlayerPage.tsx";
+import {playerLoader} from "./loaders/PlayerLoader.ts";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -80,6 +82,12 @@ const routes = createBrowserRouter([{
       path: "teams/:id",
       element: <TeamPage/>,
       loader: teamLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "teams/:teamId/players/:playerId",
+      element: <PlayerPage/>,
+      loader: playerLoader,
       errorElement: <ErrorPage/>
     },
     {

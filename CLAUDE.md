@@ -20,7 +20,7 @@ Deployed on Vercel; `vercel.json` rewrites all paths to `/index.html` for client
 
 ## Product
 
-Small Talk Football helps casual fans join football conversations. Features: match fixtures/details, AI-generated **one-liners** per match (varying by team side and language), **cheat cards** (reference "small info" cards by category), community **articles** with an admin approve/remove workflow, and auth with `MEMBER` / `ADMIN` roles. Content language is one of `BRITISH | AMERICAN | HEBREW`.
+Small Talk Football helps casual fans join football conversations. Features: match fixtures/details, AI-generated **one-liners** per match (varying by team side and language), per team (varying by perspective `FAN | RIVAL_FAN | NEUTRAL`, language and competition) and per player (language only), **teams** standings with a squad per club, **cheat cards** (reference "small info" cards by category), community **articles** with an admin approve/remove workflow, and auth with `MEMBER` / `ADMIN` roles. Content language is one of `BRITISH | AMERICAN | HEBREW`.
 
 This is a frontend only — all data comes from a separate backend at `VITE_API_BASE_URL` (`.env.development` / `.env.production`). `VITE_GA_TRACKING_ID` enables GA4 (production only); when unset, analytics is a no-op.
 
@@ -54,12 +54,16 @@ Vitest drives the suite and reuses `vite.config.ts`, so `import.meta.env` (read 
 Known-bug regression guards live in the suite and assert current, wrong behaviour; they are cross-referenced by number to `bugs.md` and must be inverted when a bug is fixed.
 
 ### Components
-- `components/features/<domain>/` for domain components; each feature keeps its own `models/` subfolder for types scoped to it (e.g. `features/matches/models/MatchModel.ts`).
-- `components/ui/` for domain-agnostic primitives, one folder per component.
+- `components/features/<domain>/` for domain components; each feature keeps its own `models/` subfolder for types scoped to it (e.g. `features/matches/models/MatchModel.ts`). Domains: `articles`, `auth`, `cheat-cards`, `language`, `matches`, `one-liners`, `teams`, `players`.
+- `components/ui/` for domain-agnostic primitives, one folder per component. `FallbackImage` wraps `<img>` for hot-linked crests/photos and swaps in a lucide icon when the source is empty or fails.
 - Use `ProtectedButton` (not `Button`) for actions requiring auth — it opens the login modal, then replays the pending click once the user is authenticated.
+- **All one-liner UIs render `features/one-liners/OneLinerGenerator`** (`MatchView`, `TeamPage`, `PlayerPage`). It owns the `useApi` call, the `AiSpinner`, the radio form and the result card; a caller passes `options` (radio choices, `[]` for players), `fetchOneLiner`, `getText`, and optionally `onResult` to lift facts out of the payload. The form stays on screen and generating again replaces the result — there is no "start over". `autoFetch` generates once on mount (used by `PlayerPage`, whose form has no input).
+- `TeamFacts` renders on arrival from the loader (`GET /teams/{id}`); `PlayerFacts` renders once the player one-liner arrives (auto-fetched on arrival), because player facts come only in that payload. `null` stats mean "not recorded" and are hidden, never shown as `0`.
 
 ### Routing
 All routes are declared in `AppRoutes.tsx`; `/` redirects to `/home`. Adding a data-backed route means: page component in `pages/`, loader in `routes/loaders/`, and a route entry with `loader` + `errorElement`.
+
+Teams routes: `/teams` (`teamsLoader` → `GET /teams`), `/teams/:id` (`teamLoader` fetches `GET /teams/{id}` facts and the squad in parallel; optional `?competition=` is read by the page with `useSearchParams`), `/teams/:teamId/players/:playerId` (`playerLoader` finds the player in the squad). Loaders with several params read `params` from `LoaderFunctionArgs` rather than `extractIdFromUrl`.
 
 ## Coding Standards
 
@@ -68,5 +72,5 @@ All routes are declared in `AppRoutes.tsx`; `/` redirects to `/home`. Adding a d
 
 ## Notes
 
-- The `.kiro/` directory holds Kiro steering docs (`.kiro/steering/`) that overlap with this file, plus feature specs under `.kiro/specs/`. Keep them in sync if you change architecture conventions.
+- `.claude/docs/` holds the backend handoff and the phased implementation plan for the teams/players one-liners feature.
 - `README.md` is the unmodified Vite template README and carries no project-specific information.

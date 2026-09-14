@@ -1,81 +1,104 @@
-import {Link} from "react-router-dom";
 import {motion} from "motion/react";
-import {FormEntry, NextFixture, Standing, TeamFacts as TeamFactsModel} from "./models/TeamOneLiner.ts";
-import {formatString} from "../../../utils/FormatUtil.ts";
+import {Trophy} from "lucide-react";
+import {FormEntry, Standing, TeamFacts as TeamFactsModel} from "./models/TeamOneLiner.ts";
+import NextFixtureLink from "./NextFixtureLink.tsx";
+import {formatString, ordinal} from "../../../utils/FormatUtil.ts";
 
 type Props = {
   facts: TeamFactsModel;
 };
 
 const resultClass: Record<FormEntry["result"], string> = {
-  WIN: "text-emerald-600",
-  DRAW: "text-gray-500",
-  LOSS: "text-red-600",
-};
-
-const ordinal = (n: number) => {
-  const rem = n % 100;
-  if (rem >= 11 && rem <= 13) return "th";
-  return ["th", "st", "nd", "rd"][n % 10] ?? "th";
+  WIN: "bg-emerald-600",
+  DRAW: "bg-gray-400",
+  LOSS: "bg-red-600",
 };
 
 const standingLine = (standing: Standing) =>
-    `${standing.position}${ordinal(standing.position)} · ${standing.points} pts · ${standing.playedMatches} played · ` +
+    `${ordinal(standing.position)} · ${standing.points} pts · ${standing.playedMatches} played · ` +
     `${standing.overall.wins}W-${standing.overall.draws}D-${standing.overall.losses}L`;
 
-const kickOff = (fixture: NextFixture) =>
-    new Date(fixture.kickOff).toLocaleDateString("en-GB", {day: "2-digit", month: "2-digit", year: "2-digit"});
+const standingTiles = (standing: Standing): [string, string][] => [
+  ["Position", ordinal(standing.position)],
+  ["Points", `${standing.points}`],
+  ["Played", `${standing.playedMatches}`],
+  ["W-D-L", `${standing.overall.wins}-${standing.overall.draws}-${standing.overall.losses}`],
+];
 
 const TeamFacts = ({facts}: Props) => {
-  const primary = facts.standings[facts.primaryCompetition];
-  const secondary = Object.values(facts.standings).find((s) => s.competition !== facts.primaryCompetition);
+  const standings = Object.values(facts.standings);
+  const primary = standings.find((s) => s.competition === facts.primaryCompetition) ?? standings[0];
+  const secondary = standings.find((s) => s !== primary);
 
   return (
       <motion.div
-          className="bg-white p-6 rounded-lg shadow-md mt-4"
+          className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mt-4"
           initial={{opacity: 0, y: 10}}
           animate={{opacity: 1, y: 0}}
           transition={{duration: 0.5}}
       >
-        {primary &&
-            <div className="mb-4">
-              <div className="text-xs text-gray-600">{formatString(primary.competition)}</div>
-              <div className="text-gray-900 font-bold text-lg">{standingLine(primary)}</div>
-              {secondary &&
-                  <div className="text-sm text-gray-600">
-                    {formatString(secondary.competition)}: {standingLine(secondary)}
-                  </div>
-              }
-            </div>
-        }
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
+            <Trophy className="w-5 h-5 text-white"/>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-800">Club facts</h2>
+            {facts.coach && <p className="text-sm text-gray-600">Coach: {facts.coach}</p>}
+          </div>
+        </div>
 
-        {facts.coach &&
-            <div className="mb-4 text-sm text-gray-900">
-              <span className="text-gray-600">Coach: </span>{facts.coach}
-            </div>
+        {primary &&
+            <section className="mb-6">
+              <h3 className="text-sm font-semibold text-emerald-600 uppercase tracking-wide mb-3">
+                {formatString(primary.competition)}
+              </h3>
+              <dl className="grid grid-cols-4 gap-2 sm:gap-3">
+                {standingTiles(primary).map(([label, value]) => (
+                    <div key={label} className="bg-gray-50 rounded-xl p-3 text-center shadow-sm">
+                      <dd className="text-xl sm:text-2xl font-bold text-gray-900">{value}</dd>
+                      <dt className="text-xs text-gray-600">{label}</dt>
+                    </div>
+                ))}
+              </dl>
+              {secondary &&
+                  <p className="mt-3 text-sm text-gray-600">
+                    <span className="font-semibold text-gray-900">{formatString(secondary.competition)}:</span>{" "}
+                    {standingLine(secondary)}
+                  </p>
+              }
+            </section>
         }
 
         {facts.recentForm.length > 0 &&
-            <div className="mb-4">
-              <div className="text-xs text-gray-600 mb-1">Recent form</div>
-              <ul className="flex flex-wrap gap-2">
+            <section className="mb-6">
+              <h3 className="text-sm font-semibold text-emerald-600 uppercase tracking-wide mb-3">
+                Recent form{" "}
+                <span className="normal-case tracking-normal font-normal text-gray-600">
+                  (how the last five games went, newest first — W win, D draw, L loss)
+                </span>
+              </h3>
+              <ul className="flex flex-wrap gap-x-5 gap-y-3">
                 {facts.recentForm.slice(0, 5).map((entry) => (
-                    <li key={entry.date} className="bg-gray-50 rounded-full px-3 py-1 text-xs text-gray-900 shadow-sm">
-                      <span className={`font-bold ${resultClass[entry.result]}`}>{entry.result.charAt(0)}</span>
-                      {" "}{entry.score} {entry.home ? "vs" : "at"} {entry.opponent}
+                    <li key={entry.date} className="flex flex-col items-center gap-1 min-w-16 whitespace-nowrap">
+                      <span
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${resultClass[entry.result]}`}
+                      >
+                        {entry.result.charAt(0)}
+                      </span>
+                      <span className="text-xs text-gray-900 font-semibold">{entry.score}</span>
+                      <span className="text-xs text-gray-600">
+                        {entry.home ? "vs" : "at"} {entry.opponent}
+                      </span>
                     </li>
                 ))}
               </ul>
-            </div>
+            </section>
         }
 
         {facts.nextFixture &&
-            <div className="text-sm text-gray-900">
-              <span className="text-gray-600">Next: </span>
-              <Link to={`/matches/${facts.nextFixture.fixtureId}`} className="text-emerald-600 font-semibold">
-                {facts.nextFixture.home ? "vs" : "at"} {facts.nextFixture.opponent} · {kickOff(facts.nextFixture)}
-              </Link>
-            </div>
+            <section className="pt-4 border-t border-slate-200">
+              <NextFixtureLink fixture={facts.nextFixture}/>
+            </section>
         }
       </motion.div>
   );

@@ -15,7 +15,7 @@ import jwtAxios from "./jwtAxios.ts";
 import MatchModel from "../../components/features/matches/models/MatchModel.ts";
 import OneLiner from "../../components/features/matches/models/OneLiner.ts";
 import TeamsResponse from "../../components/features/teams/models/TeamsResponse.ts";
-import TeamOneLiner from "../../components/features/teams/models/TeamOneLiner.ts";
+import TeamOneLiner, {TeamFacts} from "../../components/features/teams/models/TeamOneLiner.ts";
 import SquadPlayer from "../../components/features/players/models/SquadPlayer.ts";
 import PlayerOneLiner from "../../components/features/players/models/PlayerOneLiner.ts";
 
@@ -120,6 +120,11 @@ export const getOneLiner = async (oneLinerInput: OneLinerInput) => {
 
 export const getTeams = async () => {
   const response = await axios.get<SmallTalkResponse<TeamsResponse>>(TEAMS_URL);
+  return response.data;
+}
+
+export const getTeamFacts = async (teamId: string) => {
+  const response = await axios.get<SmallTalkResponse<TeamFacts>>(`${TEAMS_URL}/${teamId}`);
   return response.data;
 }
 
