@@ -19,6 +19,8 @@ import MatchView from "../components/features/matches/MatchView.tsx";
 import AdminPage from "../pages/AdminPage.tsx";
 import TeamsPage from "../pages/TeamsPage.tsx";
 import {teamsLoader} from "./loaders/TeamsLoader.ts";
+import TeamPage from "../pages/TeamPage.tsx";
+import {teamLoader} from "./loaders/TeamLoader.ts";
 
 const routes = createBrowserRouter([{
   path: "/",
@@ -72,6 +74,12 @@ const routes = createBrowserRouter([{
       path: "teams",
       element: <TeamsPage/>,
       loader: teamsLoader,
+      errorElement: <ErrorPage/>
+    },
+    {
+      path: "teams/:id",
+      element: <TeamPage/>,
+      loader: teamLoader,
       errorElement: <ErrorPage/>
     },
     {

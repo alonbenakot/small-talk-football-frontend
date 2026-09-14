@@ -446,7 +446,24 @@ still 404 — that is Phase 4); About is reachable on mobile through the footer.
 
 ### Phase 4 — Team page
 
-Status: **open**
+Status: **done (2026-09-14)**
+
+Notes for the next session (Phase 5):
+- `teamLoader` (`src/routes/loaders/TeamLoader.ts`) runs `getTeams()` and `getSquad(id)` through
+  `handleLoaderApiCall` in a `Promise.all`; either envelope error throws first, then the 404 for a missing
+  id. Its test builds `LoaderFunctionArgs` as `{ params: { id }, request: new Request(...), context: {} }` —
+  copy that for `playerLoader`, which reads `params.teamId` / `params.playerId`.
+- `TeamPage` wires `OneLinerGenerator<TeamOneLiner, Perspective>` and lifts `facts` into `useState`; the
+  competition query is spread into the request only when present (`...(competition && {competition})`), so
+  the test asserts `toHaveBeenCalledWith` without a `competition` key for domestic routes.
+- `Squad` takes `notablePlayerIds: string[]` (the page maps `facts.notablePlayers`) and renders the
+  `MessageBlock` empty state itself. `PlayerRow` takes `teamId` and builds `/teams/{teamId}/players/{id}`;
+  the notable dot is a `data-testid="notable-dot"` span. Copy `PlayerRow` for `PlayerHeader`.
+- `TeamFacts` has no nullable numbers (the handoff's standings/form fields are all present), so the plan's
+  "`null` as –" test for the team page did not apply; it belongs to `PlayerFacts` in Phase 5.
+- `formatString` from `src/utils/FormatUtil.ts` turns `CHAMPIONS_LEAGUE` into "Champions League" — use it
+  for competition labels rather than a new helper.
+- `npm run lint` still reports only the 3 pre-existing `CheatCardsPage` warnings. No commit made.
 
 Pattern to copy: `MatchView.tsx` (layout + generator usage after Phase 2), `matchLoader`.
 
