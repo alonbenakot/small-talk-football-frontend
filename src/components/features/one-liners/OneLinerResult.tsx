@@ -1,13 +1,12 @@
 import {Check, Copy} from "lucide-react";
 import Button from "../../ui/button/Button.tsx";
 import {useState} from "react";
-import {motion} from "framer-motion";
+import {motion} from "motion/react";
 import {Lang} from "../language/Lang.ts";
 import {useLangStore} from "../../../store/store.ts";
 
 type Props = {
   oneLinerText: string;
-  handleStartOver: () => void;
 }
 
 const formatQuote = (text: string, lang: Lang) => {
@@ -17,7 +16,7 @@ const formatQuote = (text: string, lang: Lang) => {
   return `"${text}"`;
 };
 
-const OneLinerResult = ({oneLinerText, handleStartOver}: Props) => {
+const OneLinerResult = ({oneLinerText}: Props) => {
   const [copied, setCopied] = useState(false);
   const {selectedLang} = useLangStore();
 
@@ -49,7 +48,7 @@ const OneLinerResult = ({oneLinerText, handleStartOver}: Props) => {
         </motion.blockquote>
 
         <motion.div
-            className="flex flex-col sm:flex-row gap-3 mb-3"
+            className="flex flex-col sm:flex-row gap-3"
             initial={{opacity: 0, y: 10}}
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.4, delay: 0.3}}
@@ -86,23 +85,6 @@ const OneLinerResult = ({oneLinerText, handleStartOver}: Props) => {
               </motion.div>
             </Button>
           </motion.div>
-        </motion.div>
-
-        <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            transition={{duration: 0.4, delay: 0.4}}
-            whileHover={{scale: 1.02}}
-            whileTap={{scale: 0.98}}
-        >
-          <Button
-              type="button"
-              onClick={handleStartOver}
-              buttonType="secondary"
-              className="w-full text-sm py-2"
-          >
-            Start over
-          </Button>
         </motion.div>
       </div>
   );

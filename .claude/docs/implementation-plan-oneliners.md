@@ -390,7 +390,22 @@ Done when: build/lint/test green; nothing under `pages/`, `routes/` or `componen
 
 ### Phase 2 — Extract the reusable one-liner generator
 
-Status: **open**
+Status: **done (2026-09-14)**
+
+Notes for the next session (Phase 3):
+- `OneLinerGenerator` props are exactly §5. Call it with explicit generics when the payload type cannot be
+  inferred from `fetchOneLiner`: `<OneLinerGenerator<TeamOneLiner, Perspective> … />` (see `MatchView.tsx`
+  for the pattern, including how the options array and `fetchOneLiner` are built).
+- `OneLinerForm` radio ids are the option `value`s, so option values must be unique per form (they are enums).
+  With `options: []` it submits `undefined`; do not pass a `defaultValue` in that case.
+- `onResult` fires from a `useEffect` on `fetchedData` (deps deliberately exclude `onResult`, with an
+  eslint-disable line) so an inline arrow from the page does not re-trigger it on every render.
+- `src/test/setup.ts` now stubs `Element.prototype.scrollIntoView` (jsdom lacks it); the generator calls it
+  on every result.
+- The `NEUTRAL` constant is now private to `MatchView.tsx`; `OneLinerFormData` no longer exists. The
+  `console.log` of the form data in the old `MatchView` was dropped along with its test spy.
+- Moved files (`OneLinerForm`, `OneLinerResult`) switched to `motion/react` imports as part of the rewrite.
+- `CLAUDE.md` still lists the one-liner files under `features/matches`; it is updated in Phase 6 per plan.
 
 Pattern to copy: today's `MatchView.tsx`, `OneLinerForm.tsx`, `OneLinerResult.tsx` (and their tests).
 

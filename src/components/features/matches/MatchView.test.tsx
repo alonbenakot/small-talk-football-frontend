@@ -44,7 +44,6 @@ const generate = () => screen.getByRole('button', { name: /Generate One-Liner/ }
 describe('MatchView', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   it('shows the match and the one-liner form', () => {
@@ -113,7 +112,7 @@ describe('MatchView', () => {
     expect(mockedGetOneLiner.mock.calls[0][0].lang).toBe(Lang.HEBREW);
   });
 
-  it('swaps the form for the result once one arrives', async () => {
+  it('shows the result beneath the form once one arrives', async () => {
     mockedGetOneLiner.mockResolvedValue({
       data: { text: 'Liverpool bossed the midfield', language: Lang.BRITISH, teamType: TeamType.HOME },
       statusCode: 200,
@@ -124,21 +123,23 @@ describe('MatchView', () => {
 
     // OneLinerResult wraps the text in quote marks via formatQuote.
     expect(await screen.findByText(/Liverpool bossed the midfield/)).toBeInTheDocument();
+    expect(generate()).toBeInTheDocument();
   });
 
-  it('returns to a blank form on "start over"', async () => {
-    mockedGetOneLiner.mockResolvedValue({
-      data: { text: 'Liverpool bossed the midfield', language: Lang.BRITISH, teamType: TeamType.HOME },
-      statusCode: 200,
-    });
+  it('replaces the result when generating again', async () => {
+    mockedGetOneLiner
+      .mockResolvedValueOnce({ data: { text: 'First line', language: Lang.BRITISH, teamType: TeamType.HOME }, statusCode: 200 })
+      .mockResolvedValueOnce({ data: { text: 'Second line', language: Lang.BRITISH, teamType: TeamType.AWAY }, statusCode: 200 });
     const { user } = renderView();
     await user.click(generate());
-    await screen.findByText(/Liverpool bossed the midfield/);
+    await screen.findByText(/First line/);
 
-    await user.click(screen.getByRole('button', { name: /Start Over|Another/i }));
+    await user.click(screen.getByRole('radio', { name: /Arsenal/ }));
+    await user.click(generate());
 
-    expect(await screen.findByRole('button', { name: /Generate One-Liner/ })).toBeInTheDocument();
-    expect(screen.queryByText(/Liverpool bossed the midfield/)).not.toBeInTheDocument();
+    expect(await screen.findByText(/Second line/)).toBeInTheDocument();
+    expect(screen.queryByText(/First line/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Start Over/i })).not.toBeInTheDocument();
   });
 
   it('keeps the form visible when the request fails', async () => {

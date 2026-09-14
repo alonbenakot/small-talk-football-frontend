@@ -19,6 +19,8 @@ window.matchMedia = (query: string) =>
     dispatchEvent: () => false,
   }) as unknown as MediaQueryList;
 
+Element.prototype.scrollIntoView = noop;
+
 window.ResizeObserver = class {
   observe() {}
   unobserve() {}
