@@ -1,12 +1,23 @@
 import axios from "axios";
 import User from "../../components/features/auth/models/User.ts";
 import {SmallTalkResponse} from "../../models/small-talk-response.ts";
-import {AddArticleInput, LoginInput, OneLinerInput, SignUpInput} from "./api-inputs.ts";
+import {
+  AddArticleInput,
+  LoginInput,
+  OneLinerInput,
+  PlayerOneLinerInput,
+  SignUpInput,
+  TeamOneLinerInput
+} from "./api-inputs.ts";
 import CheatCardModel from "../../components/features/cheat-cards/models/CheatCardModel.ts";
 import ArticleModel from "../../components/features/articles/models/ArticleModel.ts";
 import jwtAxios from "./jwtAxios.ts";
 import MatchModel from "../../components/features/matches/models/MatchModel.ts";
 import OneLiner from "../../components/features/matches/models/OneLiner.ts";
+import TeamsResponse from "../../components/features/teams/models/TeamsResponse.ts";
+import TeamOneLiner from "../../components/features/teams/models/TeamOneLiner.ts";
+import SquadPlayer from "../../components/features/players/models/SquadPlayer.ts";
+import PlayerOneLiner from "../../components/features/players/models/PlayerOneLiner.ts";
 
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -26,6 +37,9 @@ const INIT_ARTICLES_URL = `${BASE_ARTICLES_URL}/init`;
 const INIT_CHEAT_CARDS = `${CHEAT_CARDS_URL}/init`;
 const TEAMS_URL = `${BASE_URL}teams`;
 const STANDINGS_URL = `${TEAMS_URL}/standings`;
+const SQUAD_URL = `${BASE_URL}players/teams`;
+const TEAM_ONE_LINERS_URL = `${ONE_LINERS_URL}/teams`;
+const PLAYER_ONE_LINERS_URL = `${ONE_LINERS_URL}/players`;
 
 
 export const UNAUTHORIZED_MSG = 'You are unauthorized to make this action. If you think you should be, please log in again.';
@@ -101,6 +115,28 @@ export const getFixture = async (fixtureId: string) => {
 export const getOneLiner = async (oneLinerInput: OneLinerInput) => {
   const params = {lang: oneLinerInput.lang, teamType: oneLinerInput.teamType};
   const response = await axios.get<SmallTalkResponse<OneLiner>>(`${ONE_LINERS_URL}/${oneLinerInput.matchId}`, {params: params});
+  return response.data;
+}
+
+export const getTeams = async () => {
+  const response = await axios.get<SmallTalkResponse<TeamsResponse>>(TEAMS_URL);
+  return response.data;
+}
+
+export const getSquad = async (teamId: string) => {
+  const response = await axios.get<SmallTalkResponse<SquadPlayer[]>>(`${SQUAD_URL}/${teamId}`);
+  return response.data;
+}
+
+export const getTeamOneLiner = async (input: TeamOneLinerInput) => {
+  const params = {lang: input.lang, perspective: input.perspective, competition: input.competition};
+  const response = await axios.get<SmallTalkResponse<TeamOneLiner>>(`${TEAM_ONE_LINERS_URL}/${input.teamId}`, {params: params});
+  return response.data;
+}
+
+export const getPlayerOneLiner = async (input: PlayerOneLinerInput) => {
+  const params = {lang: input.lang};
+  const response = await axios.get<SmallTalkResponse<PlayerOneLiner>>(`${PLAYER_ONE_LINERS_URL}/${input.playerId}`, {params: params});
   return response.data;
 }
 

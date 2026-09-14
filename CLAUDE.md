@@ -61,6 +61,11 @@ Known-bug regression guards live in the suite and assert current, wrong behaviou
 ### Routing
 All routes are declared in `AppRoutes.tsx`; `/` redirects to `/home`. Adding a data-backed route means: page component in `pages/`, loader in `routes/loaders/`, and a route entry with `loader` + `errorElement`.
 
+## Coding Standards
+
+- Use latest versions of libraries and idiomatic approaches as of today.
+- Keep it simple - NEVER over-engineer, ALWAYS simplify, NO unnecessary defensive programming. No extra features - focus on simplicity.
+
 ## Notes
 
 - The `.kiro/` directory holds Kiro steering docs (`.kiro/steering/`) that overlap with this file, plus feature specs under `.kiro/specs/`. Keep them in sync if you change architecture conventions.
