@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {ComponentPropsWithRef, forwardRef, ReactNode} from 'react';
 import {Check} from "lucide-react";
 
@@ -17,7 +16,7 @@ type Props = {
   checked?: boolean;
 } & InputProps;
 
-const Input = forwardRef<unknown, Props>(
+const Input = forwardRef<HTMLInputElement, Props>(
     ({label, id, error, isError, checkbox, radio, radioValue, iconImg, checked, ...props}, ref) => {
 
       if (checkbox) {
@@ -25,7 +24,7 @@ const Input = forwardRef<unknown, Props>(
             <div className="mb-4">
               <div className="flex items-center">
                 <input
-                    ref={ref as React.Ref<HTMLInputElement>}
+                    ref={ref}
                     id={id}
                     type="checkbox"
                     name={id}
@@ -56,7 +55,7 @@ const Input = forwardRef<unknown, Props>(
               >
                 <input
                     {...props}
-                    ref={ref as React.Ref<HTMLInputElement>}
+                    ref={ref}
                     id={id}
                     type="radio"
                     value={radioValue}
@@ -87,7 +86,7 @@ const Input = forwardRef<unknown, Props>(
             )}
             <div className="relative">
               <input
-                  ref={ref as React.Ref<HTMLInputElement>}
+                  ref={ref}
                   id={id}
                   name={id}
                   {...props}

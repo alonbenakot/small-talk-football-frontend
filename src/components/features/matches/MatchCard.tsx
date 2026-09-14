@@ -1,16 +1,24 @@
+import {Link} from "react-router-dom";
 import MatchModel, {Team} from "./models/MatchModel.ts";
 
 type Props = {
-  match: MatchModel
+  match: MatchModel;
+  linkTeams?: boolean;
 }
 
-const team = (team: Team) => {
-  return (
-    <div className="flex flex-col items-center gap-2 w-24 sm:w-32">
-      <img src={ team.crest } alt={ team.name } className="w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow"/>
-      <span className="text-gray-900 font-semibold text-xs sm:text-sm text-center">{ team.name }</span>
-    </div>
-  );
+const teamContent = (team: Team) => (
+  <>
+    <img src={ team.crest } alt={ team.name } className="w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow"/>
+    <span className="text-gray-900 font-semibold text-xs sm:text-sm text-center">{ team.name }</span>
+  </>
+);
+
+// The card is wrapped in a Link on the matches list, so team links are only rendered when asked for (MatchView).
+const team = (team: Team, linkTeams: boolean) => {
+  const className = "flex flex-col items-center gap-2 w-24 sm:w-32";
+  return linkTeams
+    ? <Link to={`/teams/${team.id}`} className={`${className} hover:underline`}>{ teamContent(team) }</Link>
+    : <div className={className}>{ teamContent(team) }</div>;
 }
 
 const displayTime = (date: Date) => {
@@ -29,7 +37,7 @@ const displayDate = (date: Date) => {
   })
 }
 
-const MatchCard = ({match}: Props) => {
+const MatchCard = ({match, linkTeams = false}: Props) => {
   const homeTeam: Team = match.homeTeam;
   const awayTeam: Team = match.awayTeam;
 
@@ -37,7 +45,7 @@ const MatchCard = ({match}: Props) => {
     <div
       className="flex flex-col m-2 gap-3 p-3 sm:p-4 bg-gray-50 rounded-xl shadow-sm">
       <div className="flex items-center justify-center gap-4 sm:gap-8">
-        { team(homeTeam) }
+        { team(homeTeam, linkTeams) }
 
         <div className="flex flex-col items-center min-w-20 sm:min-w-24 gap-1">
           <div className="text-xs sm:text-sm text-gray-600 text-center">
@@ -49,7 +57,7 @@ const MatchCard = ({match}: Props) => {
           </h5>}
         </div>
 
-        { team(awayTeam) }
+        { team(awayTeam, linkTeams) }
       </div>
     </div>
   )

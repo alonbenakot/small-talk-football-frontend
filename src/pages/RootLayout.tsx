@@ -3,6 +3,7 @@ import {Outlet, useNavigation} from "react-router-dom";
 import GlobalSpinner from "../components/ui/spinner/GlobalSpinner.tsx";
 import MobileNavbar from "../components/ui/mobile-navbar/MobileNavbar.tsx";
 import {Analytics} from "../routes/Analytics.tsx";
+import Footer from "../components/ui/footer/Footer.tsx";
 
 const RootLayout = () => {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ const RootLayout = () => {
         <main className="p-4 pb-24 sm:p-6 md:p-8 overflow-y-auto relative">
           <GlobalSpinner isNavigating={ isNavigating }/>
           <Outlet/>
+          <Footer/>
         </main>
         <MobileNavbar/>
       </div>
